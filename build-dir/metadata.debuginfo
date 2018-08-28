@@ -1,0 +1,5 @@
+[Runtime]
+name=org.Michal.Notatnik.Debug
+
+[ExtensionOf]
+ref=app/org.Michal.Notatnik/x86_64/master

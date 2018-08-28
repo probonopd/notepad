@@ -1,0 +1,23 @@
+{
+    "app-id": "org.Michal.Notatnik",
+    "runtime": "org.kde.Platform",
+    "runtime-version": "5.11",
+    "sdk": "org.kde.Sdk",
+    "command": "2.projekt-notatnik",
+    "finish-args": ["--share=ipc","--socket=x11","--device=dri", "--filesystem=home"],
+    "modules": [
+        {
+            "name": "notatnik",
+            "buildsystem": "simple",
+            "build-commands": [
+                "install -D 2.projekt-notatnik /app/bin/2.projekt-notatnik"
+            ],
+            "sources": [
+                {
+                    "type": "file",
+                    "path": "2.projekt-notatnik"
+                }
+            ]
+        }
+    ]
+}
