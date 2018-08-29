@@ -3,7 +3,7 @@
 ######################################################################
 
 TEMPLATE = app
-TARGET = 2.projekt-notatnik
+TARGET = notepad
 INCLUDEPATH += .
 QT += core widgets
 
