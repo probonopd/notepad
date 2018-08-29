@@ -19,7 +19,6 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #include<iostream>
 #include"notepadapp.hpp"
 #include <QCalendarWidget>
-#include <QDockWidget>
 #include <QToolBar>
 
 MainWindow::MainWindow(bool useMenu, /*QSharedMemory *memory, */QFont *font, QStringList *files)
@@ -77,14 +76,6 @@ MainWindow::MainWindow(bool useMenu, /*QSharedMemory *memory, */QFont *font, QSt
     menu(useMenu);
     connect((NotepadApp*)qApp, &NotepadApp::menuChanged, this, &MainWindow::menu);
     connect((NotepadApp*)qApp, &NotepadApp::fontChanged, tabwidget, &TabWidget::setFont);
-    QCalendarWidget *a = new QCalendarWidget;
-    QDockWidget *b = new QDockWidget(tr("Calendar"));
-    b -> setWidget(a);
-    addDockWidget(Qt::LeftDockWidgetArea, b);
-    QCalendarWidget *c = new QCalendarWidget;
-    QDockWidget *d = new QDockWidget(tr("Calendar"));
-    d -> setWidget(c);
-    addDockWidget(Qt::LeftDockWidgetArea, d);
     auto fileToolBar = addToolBar(tr("File"));
     fileToolBar->addAction(tr("New"));
 }
