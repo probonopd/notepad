@@ -23,7 +23,7 @@ Textedit::Textedit()
     connect(this, &QPlainTextEdit::undoAvailable, this, &Textedit::setUndo);
     connect(this, &QPlainTextEdit::redoAvailable, this, &Textedit::setRedo);
     connect(this, &QPlainTextEdit::copyAvailable, this, &Textedit::setCopy);
-    setDocumentTitle("nowy dokument");
+    setDocumentTitle("new file");
 }
 bool Textedit::openfile(QString fileurl)
 {
@@ -51,8 +51,8 @@ void Textedit::saveclick()
 }
 void Textedit::saveas()
 {
-    QString a = "Zapisz plik "+documentTitle();
-    url=QFileDialog::getSaveFileName(this, a, QString(), tr("Wszystkie pliki(*);;Prosty Plik Texstowy (*.txt"));
+    QString a = "Save file "+documentTitle();
+    url=QFileDialog::getSaveFileName(this, a, QString(), tr("All files(*);;Text file(*.txt)"));
     save();
 }
 void Textedit::save()

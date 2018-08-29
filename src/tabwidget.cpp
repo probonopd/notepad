@@ -56,7 +56,7 @@ TabWidget::~TabWidget()
 void TabWidget::newFileCreate()
 {
     Textedit *w = new Textedit();
-    addTab(w,"nowy dokument");
+    addTab(w,tr("new file"));
     connect(w, &Textedit::tabtextchange, this, &TabWidget::changetabname);
     setCurrentWidget(w);
     if (font != nullptr) w->setFont(*font);
@@ -65,9 +65,9 @@ void TabWidget::openFilesClicked()
 {
     QStringList files = QFileDialog::getOpenFileNames(
         this,
-        "Wybierz pliki do otwarcia",
+        tr("Select files to open"),
         QString(),
-        "Wszystkie pliki(*)");
+        tr("All files(*);;Text file(*.txt)"));
 	if (!files.empty())
 	 {
 		Textedit* b = (Textedit*) currentWidget();
@@ -154,7 +154,7 @@ void TabWidget::setFont(QFont *newFont)
 void TabWidget::setMenu(QMenu *menu)
 {
 	if (menu !=  nullptr) {
-        	button = new QPushButton("Menu",this);
+        	button = new QPushButton(tr("Menu"),this);
         	button->setMenu(menu);
         	setCornerWidget(button, Qt::TopLeftCorner);
     	}
@@ -172,7 +172,7 @@ void TabWidget::closetab(int index)
     Textedit* b = (Textedit*) widget(index);
     if (b->isEdited()) 
     {
-        QMessageBox *message = new QMessageBox(QMessageBox::Warning, "Zamykanie dokumentu", "Czy zapisać zmiany w pliku \"" +tabText(index).remove("&")+"\" ?",QMessageBox::Save | QMessageBox::Discard | QMessageBox::Cancel ); 
+        QMessageBox *message = new QMessageBox(QMessageBox::Warning, tr("Closing tab"), tr("Czy zapisać zmiany w pliku")+" \"" +tabText(index).remove("&")+"\" ?",QMessageBox::Save | QMessageBox::Discard | QMessageBox::Cancel ); 
         int result = message->exec();
         delete message;
         if (result == 0x00000800)
@@ -241,7 +241,7 @@ void TabWidget::closeEvent(QCloseEvent *event)
     }
     if (edited)
     {
-        QMessageBox *message = new QMessageBox(QMessageBox::Warning, "Zamykanie dokumentów", "Czy zapisać zmiany w plikach?",QMessageBox::Save | QMessageBox::Discard | QMessageBox::Cancel, this); 
+        QMessageBox *message = new QMessageBox(QMessageBox::Warning, tr("Closing notepad"), tr("Would you like to safe chages in files?"),QMessageBox::Save | QMessageBox::Discard | QMessageBox::Cancel, this); 
         int result = message->exec();
         delete message;
         if (result == 0x00000800)

@@ -19,37 +19,37 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 EditMenu::EditMenu()
 {
-    setTitle("&Edycja");
+    setTitle("&Edit");
     
-    undoAct = new QAction(QIcon::fromTheme("edit-undo"), tr("&Cofnij"));
+    undoAct = new QAction(QIcon::fromTheme("edit-undo"), tr("&Undo"));
     undoAct->setShortcut(QKeySequence::Undo);
     undoAct->setEnabled(false);
     addAction(undoAct);
     
-    redoAct = new QAction(QIcon::fromTheme("edit-redo"), tr("&Powtórz"));
+    redoAct = new QAction(QIcon::fromTheme("edit-redo"), tr("&Redo"));
     redoAct->setShortcut(QKeySequence::Redo); 
     redoAct->setEnabled(false);
     addAction(redoAct);
     
     addSeparator();
     
-    cutAct = new QAction(QIcon::fromTheme("edit-cut"), tr("&Wytnij"));
+    cutAct = new QAction(QIcon::fromTheme("edit-cut"), tr("&Cut"));
     cutAct->setShortcut(QKeySequence::Cut);
     cutAct->setEnabled(false);
 	addAction(cutAct);
     
-    copyAct = new QAction(QIcon::fromTheme("edit-copy"), tr("&Kopiuj"));
+    copyAct = new QAction(QIcon::fromTheme("edit-copy"), tr("&Copy"));
     copyAct->setShortcut(QKeySequence::Copy);
     copyAct->setEnabled(false);
 	addAction(copyAct);
     
-    pasteAct = new QAction(QIcon::fromTheme("edit-paste"), tr("&Wklej"));
+    pasteAct = new QAction(QIcon::fromTheme("edit-paste"), tr("&Paste"));
     pasteAct->setShortcut(QKeySequence::Paste);
 	addAction(pasteAct);
 	
 	addSeparator();
 	
-    findAct = new QAction(QIcon::fromTheme("edit-find"), tr("&Znajdź"));
+    findAct = new QAction(QIcon::fromTheme("edit-find"), tr("&Find"));
     findAct->setShortcut(QKeySequence::Find);
 	addAction(findAct);
 	

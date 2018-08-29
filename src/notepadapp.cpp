@@ -31,8 +31,8 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 NotepadApp::NotepadApp(int& argc, char**& argv)
   : QApplication::QApplication(argc, argv)
 {
-    setApplicationName("Notatnik");
-    setApplicationDisplayName("Notatnik");
+    setApplicationName(tr("Notepad"));
+    setApplicationDisplayName(tr("Notepad"));
     setApplicationVersion("0.5 Beta");
     setWindowIcon(QIcon::fromTheme("accessories-text-editor"));
 //     QList<QUrl> *files = nullptr;
@@ -45,7 +45,7 @@ NotepadApp::NotepadApp(int& argc, char**& argv)
 //         }     
 //     }
     QCommandLineParser parser;
-    parser.setApplicationDescription("Prosty edytor tekstu");
+    parser.setApplicationDescription(tr("Text editor with tabs"));
     parser.addHelpOption();
     parser.addVersionOption();
     //Add information to help page
@@ -95,8 +95,8 @@ NotepadApp::~NotepadApp()
 }
 void NotepadApp::about()
 {
-    QMessageBox::about(activeWindow(), tr("O notatniku"),
-            tr("Notatnik-Prosty edytor tekstu"));
+    QMessageBox::about(activeWindow(), tr("About notepad"),
+            tr("Notepad-Text editor with tabs"));
 }
 void NotepadApp::newWindowInstance()
 {

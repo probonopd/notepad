@@ -78,15 +78,15 @@ MainWindow::MainWindow(bool useMenu, /*QSharedMemory *memory, */QFont *font, QSt
     connect((NotepadApp*)qApp, &NotepadApp::menuChanged, this, &MainWindow::menu);
     connect((NotepadApp*)qApp, &NotepadApp::fontChanged, tabwidget, &TabWidget::setFont);
     QCalendarWidget *a = new QCalendarWidget;
-    QDockWidget *b = new QDockWidget("Kalendarz");
+    QDockWidget *b = new QDockWidget(tr("Calendar"));
     b -> setWidget(a);
     addDockWidget(Qt::LeftDockWidgetArea, b);
     QCalendarWidget *c = new QCalendarWidget;
-    QDockWidget *d = new QDockWidget("Kalendarz");
+    QDockWidget *d = new QDockWidget(tr("Calendar"));
     d -> setWidget(c);
     addDockWidget(Qt::LeftDockWidgetArea, d);
     auto fileToolBar = addToolBar(tr("File"));
-    fileToolBar->addAction("New");
+    fileToolBar->addAction(tr("New"));
 }
 void MainWindow::menu(bool useMenuBar)
 {

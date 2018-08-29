@@ -19,12 +19,12 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 HelpMenu::HelpMenu()
 {
-    setTitle("&Pomoc");
+    setTitle("&Help");
     
-    aboutAct = new QAction(QIcon::fromTheme("accessories-text-editor"), tr("&O programie Notatnik"));
+    aboutAct = new QAction(QIcon::fromTheme("accessories-text-editor"), tr("&About Notepad"));
 	addAction(aboutAct);
 	
-    aboutQtAct = new QAction(QIcon::fromTheme("accessories-text-editor"), tr("&O bibliotece Qt"));
+    aboutQtAct = new QAction(QIcon::fromTheme("accessories-text-editor"), tr("&About Qt"));
 	addAction(aboutQtAct);
 	
     connect(aboutAct, &QAction::triggered, this, &HelpMenu::about);

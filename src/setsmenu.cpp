@@ -19,12 +19,12 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 SetsMenu::SetsMenu()
 {
-    setTitle("&Ustawienia");
+    setTitle(tr("&Settings"));
         
-    fontAct = new QAction(QIcon::fromTheme("font-select-symbolic"), tr("&Czcionka"));
+    fontAct = new QAction(QIcon::fromTheme("font-select-symbolic"), tr("&Font"));
 	addAction(fontAct);
 	
-	menuAct = new QAction(tr("&Pasek menu"));
+	menuAct = new QAction(tr("&Menu bar"));
 	menuAct->setCheckable(true);
 	addAction(menuAct);
 	

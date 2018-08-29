@@ -19,21 +19,21 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 FileMenu::FileMenu()
 {
-    setTitle("&Plik");
+    setTitle("&File");
     
-    newAct = new QAction(QIcon::fromTheme("document-new"), tr("&Nowy"));
+    newAct = new QAction(QIcon::fromTheme("document-new"), tr("&New"));
     newAct->setShortcut(QKeySequence::New);
 	addAction(newAct);
 	
 	addSeparator();
 	
-	newWindowAct = new QAction(QIcon::fromTheme("window-new"), tr("&Nowe okno"));
+	newWindowAct = new QAction(QIcon::fromTheme("window-new"), tr("&New window"));
     //newAct->setShortcut(QKeySequence::New);
 	addAction(newWindowAct);
 	
 	addSeparator();
 	
-    openAct = new QAction(QIcon::fromTheme("document-open"), tr("&Otwórz..."));
+    openAct = new QAction(QIcon::fromTheme("document-open"), tr("&Open..."));
     openAct->setShortcut(QKeySequence::Open);
 	addAction(openAct);
 	
@@ -44,31 +44,31 @@ FileMenu::FileMenu()
 //     
 //     addSeparator();
     
-    saveAct = new QAction(QIcon::fromTheme("document-save"), tr("&Zapisz"));
+    saveAct = new QAction(QIcon::fromTheme("document-save"), tr("&Save"));
     saveAct->setShortcut(QKeySequence::Save);
 	addAction(saveAct);
     
-    saveasAct = new QAction(QIcon::fromTheme("document-save-as"), tr("&Zapisz jako..."));
+    saveasAct = new QAction(QIcon::fromTheme("document-save-as"), tr("&Save as..."));
     saveasAct->setShortcut(QKeySequence::SaveAs);
     addAction(saveasAct);
     
-    saveAllAct = new QAction(QIcon::fromTheme("document-save-all"), tr("&Zapisz wszystko"));
+    saveAllAct = new QAction(QIcon::fromTheme("document-save-all"), tr("&Save all"));
 	addAction(saveAllAct);
 	
 	addSeparator();
 	
-    saveSessionAct = new QAction(QIcon::fromTheme("document-save-all"), tr("&Zapisz sesje"));
+    saveSessionAct = new QAction(QIcon::fromTheme("document-save-all"), tr("&Save session"));
 	addAction(saveSessionAct);
 	
 	addSeparator();
 	
-    closeAct = new QAction(QIcon::fromTheme("window-close"), tr("&Zamknij okno"));
+    closeAct = new QAction(QIcon::fromTheme("window-close"), tr("&Close window"));
     closeAct->setShortcut(QKeySequence::Close);
     addAction(closeAct);
     
     addSeparator();
     
-    quitAct = new QAction(QIcon::fromTheme("application-exit"), tr("&Zakończ"));
+    quitAct = new QAction(QIcon::fromTheme("application-exit"), tr("&Close"));
     quitAct->setShortcut(QKeySequence::Quit);
     addAction(quitAct);
     
