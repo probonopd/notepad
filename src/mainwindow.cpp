@@ -76,8 +76,23 @@ MainWindow::MainWindow(bool useMenu, /*QSharedMemory *memory, */QFont *font, QSt
     menu(useMenu);
     connect((NotepadApp*)qApp, &NotepadApp::menuChanged, this, &MainWindow::menu);
     connect((NotepadApp*)qApp, &NotepadApp::fontChanged, tabwidget, &TabWidget::setFont);
-    auto fileToolBar = addToolBar(tr("File"));
-    fileToolBar->addAction(tr("New"));
+    auto mainToolBar = addToolBar(tr("File"));
+    auto newAct = mainToolBar->addAction(tr("New"));
+    auto openAct = mainToolBar->addAction(tr("Open"));
+    auto saveAct = mainToolBar->addAction(tr("Save"));
+    auto saveAsAct = mainToolBar->addAction(tr("Save as..."));
+    auto saveAllAct = mainToolBar->addAction(tr("Save all"));
+    auto saveSessionAct = mainToolBar->addAction(tr("Save session"));
+    auto undoAct = mainToolBar->addAction(tr("Undo"));
+    auto redoAct = mainToolBar->addAction(tr("Redo"));
+    connect(newAct, &QAction::triggered, tabwidget, &TabWidget::newFileCreate);
+    connect(openAct, &QAction::triggered, tabwidget, &TabWidget::openFilesClicked);
+    connect(saveAct, &QAction::triggered, tabwidget, &TabWidget::saveclick);
+    connect(saveAsAct, &QAction::triggered, tabwidget, &TabWidget::saveas);
+    connect(saveAllAct, &QAction::triggered, tabwidget, &TabWidget::saveAll);
+    connect(saveSessionAct, &QAction::triggered, tabwidget, &TabWidget::saveSession);
+    connect(undoAct, &QAction::triggered, tabwidget, &TabWidget::undo);
+    connect(redoAct, &QAction::triggered, tabwidget, &TabWidget::redo);
 }
 void MainWindow::menu(bool useMenuBar)
 {

@@ -33,7 +33,7 @@ NotepadApp::NotepadApp(int& argc, char**& argv)
 {
     setApplicationName(tr("Notepad"));
     setApplicationDisplayName(tr("Notepad"));
-    setApplicationVersion("0.5 Beta");
+    setApplicationVersion("0.6 Beta");
     setWindowIcon(QIcon::fromTheme("accessories-text-editor"));
 //     QList<QUrl> *files = nullptr;
 //     if (argc != 0)
