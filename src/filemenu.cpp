@@ -52,7 +52,7 @@ FileMenu::FileMenu()
 	
 	addSeparator();
 	
-    saveSessionAct = new QAction(QIcon::fromTheme("document-save-all"), tr("&Save session"));
+    saveSessionAct = new QAction(QIcon::fromTheme("document-save"), tr("&Save session"));
 	addAction(saveSessionAct);
 	
 	addSeparator();
@@ -63,7 +63,7 @@ FileMenu::FileMenu()
     
     addSeparator();
     
-    quitAct = new QAction(QIcon::fromTheme("application-exit"), tr("&Close"));
+    quitAct = new QAction(QIcon::fromTheme("application-exit"), tr("&Quit"));
     quitAct->setShortcut(QKeySequence::Quit);
     addAction(quitAct);
     
