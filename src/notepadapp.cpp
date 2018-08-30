@@ -18,11 +18,9 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #include"notepadapp.hpp"
 #include<QMessageBox>
 #include "mainwindow.hpp"
-#include <iostream>
 #include <QCommandLineParser>
 #include <QLabel>
 #include <QList>
-#include <QUrl>
 #include <QFile>
 #include <QTextStream>
 #include <QFontDialog>
@@ -35,15 +33,6 @@ NotepadApp::NotepadApp(int& argc, char**& argv)
     setApplicationDisplayName(tr("Notepad"));
     setApplicationVersion("0.6 Beta");
     setWindowIcon(QIcon::fromTheme("accessories-text-editor"));
-//     QList<QUrl> *files = nullptr;
-//     if (argc != 0)
-//     {
-//         files = new QList<QUrl>();
-//         for(int i = 1;i<argc;i++)
-//         {
-//             files->append(QUrl(argv[i]));
-//         }     
-//     }
     QCommandLineParser parser;
     parser.setApplicationDescription(tr("Text editor with tabs"));
     parser.addHelpOption();

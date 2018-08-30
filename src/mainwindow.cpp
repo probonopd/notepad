@@ -16,18 +16,13 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 #include "mainwindow.hpp"
-#include<iostream>
 #include"notepadapp.hpp"
-#include <QCalendarWidget>
 #include <QToolBar>
 
-MainWindow::MainWindow(bool useMenu, /*QSharedMemory *memory, */QFont *font, QStringList *files)
+MainWindow::MainWindow(bool useMenu,QFont *font, QStringList *files)
 {
-//     sharedMemory = memory;
     
 	tabwidget = new TabWidget(font);
-	
-	//t1 = new std::thread(this, &MainWindow::threadFunction);
 
     connect(tabwidget,  &TabWidget::currentTextChanged, this,  &QMainWindow::setWindowTitle);
     
@@ -39,7 +34,6 @@ MainWindow::MainWindow(bool useMenu, /*QSharedMemory *memory, */QFont *font, QSt
     connect(fileMenu, &FileMenu::newFileclick, tabwidget, &TabWidget::newFileCreate);
     connect(fileMenu, &FileMenu::newWindowClick, (NotepadApp*) qApp, &NotepadApp::newWindowInstance);
     connect(fileMenu, &FileMenu::openclick, tabwidget, &TabWidget::openFilesClicked);
-//     connect(fileMenu, &FileMenu::openShared, this, &MainWindow::openShared);
     connect(fileMenu, &FileMenu::saveclick, tabwidget, &TabWidget::saveclick);
     connect(fileMenu, &FileMenu::saveasclick, tabwidget, &TabWidget::saveas);
     connect(fileMenu, &FileMenu::saveAll, tabwidget, &TabWidget::saveAll);
@@ -124,22 +118,6 @@ void MainWindow::closeEvent(QCloseEvent *event)
 {
     tabwidget->closeEvent(event);
 }
-// void MainWindow::openShared()
-// {
-//      sharedMemory->lock();
-//      auto* w = (QList<QUrl> *) sharedMemory->data();
-//      tabwidget->openFiles(*w);
-//      sharedMemory->unlock();
-// }
-// void MainWindow::threadFunction()
-// {
-//     while (runThread)
-//     {
-//         std::cout <<"Masło";
-//     }
-// }
 MainWindow::~MainWindow()
 {
-    //runThread = false;
-    //t1->join();    
 }

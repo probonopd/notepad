@@ -28,7 +28,6 @@ signals:
     void newWindowClick();
 	void newFileclick();
 	void openclick();
-	/*void openShared();*/
 	void saveclick();
 	void saveasclick();
     void saveAll();
@@ -37,5 +36,5 @@ signals:
     void quitclick();
     
 private:
-    QAction *newAct, *newWindowAct, *openAct, /**openSharedAct,*/ *saveAct, *saveasAct, *saveAllAct,*saveSessionAct, *closeAct, *quitAct;
+    QAction *newAct, *newWindowAct, *openAct, *saveAct, *saveasAct, *saveAllAct,*saveSessionAct, *closeAct, *quitAct;
 };

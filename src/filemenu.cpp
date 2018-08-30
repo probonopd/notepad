@@ -38,12 +38,7 @@ FileMenu::FileMenu()
 	addAction(openAct);
 	
 	addSeparator();
-	
-// 	openSharedAct = new QAction(QIcon::fromTheme("document-open"), tr("&Otwórz z pamięci..."));
-// 	addAction(openSharedAct);
-//     
-//     addSeparator();
-    
+
     saveAct = new QAction(QIcon::fromTheme("document-save"), tr("&Save"));
     saveAct->setShortcut(QKeySequence::Save);
 	addAction(saveAct);
