@@ -70,7 +70,6 @@ FileMenu::FileMenu()
     connect(newAct, &QAction::triggered, this, &FileMenu::newFileclick);
     connect(newWindowAct, &QAction::triggered, this, &FileMenu::newWindowClick);
 	connect(openAct, &QAction::triggered, this, &FileMenu::openclick);
-// 	connect(openSharedAct, &QAction::triggered, this, &FileMenu::openShared);
     connect(saveAct, &QAction::triggered, this, &FileMenu::saveclick);
     connect(saveasAct, &QAction::triggered, this, &FileMenu::saveasclick);
     connect(saveAllAct, &QAction::triggered, this, &FileMenu::saveAll);
