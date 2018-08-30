@@ -1,5 +1,5 @@
 {
-    "app-id": "org.256Michael.notepad",
+    "app-id": "org.user256Michael.notepad",
     "runtime": "org.kde.Platform",
     "runtime-version": "5.11",
     "sdk": "org.kde.Sdk",
