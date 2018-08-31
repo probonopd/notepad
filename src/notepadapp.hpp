@@ -28,13 +28,16 @@ public slots:
     void about();
     void newWindowInstance();
     void changeMenu(bool newValue);
+    void changeToolBar(bool newValue);
     void changeFont();
 
 private:
     bool menu = true;
+    bool toolBarEnabled = true;
     QFont *font = nullptr;
     
 signals:
     void menuChanged(bool newValue);
+    void toolBarChanged(bool newValue);
     void fontChanged(QFont *newFont);
 };

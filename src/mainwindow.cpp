@@ -19,7 +19,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #include"notepadapp.hpp"
 #include <QToolBar>
 
-MainWindow::MainWindow(bool useMenu,QFont *font, QStringList *files)
+MainWindow::MainWindow(bool useMenu, bool toolBarEnabled, QFont *font, QStringList *files)
 {
     
 	tabwidget = new TabWidget(font);
@@ -28,7 +28,7 @@ MainWindow::MainWindow(bool useMenu,QFont *font, QStringList *files)
     
     fileMenu = new FileMenu();
     editMenu = new EditMenu();
-    setsMenu = new SetsMenu();
+    setsMenu = new SetsMenu(useMenu, toolBarEnabled);
     helpMenu = new HelpMenu();
 
     connect(fileMenu, &FileMenu::newFileclick, tabwidget, &TabWidget::newFileCreate);
@@ -49,15 +49,15 @@ MainWindow::MainWindow(bool useMenu,QFont *font, QStringList *files)
     connect(editMenu, &EditMenu::find, tabwidget, &TabWidget::find);
 
     connect(setsMenu, &SetsMenu::font, (NotepadApp*) qApp, &NotepadApp::changeFont); 
-
+    connect(setsMenu, &SetsMenu::menuChange, (NotepadApp*)qApp, &NotepadApp::changeMenu);
+    connect(setsMenu, &SetsMenu::toolBarChange, (NotepadApp*)qApp, &NotepadApp::changeToolBar);
+    
     connect(helpMenu, &HelpMenu::about, (NotepadApp*) qApp, &NotepadApp::about);
     connect(helpMenu, &HelpMenu::aboutQt, qApp, &QApplication::aboutQt);
 
     connect(tabwidget,  &TabWidget::undoAvailable, editMenu,  &EditMenu::undoAvailable);
     connect(tabwidget,  &TabWidget::redoAvailable, editMenu,  &EditMenu::redoAvailable);
     connect(tabwidget,  &TabWidget::copyAvailable, editMenu,  &EditMenu::copyAvailable);
-    
-    connect(setsMenu, &SetsMenu::menuChange, (NotepadApp*)qApp, &NotepadApp::changeMenu);
     
     setCentralWidget(tabwidget);
     if (files != nullptr) 
@@ -66,28 +66,11 @@ MainWindow::MainWindow(bool useMenu,QFont *font, QStringList *files)
         delete files;
     }
     else tabwidget->newFileCreate();
-    if (useMenu) setsMenu->menuAct->setChecked(true);
     menu(useMenu);
+    setToolBar(toolBarEnabled);
     connect((NotepadApp*)qApp, &NotepadApp::menuChanged, this, &MainWindow::menu);
     connect((NotepadApp*)qApp, &NotepadApp::fontChanged, tabwidget, &TabWidget::setFont);
-    auto mainToolBar = addToolBar(tr("File"));
-    mainToolBar->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
-    auto newAct = mainToolBar->addAction(QIcon::fromTheme("document-new"), tr("New"));
-    auto openAct = mainToolBar->addAction(QIcon::fromTheme("document-open"), tr("Open"));
-    auto saveAct = mainToolBar->addAction(QIcon::fromTheme("document-save"), tr("Save"));
-    auto saveAsAct = mainToolBar->addAction(QIcon::fromTheme("document-save-as"), tr("Save as..."));
-    auto saveAllAct = mainToolBar->addAction(QIcon::fromTheme("document-save-all"), tr("Save all"));
-    auto saveSessionAct = mainToolBar->addAction(QIcon::fromTheme("document-save"), tr("Save session"));
-    auto undoAct = mainToolBar->addAction(QIcon::fromTheme("edit-undo"), tr("Undo"));
-    auto redoAct = mainToolBar->addAction(QIcon::fromTheme("edit-redo"), tr("Redo"));
-    connect(newAct, &QAction::triggered, tabwidget, &TabWidget::newFileCreate);
-    connect(openAct, &QAction::triggered, tabwidget, &TabWidget::openFilesClicked);
-    connect(saveAct, &QAction::triggered, tabwidget, &TabWidget::saveclick);
-    connect(saveAsAct, &QAction::triggered, tabwidget, &TabWidget::saveas);
-    connect(saveAllAct, &QAction::triggered, tabwidget, &TabWidget::saveAll);
-    connect(saveSessionAct, &QAction::triggered, tabwidget, &TabWidget::saveSession);
-    connect(undoAct, &QAction::triggered, tabwidget, &TabWidget::undo);
-    connect(redoAct, &QAction::triggered, tabwidget, &TabWidget::redo);
+    connect((NotepadApp*)qApp, &NotepadApp::toolBarChanged, this, &MainWindow::setToolBar);
 }
 void MainWindow::menu(bool useMenuBar)
 {
@@ -113,6 +96,34 @@ void MainWindow::menu(bool useMenuBar)
         menu -> addMenu(setsMenu);
         menu -> addMenu(helpMenu);
 		tabwidget->setMenu(menu);
+    }
+}
+void MainWindow::setToolBar(bool useToolBar)
+{
+    if (useToolBar){
+        mainToolBar = addToolBar(tr("File"));
+        mainToolBar->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
+        auto newAct = mainToolBar->addAction(QIcon::fromTheme("document-new"), tr("New"));
+        auto openAct = mainToolBar->addAction(QIcon::fromTheme("document-open"), tr("Open"));
+        auto saveAct = mainToolBar->addAction(QIcon::fromTheme("document-save"), tr("Save"));
+        auto saveAsAct = mainToolBar->addAction(QIcon::fromTheme("document-save-as"), tr("Save as..."));
+        auto saveAllAct = mainToolBar->addAction(QIcon::fromTheme("document-save-all"), tr("Save all"));
+        auto saveSessionAct = mainToolBar->addAction(QIcon::fromTheme("document-save"), tr("Save session"));
+        auto undoAct = mainToolBar->addAction(QIcon::fromTheme("edit-undo"), tr("Undo"));
+        auto redoAct = mainToolBar->addAction(QIcon::fromTheme("edit-redo"), tr("Redo"));
+        connect(newAct, &QAction::triggered, tabwidget, &TabWidget::newFileCreate);
+        connect(openAct, &QAction::triggered, tabwidget, &TabWidget::openFilesClicked);
+        connect(saveAct, &QAction::triggered, tabwidget, &TabWidget::saveclick);
+        connect(saveAsAct, &QAction::triggered, tabwidget, &TabWidget::saveas);
+        connect(saveAllAct, &QAction::triggered, tabwidget, &TabWidget::saveAll);
+        connect(saveSessionAct, &QAction::triggered, tabwidget, &TabWidget::saveSession);
+        connect(undoAct, &QAction::triggered, tabwidget, &TabWidget::undo);
+        connect(redoAct, &QAction::triggered, tabwidget, &TabWidget::redo); 
+    }
+    else if (mainToolBar != nullptr){
+        removeToolBar(mainToolBar);
+        delete mainToolBar;
+        mainToolBar = nullptr;
     }
 }
 void MainWindow::closeEvent(QCloseEvent *event)

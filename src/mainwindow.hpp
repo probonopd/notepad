@@ -32,20 +32,22 @@ class MainWindow : public QMainWindow
 {
 Q_OBJECT
 public:
-    MainWindow(bool useMenu, QFont *font, QStringList *files = nullptr);
+    MainWindow(bool useMenu, bool toolBarEnabled,  QFont *font, QStringList *files = nullptr);
 	~MainWindow();
 	
 private slots:
     void closeEvent(QCloseEvent *event);
     void menu(bool useMenuBar = true);
+    void setToolBar(bool useToolBar);
     
 private:
-	FileMenu *fileMenu=nullptr;
+	FileMenu *fileMenu = nullptr;
 	EditMenu *editMenu;
 	SetsMenu *setsMenu;
 	HelpMenu *helpMenu;
 	QMenuBar *menubar=nullptr;
 	TabWidget *tabwidget;
+	QToolBar *mainToolBar = nullptr;
 };
 
 

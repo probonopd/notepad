@@ -17,7 +17,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 #include "setsmenu.hpp"
 
-SetsMenu::SetsMenu()
+SetsMenu::SetsMenu(bool menuChecked, bool toolBarChecked)
 {
     setTitle(tr("&Settings"));
         
@@ -26,10 +26,17 @@ SetsMenu::SetsMenu()
 	
 	menuAct = new QAction(tr("&Menu bar"));
 	menuAct->setCheckable(true);
+	menuAct->setChecked(menuChecked);
 	addAction(menuAct);
+	
+	toolBarAct = new QAction(tr("&Tool bar"));
+	toolBarAct->setCheckable(true);
+	toolBarAct->setChecked(toolBarChecked);
+	addAction(toolBarAct);
 	
 	connect(fontAct, &QAction::triggered, this, &SetsMenu::font);
 	connect(menuAct, &QAction::toggled, this, &SetsMenu::menuChange);
+	connect(toolBarAct, &QAction::toggled, this, &SetsMenu::toolBarChange);
 }
 SetsMenu::~SetsMenu()
 {

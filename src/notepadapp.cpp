@@ -31,7 +31,7 @@ NotepadApp::NotepadApp(int& argc, char**& argv)
 {
     setApplicationName(tr("Notepad"));
     setApplicationDisplayName(tr("Notepad"));
-    setApplicationVersion("0.6 Beta");
+    setApplicationVersion("0.8 Beta");
     setWindowIcon(QIcon::fromTheme("accessories-text-editor"));
     QCommandLineParser parser;
     parser.setApplicationDescription(tr("Text editor with tabs"));
@@ -61,9 +61,13 @@ NotepadApp::NotepadApp(int& argc, char**& argv)
             menu = true;
 
         else menu = false;
+        a = stream.readLine();
+        if (a=="true")
+            toolBarEnabled = true;
+        else toolBarEnabled = false;
         file.close();
     } 
-    MainWindow *window = new MainWindow(menu, font,  files);
+    MainWindow *window = new MainWindow(menu, toolBarEnabled, font, files);
     window->show();
 }
 
@@ -73,6 +77,12 @@ NotepadApp::~NotepadApp()
     if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
         QTextStream stream(&file);
         if(font!=nullptr) stream << font->toString();
+        stream << "\n";
+        if(menu)  
+        {
+           stream<<"true";
+        }
+        else stream<<"false";
         stream << "\n";
         if(menu)  
         {
@@ -89,13 +99,18 @@ void NotepadApp::about()
 }
 void NotepadApp::newWindowInstance()
 {
-    MainWindow *newWindow = new MainWindow(menu, font);
+    MainWindow *newWindow = new MainWindow(menu, toolBarEnabled, font);
     newWindow -> show();
 }
 void NotepadApp::changeMenu(bool newValue)
 {
     menu = newValue;
     emit menuChanged(menu);
+}
+void NotepadApp::changeToolBar(bool newValue)
+{
+    toolBarEnabled = newValue;
+    emit toolBarChanged(toolBarEnabled);
 }
 void NotepadApp::changeFont()
 {
