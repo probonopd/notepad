@@ -21,6 +21,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 MainWindow::MainWindow(bool useMenu, bool toolBarEnabled, QFont *font, QStringList *files)
 {
+    mainToolBar = addToolBar(tr("Toolbar"));
     
 	tabwidget = new TabWidget(font);
 
@@ -28,7 +29,7 @@ MainWindow::MainWindow(bool useMenu, bool toolBarEnabled, QFont *font, QStringLi
     
     fileMenu = new FileMenu();
     editMenu = new EditMenu();
-    setsMenu = new SetsMenu(useMenu, toolBarEnabled);
+    setsMenu = new SetsMenu(useMenu, mainToolBar->toggleViewAction());
     helpMenu = new HelpMenu();
 
     connect(fileMenu, &FileMenu::newFileclick, tabwidget, &TabWidget::newFileCreate);
@@ -50,7 +51,6 @@ MainWindow::MainWindow(bool useMenu, bool toolBarEnabled, QFont *font, QStringLi
 
     connect(setsMenu, &SetsMenu::font, (NotepadApp*) qApp, &NotepadApp::changeFont); 
     connect(setsMenu, &SetsMenu::menuChange, (NotepadApp*)qApp, &NotepadApp::changeMenu);
-    connect(setsMenu, &SetsMenu::toolBarChange, (NotepadApp*)qApp, &NotepadApp::changeToolBar);
     
     connect(helpMenu, &HelpMenu::about, (NotepadApp*) qApp, &NotepadApp::about);
     connect(helpMenu, &HelpMenu::aboutQt, qApp, &QApplication::aboutQt);
@@ -58,6 +58,10 @@ MainWindow::MainWindow(bool useMenu, bool toolBarEnabled, QFont *font, QStringLi
     connect(tabwidget,  &TabWidget::undoAvailable, editMenu,  &EditMenu::undoAvailable);
     connect(tabwidget,  &TabWidget::redoAvailable, editMenu,  &EditMenu::redoAvailable);
     connect(tabwidget,  &TabWidget::copyAvailable, editMenu,  &EditMenu::copyAvailable);
+    
+    connect(mainToolBar->toggleViewAction(), &QAction::toggled, (NotepadApp*)qApp, &NotepadApp::changeToolBar);
+    
+    setToolBar(toolBarEnabled);
     
     setCentralWidget(tabwidget);
     if (files != nullptr) 
@@ -67,10 +71,9 @@ MainWindow::MainWindow(bool useMenu, bool toolBarEnabled, QFont *font, QStringLi
     }
     else tabwidget->newFileCreate();
     menu(useMenu);
-    setToolBar(toolBarEnabled);
     connect((NotepadApp*)qApp, &NotepadApp::menuChanged, this, &MainWindow::menu);
     connect((NotepadApp*)qApp, &NotepadApp::fontChanged, tabwidget, &TabWidget::setFont);
-    connect((NotepadApp*)qApp, &NotepadApp::toolBarChanged, this, &MainWindow::setToolBar);
+    connect((NotepadApp*)qApp, &NotepadApp::toolBarChanged, mainToolBar->toggleViewAction(), &QAction::setChecked);
 }
 void MainWindow::menu(bool useMenuBar)
 {
@@ -100,8 +103,6 @@ void MainWindow::menu(bool useMenuBar)
 }
 void MainWindow::setToolBar(bool useToolBar)
 {
-    if (useToolBar){
-        mainToolBar = addToolBar(tr("File"));
         mainToolBar->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
         auto newAct = mainToolBar->addAction(QIcon::fromTheme("document-new"), tr("New"));
         auto openAct = mainToolBar->addAction(QIcon::fromTheme("document-open"), tr("Open"));
@@ -118,13 +119,8 @@ void MainWindow::setToolBar(bool useToolBar)
         connect(saveAllAct, &QAction::triggered, tabwidget, &TabWidget::saveAll);
         connect(saveSessionAct, &QAction::triggered, tabwidget, &TabWidget::saveSession);
         connect(undoAct, &QAction::triggered, tabwidget, &TabWidget::undo);
-        connect(redoAct, &QAction::triggered, tabwidget, &TabWidget::redo); 
-    }
-    else if (mainToolBar != nullptr){
-        removeToolBar(mainToolBar);
-        delete mainToolBar;
-        mainToolBar = nullptr;
-    }
+        connect(redoAct, &QAction::triggered, tabwidget, &TabWidget::redo);
+        mainToolBar->toggleViewAction()->setChecked(useToolBar);
 }
 void MainWindow::closeEvent(QCloseEvent *event)
 {

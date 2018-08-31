@@ -38,7 +38,6 @@ public:
 private slots:
     void closeEvent(QCloseEvent *event);
     void menu(bool useMenuBar = true);
-    void setToolBar(bool useToolBar);
     
 private:
 	FileMenu *fileMenu = nullptr;
@@ -47,7 +46,8 @@ private:
 	HelpMenu *helpMenu;
 	QMenuBar *menubar=nullptr;
 	TabWidget *tabwidget;
-	QToolBar *mainToolBar = nullptr;
+	QToolBar *mainToolBar;
+	void setToolBar(bool useToolBar);
 };
 
 

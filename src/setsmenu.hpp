@@ -21,16 +21,14 @@ class SetsMenu:public QMenu
 {
 Q_OBJECT
 public:
-    SetsMenu(bool menuChecked, bool toolBarChecked);
+    SetsMenu(bool menuChecked, QAction *toolBarAct);
     ~SetsMenu();
     
 private:
     QAction *fontAct;
     QAction *menuAct;
-    QAction *toolBarAct;
     
 signals:
     void font();
     void menuChange(bool useMenuBar);
-    void toolBarChange(bool useToolBar);
 };
