@@ -73,7 +73,7 @@ MainWindow::MainWindow(bool useMenu, bool toolBarEnabled, QFont *font, QStringLi
     menu(useMenu);
     connect((NotepadApp*)qApp, &NotepadApp::menuChanged, this, &MainWindow::menu);
     connect((NotepadApp*)qApp, &NotepadApp::fontChanged, tabwidget, &TabWidget::setFont);
-    connect((NotepadApp*)qApp, &NotepadApp::toolBarChanged, mainToolBar->toggleViewAction(), &QAction::setChecked);
+    connect((NotepadApp*)qApp, &NotepadApp::toolBarChanged, this, &MainWindow::changeToolBarVisibility);
 }
 void MainWindow::menu(bool useMenuBar)
 {
@@ -120,7 +120,15 @@ void MainWindow::setToolBar(bool useToolBar)
         connect(saveSessionAct, &QAction::triggered, tabwidget, &TabWidget::saveSession);
         connect(undoAct, &QAction::triggered, tabwidget, &TabWidget::undo);
         connect(redoAct, &QAction::triggered, tabwidget, &TabWidget::redo);
-        mainToolBar->toggleViewAction()->setChecked(useToolBar);
+        if (!useToolBar) mainToolBar->hide();
+}
+void MainWindow::changeToolBarVisibility(bool newValue)
+{
+    bool current = mainToolBar->toggleViewAction()->isChecked();
+    if (current != newValue) {
+        if (current) mainToolBar->hide();
+        else mainToolBar->show();
+    }
 }
 void MainWindow::closeEvent(QCloseEvent *event)
 {

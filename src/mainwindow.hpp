@@ -38,6 +38,7 @@ public:
 private slots:
     void closeEvent(QCloseEvent *event);
     void menu(bool useMenuBar = true);
+    void changeToolBarVisibility(bool newValue);
     
 private:
 	FileMenu *fileMenu = nullptr;

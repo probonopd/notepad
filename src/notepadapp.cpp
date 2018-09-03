@@ -84,7 +84,7 @@ NotepadApp::~NotepadApp()
         }
         else stream<<"false";
         stream << "\n";
-        if(menu)  
+        if(toolBarEnabled)  
         {
            stream<<"true";
         }
