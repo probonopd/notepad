@@ -24,6 +24,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #include <QFile>
 #include <QTextStream>
 #include <QFontDialog>
+#include <QFileInfo>
 
 
 NotepadApp::NotepadApp(int& argc, char**& argv)
@@ -43,8 +44,9 @@ NotepadApp::NotepadApp(int& argc, char**& argv)
     const QStringList args = this->arguments();
     QStringList *files = new QStringList;
     for (int i = 1;i<args.size();i++)
-    {
-        files->append(args.at(i));
+    {   
+        QFileInfo file(args.at(i));
+        if (file.exists()) files->append(file.canonicalFilePath());
     }
     QFile file(applicationDirPath()+"/config");
     

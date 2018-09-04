@@ -105,7 +105,7 @@ void TabWidget::saveSession()
         for(int i =0; i<count(); i++) 
         {
             w = (Textedit*) widget(i);
-            stream << QString(system("dirs"))+w->Url();
+            stream << w->Url();
         }
         file.close();
     }
