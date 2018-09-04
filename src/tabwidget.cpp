@@ -110,6 +110,18 @@ void TabWidget::saveSession()
         file.close();
     }
 }
+void TabWidget::openSession() {
+    QFile file(qApp->applicationDirPath()+"/session");
+    if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        QTextStream stream(&file);
+        QStringList files;
+        while (!stream.atEnd()) {
+            QString file = stream.readLine();
+            files.append(file);
+        }
+        openFiles(files);
+    }
+}
 void TabWidget::undo()
 {
     Textedit *w = (Textedit*) currentWidget();

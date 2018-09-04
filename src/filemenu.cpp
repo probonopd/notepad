@@ -55,6 +55,9 @@ FileMenu::FileMenu()
     saveSessionAct = new QAction(QIcon::fromTheme("document-save"), tr("&Save session"));
 	addAction(saveSessionAct);
 	
+	openSessionAct = new QAction(QIcon::fromTheme("document-open"), tr("&Open session"));
+	addAction(openSessionAct);
+	
 	addSeparator();
 	
     closeAct = new QAction(QIcon::fromTheme("window-close"), tr("&Close window"));
@@ -74,6 +77,7 @@ FileMenu::FileMenu()
     connect(saveasAct, &QAction::triggered, this, &FileMenu::saveasclick);
     connect(saveAllAct, &QAction::triggered, this, &FileMenu::saveAll);
     connect(saveSessionAct, &QAction::triggered, this, &FileMenu::saveSession);
+    connect(openSessionAct, &QAction::triggered, this, &FileMenu::openSession);
     connect(closeAct, &QAction::triggered, this, &FileMenu::closeclick);
     connect(quitAct, &QAction::triggered, this, &FileMenu::quitclick);
 }

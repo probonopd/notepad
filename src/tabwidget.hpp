@@ -43,6 +43,7 @@ public slots:
     void saveas();
     void saveAll();
     void saveSession();
+    void openSession();
     void undo();
     void redo();
     void cut();

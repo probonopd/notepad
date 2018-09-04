@@ -39,6 +39,7 @@ MainWindow::MainWindow(bool useMenu, bool toolBarEnabled, QFont *font, QStringLi
     connect(fileMenu, &FileMenu::saveasclick, tabwidget, &TabWidget::saveas);
     connect(fileMenu, &FileMenu::saveAll, tabwidget, &TabWidget::saveAll);
     connect(fileMenu, &FileMenu::saveSession, tabwidget, &TabWidget::saveSession);
+    connect(fileMenu, &FileMenu::openSession, tabwidget, &TabWidget::openSession);
     connect(fileMenu, &FileMenu::closeclick, this, &MainWindow::close);
     connect(fileMenu, &FileMenu::quitclick, qApp, &QApplication::closeAllWindows);
     
@@ -110,6 +111,7 @@ void MainWindow::setToolBar(bool useToolBar)
         auto saveAsAct = mainToolBar->addAction(QIcon::fromTheme("document-save-as"), tr("Save as..."));
         auto saveAllAct = mainToolBar->addAction(QIcon::fromTheme("document-save-all"), tr("Save all"));
         auto saveSessionAct = mainToolBar->addAction(QIcon::fromTheme("document-save"), tr("Save session"));
+        auto openSessionAct = mainToolBar->addAction(QIcon::fromTheme("document-open"), tr("Open session"));
         auto undoAct = mainToolBar->addAction(QIcon::fromTheme("edit-undo"), tr("Undo"));
         auto redoAct = mainToolBar->addAction(QIcon::fromTheme("edit-redo"), tr("Redo"));
         connect(newAct, &QAction::triggered, tabwidget, &TabWidget::newFileCreate);
@@ -118,6 +120,7 @@ void MainWindow::setToolBar(bool useToolBar)
         connect(saveAsAct, &QAction::triggered, tabwidget, &TabWidget::saveas);
         connect(saveAllAct, &QAction::triggered, tabwidget, &TabWidget::saveAll);
         connect(saveSessionAct, &QAction::triggered, tabwidget, &TabWidget::saveSession);
+        connect(openSessionAct, &QAction::triggered, tabwidget, &TabWidget::openSession);
         connect(undoAct, &QAction::triggered, tabwidget, &TabWidget::undo);
         connect(redoAct, &QAction::triggered, tabwidget, &TabWidget::redo);
         if (!useToolBar) mainToolBar->hide();
