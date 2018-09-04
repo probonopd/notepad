@@ -156,6 +156,7 @@ void TabWidget::setMenu(QMenu *menu)
         	button = new QPushButton(tr("Menu"),this);
         	button->setMenu(menu);
         	setCornerWidget(button, Qt::TopLeftCorner);
+        	button->show();
     	}
 	else{
             setCornerWidget(0, Qt::TopLeftCorner);
