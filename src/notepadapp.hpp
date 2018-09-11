@@ -16,6 +16,15 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 #include<QApplication>
+#include<QMessageBox>
+#include "mainwindow.hpp"
+#include <QCommandLineParser>
+#include <QLabel>
+#include <QList>
+#include <QFile>
+#include <QTextStream>
+#include <QFontDialog>
+#include <QFileInfo>
 
 class NotepadApp : public QApplication
 {
@@ -26,7 +35,7 @@ public:
     
 public slots:
     void about();
-    void newWindowInstance();
+    MainWindow* newWindowInstance();
     void changeMenu(bool newValue);
     void changeToolBar(bool newValue);
     void changeFont();

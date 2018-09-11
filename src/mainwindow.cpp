@@ -16,10 +16,9 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 #include "mainwindow.hpp"
-#include"notepadapp.hpp"
 #include <QToolBar>
 
-MainWindow::MainWindow(bool useMenu, bool toolBarEnabled, QFont *font, QStringList *files)
+MainWindow::MainWindow(bool useMenu, bool toolBarEnabled, QFont *font)
 {
     mainToolBar = addToolBar(tr("Toolbar"));
     
@@ -33,7 +32,7 @@ MainWindow::MainWindow(bool useMenu, bool toolBarEnabled, QFont *font, QStringLi
     helpMenu = new HelpMenu();
 
     connect(fileMenu, &FileMenu::newFileclick, tabwidget, &TabWidget::newFileCreate);
-    connect(fileMenu, &FileMenu::newWindowClick, (NotepadApp*) qApp, &NotepadApp::newWindowInstance);
+    connect(fileMenu, &FileMenu::newWindowClick, this, &MainWindow::newWindowRequest);
     connect(fileMenu, &FileMenu::openclick, tabwidget, &TabWidget::openFilesClicked);
     connect(fileMenu, &FileMenu::saveclick, tabwidget, &TabWidget::saveclick);
     connect(fileMenu, &FileMenu::saveasclick, tabwidget, &TabWidget::saveas);
@@ -41,7 +40,7 @@ MainWindow::MainWindow(bool useMenu, bool toolBarEnabled, QFont *font, QStringLi
     connect(fileMenu, &FileMenu::saveSession, tabwidget, &TabWidget::saveSession);
     connect(fileMenu, &FileMenu::openSession, tabwidget, &TabWidget::openSession);
     connect(fileMenu, &FileMenu::closeclick, this, &MainWindow::close);
-    connect(fileMenu, &FileMenu::quitclick, qApp, &QApplication::closeAllWindows);
+    connect(fileMenu, &FileMenu::quitclick, this, &MainWindow::quitRequest);
     
     connect(editMenu, &EditMenu::undo, tabwidget, &TabWidget::undo);
     connect(editMenu, &EditMenu::redo, tabwidget, &TabWidget::redo);
@@ -50,31 +49,28 @@ MainWindow::MainWindow(bool useMenu, bool toolBarEnabled, QFont *font, QStringLi
     connect(editMenu, &EditMenu::paste, tabwidget, &TabWidget::paste);
     connect(editMenu, &EditMenu::find, tabwidget, &TabWidget::find);
 
-    connect(setsMenu, &SetsMenu::font, (NotepadApp*) qApp, &NotepadApp::changeFont); 
-    connect(setsMenu, &SetsMenu::menuChange, (NotepadApp*)qApp, &NotepadApp::changeMenu);
+    connect(setsMenu, &SetsMenu::font, this, &MainWindow::font); 
+    connect(setsMenu, &SetsMenu::menuChange, this, &MainWindow::menuChange);
     
-    connect(helpMenu, &HelpMenu::about, (NotepadApp*) qApp, &NotepadApp::about);
-    connect(helpMenu, &HelpMenu::aboutQt, qApp, &QApplication::aboutQt);
+    connect(helpMenu, &HelpMenu::about, this, &MainWindow::about);
+    connect(helpMenu, &HelpMenu::aboutQt, this, &MainWindow::aboutQt);
 
     connect(tabwidget,  &TabWidget::undoAvailable, editMenu,  &EditMenu::undoAvailable);
     connect(tabwidget,  &TabWidget::redoAvailable, editMenu,  &EditMenu::redoAvailable);
     connect(tabwidget,  &TabWidget::copyAvailable, editMenu,  &EditMenu::copyAvailable);
     
-    connect(mainToolBar->toggleViewAction(), &QAction::toggled, (NotepadApp*)qApp, &NotepadApp::changeToolBar);
+    connect(mainToolBar->toggleViewAction(), &QAction::toggled, this, &MainWindow::toolBarChange);
     
     setToolBar(toolBarEnabled);
     
     setCentralWidget(tabwidget);
-    if (files != nullptr) 
-    {
-        tabwidget->openFiles(*files);
-        delete files;
-    }
-    else tabwidget->newFileCreate();
+    
     menu(useMenu);
-    connect((NotepadApp*)qApp, &NotepadApp::menuChanged, this, &MainWindow::menu);
-    connect((NotepadApp*)qApp, &NotepadApp::fontChanged, tabwidget, &TabWidget::setFont);
-    connect((NotepadApp*)qApp, &NotepadApp::toolBarChanged, this, &MainWindow::changeToolBarVisibility);
+    connect(this, &MainWindow::fontChanged, tabwidget, &TabWidget::setFont);
+}
+void MainWindow::openFiles(QStringList files)
+{
+    tabwidget->openFiles(files);
 }
 void MainWindow::menu(bool useMenuBar)
 {

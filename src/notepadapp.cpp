@@ -16,16 +16,6 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 #include"notepadapp.hpp"
-#include<QMessageBox>
-#include "mainwindow.hpp"
-#include <QCommandLineParser>
-#include <QLabel>
-#include <QList>
-#include <QFile>
-#include <QTextStream>
-#include <QFontDialog>
-#include <QFileInfo>
-
 
 NotepadApp::NotepadApp(int& argc, char**& argv)
   : QApplication::QApplication(argc, argv)
@@ -69,8 +59,8 @@ NotepadApp::NotepadApp(int& argc, char**& argv)
         else toolBarEnabled = false;
         file.close();
     } 
-    MainWindow *window = new MainWindow(menu, toolBarEnabled, font, files);
-    window->show();
+    MainWindow* newWindow = newWindowInstance();
+    newWindow->openFiles(*files);
 }
 
 NotepadApp::~NotepadApp()
@@ -99,10 +89,21 @@ void NotepadApp::about()
     QMessageBox::about(activeWindow(), tr("About notepad"),
             tr("Notepad-Text editor with tabs"));
 }
-void NotepadApp::newWindowInstance()
+MainWindow* NotepadApp::newWindowInstance()
 {
     MainWindow *newWindow = new MainWindow(menu, toolBarEnabled, font);
+    connect(newWindow, &MainWindow::newWindowRequest, this, &NotepadApp::newWindowInstance);
+    connect(newWindow, &MainWindow::quitRequest, this, &QApplication::closeAllWindows);
+    connect(newWindow, &MainWindow::font, this, &NotepadApp::changeFont);
+    connect(newWindow, &MainWindow::menuChange, this, &NotepadApp::changeMenu);
+    connect(newWindow, &MainWindow::about, this, &NotepadApp::about);
+    connect(newWindow, &MainWindow::aboutQt, this, &NotepadApp::aboutQt);
+    connect(newWindow, &MainWindow::toolBarChange, this, &NotepadApp::changeToolBar);
+    connect(this, &NotepadApp::menuChanged, newWindow, &MainWindow::menu);
+    connect(this, &NotepadApp::fontChanged, newWindow, &MainWindow::fontChanged);
+    connect(this, &NotepadApp::toolBarChanged, newWindow, &MainWindow::changeToolBarVisibility);
     newWindow -> show();
+    return newWindow;
 }
 void NotepadApp::changeMenu(bool newValue)
 {

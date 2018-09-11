@@ -26,6 +26,7 @@ TabWidget::TabWidget(QFont *font)
 	setMovable(true);
     setDocumentMode(true);
     setFont(font);
+    newFileCreate();
 }
 TabWidget::~TabWidget()
 {
@@ -50,6 +51,8 @@ TabWidget::~TabWidget()
         w = (Textedit*) widget(count()-1);
         setCurrentWidget(w);
         emit currentTextChanged(w->documentTitle());
+        w = (Textedit*) widget(0);
+        if(w->Url() == "" && !w->isEdited()) closetab(0);
     }
 }
 void TabWidget::newFileCreate()

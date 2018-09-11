@@ -18,7 +18,6 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #ifndef MAINWINDOW_HPP
 #define MAINWINDOW_HPP
  
-#include <QApplication>
 #include <QObject>
 #include <QMainWindow>
 #include <QMenuBar>
@@ -32,13 +31,15 @@ class MainWindow : public QMainWindow
 {
 Q_OBJECT
 public:
-    MainWindow(bool useMenu, bool toolBarEnabled,  QFont *font, QStringList *files = nullptr);
+    MainWindow(bool useMenu, bool toolBarEnabled,  QFont *font);
 	~MainWindow();
-	
-private slots:
-    void closeEvent(QCloseEvent *event);
+	void openFiles(QStringList files);
+
+public slots:
     void menu(bool useMenuBar = true);
     void changeToolBarVisibility(bool newValue);
+private slots:
+    void closeEvent(QCloseEvent *event);
     
 private:
 	FileMenu *fileMenu = nullptr;
@@ -49,6 +50,16 @@ private:
 	TabWidget *tabwidget;
 	QToolBar *mainToolBar;
 	void setToolBar(bool useToolBar);
+
+signals:
+    void newWindowRequest();
+    void quitRequest();
+    void font();
+    void menuChange(bool newValue);
+    void about();
+    void aboutQt();
+    void toolBarChange(bool newValue);
+    void fontChanged(QFont *newFont);
 };
 
 
