@@ -15,9 +15,8 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
-#include<QApplication>
-#include<QMessageBox>
-#include "mainwindow.hpp"
+#include <QApplication>
+#include <QMessageBox>
 #include <QCommandLineParser>
 #include <QLabel>
 #include <QList>
@@ -25,6 +24,8 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #include <QTextStream>
 #include <QFontDialog>
 #include <QFileInfo>
+
+#include "mainwindow.hpp"
 
 class NotepadApp : public QApplication
 {

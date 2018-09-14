@@ -21,10 +21,11 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #include <QTabWidget>
 #include <QMessageBox>
 #include <QTabBar>
-#include "textedit.hpp"
 #include <QFile>
 #include <QTextStream>
 #include <QFont>
+
+#include "textedit.hpp"
 
 class TabWidget: public QTabWidget
 {

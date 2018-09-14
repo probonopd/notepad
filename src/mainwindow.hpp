@@ -21,6 +21,8 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #include <QObject>
 #include <QMainWindow>
 #include <QMenuBar>
+#include <QToolBar>
+
 #include "filemenu.hpp"
 #include "editmenu.hpp"
 #include "setsmenu.hpp"
