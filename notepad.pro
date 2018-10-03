@@ -36,5 +36,8 @@ SOURCES += src/editmenu.cpp \
            src/setsmenu.cpp \
            src/tabwidget.cpp \
            src/textedit.cpp
+TRANSLATIONS = translations/notepad_pl.ts
 MOC_DIR = moc
 OBJECTS_DIR = obj
+QMAKE_CLEAN = -r $$OBJECTS_DIR $$MOC_DIR 
+QMAKE_DISTCLEAN = -r *.qm $$OBJECTS_DIR $$MOC_DIR config session

@@ -19,7 +19,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 EditMenu::EditMenu()
 {
-    setTitle("&Edit");
+    setTitle(tr("&Edit"));
     
     undoAct = new QAction(QIcon::fromTheme("edit-undo"), tr("&Undo"));
     undoAct->setShortcut(QKeySequence::Undo);
@@ -33,7 +33,7 @@ EditMenu::EditMenu()
     
     addSeparator();
     
-    cutAct = new QAction(QIcon::fromTheme("edit-cut"), tr("&Cut"));
+    cutAct = new QAction(QIcon::fromTheme("edit-cut"), tr("C&ut"));
     cutAct->setShortcut(QKeySequence::Cut);
     cutAct->setEnabled(false);
 	addAction(cutAct);

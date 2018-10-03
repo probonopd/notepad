@@ -20,6 +20,14 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 NotepadApp::NotepadApp(int& argc, char**& argv)
   : QApplication::QApplication(argc, argv)
 {
+    QTranslator *qtTranslator = new QTranslator();
+    qtTranslator->load("qt_" + QLocale::system().name(),
+            QLibraryInfo::location(QLibraryInfo::TranslationsPath));
+    installTranslator(qtTranslator);
+
+    QTranslator *notepadTranslator = new QTranslator();
+    notepadTranslator->load(applicationDirPath()+"/translations/notepad_" + QLocale::system().name());
+    installTranslator(notepadTranslator);
     setApplicationName(tr("Notepad"));
     setApplicationDisplayName(tr("Notepad"));
     setApplicationVersion("0.8 Beta");
@@ -29,7 +37,7 @@ NotepadApp::NotepadApp(int& argc, char**& argv)
     parser.addHelpOption();
     parser.addVersionOption();
     //Add information to help page
-    parser.addPositionalArgument("files", QCoreApplication::translate("main", "Files to open."));
+    parser.addPositionalArgument(tr("files"), tr("Files to open."));
     parser.process(*this);
     const QStringList args = this->arguments();
     QStringList *files = new QStringList;

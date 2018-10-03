@@ -23,7 +23,7 @@ Textedit::Textedit()
     connect(this, &QPlainTextEdit::undoAvailable, this, &Textedit::setUndo);
     connect(this, &QPlainTextEdit::redoAvailable, this, &Textedit::setRedo);
     connect(this, &QPlainTextEdit::copyAvailable, this, &Textedit::setCopy);
-    setDocumentTitle("new file");
+    setDocumentTitle(tr("new file"));
 }
 bool Textedit::openfile(QString fileurl)
 {
@@ -40,7 +40,7 @@ bool Textedit::openfile(QString fileurl)
      }
      else 
      {
-         qDebug() << "Failed to open file " << url;
+         qDebug() << tr("Failed to open file ") << url;
          return false;
      }
 }
@@ -51,7 +51,7 @@ void Textedit::saveclick()
 }
 void Textedit::saveas()
 {
-    QString a = "Save file "+documentTitle();
+    QString a = tr("Save file ")+documentTitle();
     url=QFileDialog::getSaveFileName(this, a, QString(), tr("All files(*);;Text file(*.txt)"));
     save();
 }
@@ -73,7 +73,7 @@ void Textedit::save()
                 button = nullptr;
             }
     }
-    else qDebug() << "Failed to save file " << url;
+    else qDebug() << tr("Failed to save file ") << url;
 }
 void Textedit::onchange()
 {

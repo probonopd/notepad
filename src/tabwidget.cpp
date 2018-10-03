@@ -188,7 +188,7 @@ void TabWidget::closetab(int index)
     Textedit* b = (Textedit*) widget(index);
     if (b->isEdited()) 
     {
-        QMessageBox *message = new QMessageBox(QMessageBox::Warning, tr("Closing tab"), tr("Czy zapisać zmiany w pliku")+" \"" +tabText(index).remove("&")+"\" ?",QMessageBox::Save | QMessageBox::Discard | QMessageBox::Cancel ); 
+        QMessageBox *message = new QMessageBox(QMessageBox::Warning, tr("Closing tab"), tr("Would you like to save changes in file")+" \"" +tabText(index).remove("&")+"\" ?",QMessageBox::Save | QMessageBox::Discard | QMessageBox::Cancel ); 
         int result = message->exec();
         delete message;
         if (result == 0x00000800)

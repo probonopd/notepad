@@ -19,7 +19,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 FileMenu::FileMenu()
 {
-    setTitle("&File");
+    setTitle(tr("&File"));
     
     newAct = new QAction(QIcon::fromTheme("document-new"), tr("&New"));
     newAct->setShortcut(QKeySequence::New);
@@ -27,7 +27,7 @@ FileMenu::FileMenu()
 	
 	addSeparator();
 	
-	newWindowAct = new QAction(QIcon::fromTheme("window-new"), tr("&New window"));
+	newWindowAct = new QAction(QIcon::fromTheme("window-new"), tr("New &window"));
     //newAct->setShortcut(QKeySequence::New);
 	addAction(newWindowAct);
 	
@@ -43,19 +43,19 @@ FileMenu::FileMenu()
     saveAct->setShortcut(QKeySequence::Save);
 	addAction(saveAct);
     
-    saveasAct = new QAction(QIcon::fromTheme("document-save-as"), tr("&Save as..."));
+    saveasAct = new QAction(QIcon::fromTheme("document-save-as"), tr("Sa&ve as..."));
     saveasAct->setShortcut(QKeySequence::SaveAs);
     addAction(saveasAct);
     
-    saveAllAct = new QAction(QIcon::fromTheme("document-save-all"), tr("&Save all"));
+    saveAllAct = new QAction(QIcon::fromTheme("document-save-all"), tr("Save &all"));
 	addAction(saveAllAct);
 	
 	addSeparator();
 	
-    saveSessionAct = new QAction(QIcon::fromTheme("document-save"), tr("&Save session"));
+    saveSessionAct = new QAction(QIcon::fromTheme("document-save"), tr("Sav&e session"));
 	addAction(saveSessionAct);
 	
-	openSessionAct = new QAction(QIcon::fromTheme("document-open"), tr("&Open session"));
+	openSessionAct = new QAction(QIcon::fromTheme("document-open"), tr("O&pen session"));
 	addAction(openSessionAct);
 	
 	addSeparator();

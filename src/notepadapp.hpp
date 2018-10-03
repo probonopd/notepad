@@ -15,6 +15,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
+#include <QTranslator>
 #include <QApplication>
 #include <QMessageBox>
 #include <QCommandLineParser>
@@ -24,6 +25,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #include <QTextStream>
 #include <QFontDialog>
 #include <QFileInfo>
+#include <QLibraryInfo>
 
 #include "mainwindow.hpp"
 
