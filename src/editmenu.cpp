@@ -47,18 +47,11 @@ EditMenu::EditMenu()
     pasteAct->setShortcut(QKeySequence::Paste);
 	addAction(pasteAct);
 	
-	addSeparator();
-	
-    findAct = new QAction(QIcon::fromTheme("edit-find"), tr("&Find"));
-    findAct->setShortcut(QKeySequence::Find);
-	addAction(findAct);
-	
     connect(undoAct, &QAction::triggered, this, &EditMenu::undo);
     connect(redoAct, &QAction::triggered, this, &EditMenu::redo);
     connect(cutAct, &QAction::triggered, this, &EditMenu::cut);
     connect(copyAct, &QAction::triggered, this, &EditMenu::copy);
     connect(pasteAct, &QAction::triggered, this, &EditMenu::paste);
-    connect(findAct, &QAction::triggered, this, &EditMenu::find);
 }
 void EditMenu::undoAvailable(bool available)
 {
