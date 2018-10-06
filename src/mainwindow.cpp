@@ -68,7 +68,7 @@ MainWindow::MainWindow(bool useMenu, bool toolBarEnabled, QFont *font)
 }
 void MainWindow::openFiles(QStringList files)
 {
-    tabwidget->openFiles(files);
+    //tabwidget->openFiles(files);
 }
 void MainWindow::menu(bool useMenuBar)
 {

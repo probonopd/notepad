@@ -19,66 +19,73 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 Textedit::Textedit()
 {
-    connect(this, &QPlainTextEdit::textChanged, this, &Textedit::onchange);
-    connect(this, &QPlainTextEdit::undoAvailable, this, &Textedit::setUndo);
-    connect(this, &QPlainTextEdit::redoAvailable, this, &Textedit::setRedo);
-    connect(this, &QPlainTextEdit::copyAvailable, this, &Textedit::setCopy);
-    setDocumentTitle(tr("new file"));
+    editor = KTextEditor::Editor::instance();
+    // create a new document
+    doc = editor->createDocument(this);
+    // create a widget to display the document
+    QWidget *widget = new QWidget();
+    view = doc->createView(widget);
+    
+    QVBoxLayout *mainLayout = new QVBoxLayout;
+    mainLayout->addWidget(view);
+    
+    setLayout(mainLayout);
+    connect(doc, &KTextEditor::Document::textChanged, this, &Textedit::onchange);
+//     connect(this, &QPlainTextEdit::undoAvailable, this, &Textedit::setUndo);
+//     connect(this, &QPlainTextEdit::redoAvailable, this, &Textedit::setRedo);
+//     connect(this, &QPlainTextEdit::copyAvailable, this, &Textedit::setCopy);
 }
-bool Textedit::openfile(QString fileurl)
+QString Textedit::documentTitle()
 {
-    url = fileurl;
-    QFile file(url);
-    if (file.open(QIODevice::ReadOnly | QIODevice::Text))
-     {
-        QTextStream stream(&file);
-        setPlainText(stream.readAll());
-        file.close();
-        setDocumentTitle(url.mid(url.lastIndexOf('/')+1));
-        edited = false;
-        return true;
-     }
-     else 
-     {
-         qDebug() << tr("Failed to open file ") << url;
-         return false;
-     }
+    return doc->documentName();
 }
-void Textedit::saveclick()
+bool Textedit::openfile(QUrl fileurl)
 {
-    if(url.isEmpty()) saveas();
-    else save();
-}
-void Textedit::saveas()
-{
-    QString a = tr("Save file ")+documentTitle();
-    url=QFileDialog::getSaveFileName(this, a, QString(), tr("All files(*);;Text file(*.txt)"));
-    save();
+    return doc->openUrl(fileurl);
 }
 void Textedit::save()
 {
-    QFile file(url);
-    if (file.open(QIODevice::WriteOnly | QIODevice::Text))
-    {
-            QTextStream stream(&file);
-            stream<<toPlainText();
-            file.close();
-            edited = false;
-            setDocumentTitle(url.mid(url.lastIndexOf('/')+1));
-            emit tabtextchange(this,  documentTitle(), false);
-            if (button != nullptr) 
-            {
-                disconnect(button, &QPushButton::clicked, this, &Textedit::saveclick);
-                delete button;
-                button = nullptr;
-            }
-    }
-    else qDebug() << tr("Failed to save file ") << url;
+    if (doc->documentSave()) emit tabtextchange(this,  documentTitle(), false);
 }
+void Textedit::saveas()
+{
+    if(doc->documentSaveAs())emit tabtextchange(this,  documentTitle(), false);
+}
+void Textedit::find()
+{
+    bool ok;
+    QString text = QInputDialog::getText(this, tr("Find"),
+                                         tr("Find:"), QLineEdit::Normal,
+                                         "Find", &ok);
+    if (ok && !text.isEmpty())
+    {
+        
+    }
+}
+void Textedit::undo()
+{
+    
+}
+
+void Textedit::redo()
+{
+}
+
+void Textedit::copy()
+{
+}
+
+void Textedit::paste()
+{
+}
+
+void Textedit::cut()
+{
+}
+
 void Textedit::onchange()
 {
-        edited = true;
-        emit tabtextchange(this,  documentTitle(), true);
+    emit tabtextchange(this,  documentTitle(), true);
 }
 void Textedit::setUndo(bool available)
 {

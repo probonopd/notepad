@@ -18,31 +18,40 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #ifndef TEXTEDIT_HPP
 #define TEXTEDIT_HPP
 
-#include <QPlainTextEdit>
-#include <QTextStream>
-#include <QFileDialog>
-#include <QDebug>
 #include <QPushButton>
+#include <QInputDialog>
+#include <KTextEditor/Document>
+#include <KTextEditor/Editor>
+#include <KTextEditor/View>
+#include <QVBoxLayout>
 
-class Textedit : public QPlainTextEdit
+class Textedit : public QWidget
 {
 Q_OBJECT
 public:
 	Textedit();
 	~Textedit();
-    bool openfile(QString fileurl);
-    void saveclick();
-    void saveas();
-    bool isEdited() {return edited;};
-    QString Url() {return url;};
     QPushButton *button = nullptr;
+    QString documentTitle();
+    bool isEdited() {return doc->isModified();};
+    QUrl Url() {return doc->url();};
     bool isUndoAvailable(){return canUndo;};
     bool isRedoAvailable(){return canRedo;};
     bool isCopyAvailable(){return canCopy;};
-private:
-    QString url;
-    bool edited = false;
+    bool openfile(QUrl fileurl);
     void save();
+    void saveas();
+    void find();
+    void undo();
+    void redo();
+    void copy();
+    void cut();
+    void paste();
+    
+private:
+    KTextEditor::Editor *editor;
+    KTextEditor::Document *doc;
+    KTextEditor::View *view;
     bool canUndo=false;
     bool canRedo=false;
     bool canCopy=false;
@@ -53,6 +62,9 @@ private slots:
     void setCopy(bool available);
 signals:
     void tabtextchange(Textedit *textedit,  QString newtext,  bool edited);
+    void undoAvailable(bool available);
+    void redoAvailable(bool available);
+    void copyAvailable(bool available);
 };
 
 #endif // TEXTEDIT_HPP

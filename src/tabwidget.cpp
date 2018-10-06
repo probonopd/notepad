@@ -32,60 +32,70 @@ TabWidget::TabWidget(QFont *font)
 TabWidget::~TabWidget()
 {
 }
- void TabWidget::openFiles(QStringList files)
+ void TabWidget::openFiles(QList<QUrl> files)
 {
     Textedit *w;
+    Textedit *d = (Textedit*)currentWidget();
     for(int i = 0; i<files.count(); i++)
     {
-        w = new Textedit();
-        if(w->openfile(files.at(i)))
+        bool alreadyOpen = false;
+        for(int j = 0; j<count(); j++)
         {
-            addTab(w,files.at(i).mid(files.at(i).lastIndexOf('/')+1));
-            connect(w, &Textedit::tabtextchange, this, &TabWidget::changetabname);
-            if (font != nullptr) w->setFont(*font);
+            w = (Textedit*)widget(j);
+            if(w->Url() == files.at(i)) {
+                alreadyOpen = true;
+                break;
+            }
         }
-        else delete w;
+        if(!alreadyOpen)
+        {
+            w = new Textedit();
+            if(w->openfile(files.at(i)))
+            {
+                addTab(w,files.at(i).toString().mid(files.at(i).toString().lastIndexOf('/')+1));
+                connect(w, &Textedit::tabtextchange, this, &TabWidget::changetabname);
+                if (font != nullptr) w->setFont(*font);
+                d = w;
+            }
+            else{
+                delete w;
+                w = d; 
+            }
+        }
     }
     if(count() == 0) newFileCreate();
     if(files.count()!=0)
     {
-        w = (Textedit*) widget(count()-1);
-        setCurrentWidget(w);
-        emit currentTextChanged(w->documentTitle());
-        w = (Textedit*) widget(0);
-        if(w->Url() == "" && !w->isEdited()) closetab(0);
+        Textedit *b = (Textedit*)currentWidget();
+        if (b != d && b->Url().isEmpty() && !b->isEdited()) delete b;
+        setCurrentWidget(d);
+        emit currentTextChanged(d->documentTitle());
     }
 }
 void TabWidget::newFileCreate()
 {
     Textedit *w = new Textedit();
-    addTab(w,tr("new file"));
+    addTab(w, w->documentTitle());
     connect(w, &Textedit::tabtextchange, this, &TabWidget::changetabname);
     setCurrentWidget(w);
     if (font != nullptr) w->setFont(*font);
 }
 void TabWidget::openFilesClicked()
 {
-    QStringList files = QFileDialog::getOpenFileNames(
+    QList<QUrl> files = QFileDialog::getOpenFileUrls(
         this,
         tr("Select files to open"),
         QString(),
         tr("All files(*);;Text file(*.txt)"));
 	if (!files.empty())
-	 {
-		Textedit* b = (Textedit*) currentWidget();
+    {
 		openFiles(files);
-		if (b->Url().isEmpty(), !b->isEdited()) 
-        {
-            if(count()==1) newFileCreate();
-            delete b;
-        }
 	}
 }
 void TabWidget::saveclick()
 {
     Textedit *w = (Textedit*) currentWidget();
-    w->saveclick();
+    w->save();
 }
 void TabWidget::saveas()
 {
@@ -97,7 +107,7 @@ void TabWidget::saveAll()
     for(int i =0; i<count(); i++) 
     {
         Textedit *w = (Textedit*) widget(i);
-        w->saveclick();
+        w->save();
     }
 }
 void TabWidget::saveSession()
@@ -109,7 +119,7 @@ void TabWidget::saveSession()
         for(int i =0; i<count(); i++) 
         {
             w = (Textedit*) widget(i);
-            stream << w->Url();
+            stream << w->Url().toString();
         }
         file.close();
     }
@@ -118,12 +128,12 @@ void TabWidget::openSession() {
     QFile file(qApp->applicationDirPath()+"/session");
     if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
         QTextStream stream(&file);
-        QStringList files;
+        QList<QUrl> files;
         while (!stream.atEnd()) {
-            QString file = stream.readLine();
+            QUrl file(stream.readLine());
             files.append(file);
         }
-        openFiles(files);
+       openFiles(files);
     }
 }
 void TabWidget::undo()
@@ -188,7 +198,7 @@ void TabWidget::closetab(int index)
         delete message;
         if (result == 0x00000800)
         {
-            b->saveclick();
+            b->save();
             if (count() == 1) newFileCreate();
             removeTab(index);
             delete b;
@@ -222,11 +232,15 @@ void TabWidget::changetabname(Textedit* textedit,  QString newtext, bool edited)
         {
             textedit->button = new QPushButton(QIcon::fromTheme("document-save"), "", this);
             textedit->button->setFlat(true);
-            connect(textedit->button, &QPushButton::clicked, textedit, &Textedit::saveclick);
+            connect(textedit->button, &QPushButton::clicked, textedit, &Textedit::save);
             tabBar()->setTabButton(indexOf(textedit), QTabBar::LeftSide, textedit->button);
         }
     }
-    else tabBar()->setTabButton(indexOf(textedit), QTabBar::LeftSide, 0);
+    else{
+        tabBar()->setTabButton(indexOf(textedit), QTabBar::LeftSide, 0);
+        delete textedit->button;
+        textedit->button = nullptr;
+    }
 }
 void TabWidget::onCurrentChange()
 {

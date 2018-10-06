@@ -24,6 +24,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #include <QFile>
 #include <QTextStream>
 #include <QFont>
+#include <QFileDialog>
 
 #include "textedit.hpp"
 
@@ -32,9 +33,9 @@ class TabWidget: public QTabWidget
 Q_OBJECT
 public:
     TabWidget(QFont *font);
-    void setMenu(QMenu *menu=nullptr);
     ~TabWidget();
-    void openFiles(QStringList files);
+    void setMenu(QMenu *menu=nullptr);
+    void openFiles(QList<QUrl> files);
     void closeEvent(QCloseEvent *event);
     
 public slots:
