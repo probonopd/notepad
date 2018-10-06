@@ -50,7 +50,6 @@ public slots:
     void cut();
     void copy();
     void paste();
-    void find();
     void setFont(QFont *newFont);
 
 private:

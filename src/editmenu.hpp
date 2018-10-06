@@ -30,10 +30,9 @@ signals:
     void cut();
     void copy();
     void paste();
-    void find();
     
 private:
-    QAction *undoAct, *redoAct, *cutAct, *copyAct , *pasteAct, *findAct;
+    QAction *undoAct, *redoAct, *cutAct, *copyAct , *pasteAct;
     
 public slots:
     void undoAvailable(bool available);

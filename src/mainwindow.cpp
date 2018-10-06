@@ -46,7 +46,6 @@ MainWindow::MainWindow(bool useMenu, bool toolBarEnabled, QFont *font)
     connect(editMenu, &EditMenu::cut, tabwidget, &TabWidget::cut);
     connect(editMenu, &EditMenu::copy, tabwidget, &TabWidget::copy);
     connect(editMenu, &EditMenu::paste, tabwidget, &TabWidget::paste);
-    connect(editMenu, &EditMenu::find, tabwidget, &TabWidget::find);
 
     connect(setsMenu, &SetsMenu::font, this, &MainWindow::font); 
     connect(setsMenu, &SetsMenu::menuChange, this, &MainWindow::menuChange);

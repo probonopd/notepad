@@ -151,11 +151,6 @@ void TabWidget::paste()
     Textedit *w = (Textedit*) currentWidget();
     w->paste();
 }
-void TabWidget::find()
-{
-    Textedit *w = (Textedit*) currentWidget();
-    w->find("a");
-}
 void TabWidget::setFont(QFont *newFont)
 {
     font = newFont;
