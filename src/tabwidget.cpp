@@ -35,25 +35,41 @@ TabWidget::~TabWidget()
  void TabWidget::openFiles(QStringList files)
 {
     Textedit *w;
+    Textedit *d = (Textedit*)currentWidget();
     for(int i = 0; i<files.count(); i++)
     {
-        w = new Textedit();
-        if(w->openfile(files.at(i)))
+        bool alreadyOpen = false;
+        for(int j = 0; j<count(); j++)
         {
-            addTab(w,files.at(i).mid(files.at(i).lastIndexOf('/')+1));
-            connect(w, &Textedit::tabtextchange, this, &TabWidget::changetabname);
-            if (font != nullptr) w->setFont(*font);
+            w = (Textedit*)widget(j);
+            if(w->Url() == files.at(i)) {
+                alreadyOpen = true;
+                break;
+            }
         }
-        else delete w;
+        if(!alreadyOpen)
+        {
+            w = new Textedit();
+            if(w->openfile(files.at(i)))
+            {
+                addTab(w,w->documentTitle());
+                connect(w, &Textedit::tabtextchange, this, &TabWidget::changetabname);
+                if (font != nullptr) w->setFont(*font);
+                d = w;
+            }
+            else{
+                delete w;
+                w = d; 
+            }
+        }
     }
     if(count() == 0) newFileCreate();
     if(files.count()!=0)
     {
-        w = (Textedit*) widget(count()-1);
-        setCurrentWidget(w);
-        emit currentTextChanged(w->documentTitle());
-        w = (Textedit*) widget(0);
-        if(w->Url() == "" && !w->isEdited()) closetab(0);
+        Textedit *b = (Textedit*)currentWidget();
+        if (b != d && b->Url().isEmpty() && !b->isEdited()) delete b;
+        setCurrentWidget(d);
+        emit currentTextChanged(d->documentTitle());
     }
 }
 void TabWidget::newFileCreate()
@@ -73,13 +89,7 @@ void TabWidget::openFilesClicked()
         tr("All files(*);;Text file(*.txt)"));
 	if (!files.empty())
 	 {
-		Textedit* b = (Textedit*) currentWidget();
 		openFiles(files);
-		if (b->Url().isEmpty(), !b->isEdited()) 
-        {
-            if(count()==1) newFileCreate();
-            delete b;
-        }
 	}
 }
 void TabWidget::saveclick()
