@@ -75,6 +75,15 @@ void Textedit::save()
     }
     else qDebug() << tr("Failed to save file ") << url;
 }
+void Textedit::printClick()
+{
+    QPrinter printer;
+    QPrintDialog printDialog(&printer, this);
+    if (printDialog.exec() == QDialog::Accepted)
+    {
+        print(&printer);
+    }
+}
 void Textedit::onchange()
 {
         edited = true;

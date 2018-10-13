@@ -45,6 +45,7 @@ public slots:
     void saveAll();
     void saveSession();
     void openSession();
+    void print();
     void undo();
     void redo();
     void cut();

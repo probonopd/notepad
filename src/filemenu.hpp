@@ -33,9 +33,10 @@ signals:
     void saveAll();
     void saveSession();
     void openSession();
+    void print();
     void closeclick();
     void quitclick();
     
 private:
-    QAction *newAct, *newWindowAct, *openAct, *saveAct, *saveasAct, *saveAllAct,*saveSessionAct, *openSessionAct, *closeAct, *quitAct;
+    QAction *newAct, *newWindowAct, *openAct, *saveAct, *saveasAct, *saveAllAct,*saveSessionAct, *openSessionAct, *printAct, *closeAct, *quitAct;
 };

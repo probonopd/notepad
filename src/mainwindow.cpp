@@ -38,6 +38,7 @@ MainWindow::MainWindow(bool useMenu, bool toolBarEnabled, QFont *font)
     connect(fileMenu, &FileMenu::saveAll, tabwidget, &TabWidget::saveAll);
     connect(fileMenu, &FileMenu::saveSession, tabwidget, &TabWidget::saveSession);
     connect(fileMenu, &FileMenu::openSession, tabwidget, &TabWidget::openSession);
+    connect(fileMenu, &FileMenu::print, tabwidget, &TabWidget::print);
     connect(fileMenu, &FileMenu::closeclick, this, &MainWindow::close);
     connect(fileMenu, &FileMenu::quitclick, this, &MainWindow::quitRequest);
     

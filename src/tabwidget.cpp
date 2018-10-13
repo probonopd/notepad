@@ -136,6 +136,11 @@ void TabWidget::openSession() {
         openFiles(files);
     }
 }
+void TabWidget::print()
+{
+    Textedit *w = (Textedit*) currentWidget();
+    w->printClick();
+}
 void TabWidget::undo()
 {
     Textedit *w = (Textedit*) currentWidget();

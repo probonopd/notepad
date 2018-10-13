@@ -23,6 +23,8 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #include <QFileDialog>
 #include <QDebug>
 #include <QPushButton>
+#include <QPrintDialog>
+#include <QPrinter>
 
 class Textedit : public QPlainTextEdit
 {
@@ -33,6 +35,7 @@ public:
     bool openfile(QString fileurl);
     void saveclick();
     void saveas();
+    void printClick();
     bool isEdited() {return edited;};
     QString Url() {return url;};
     QPushButton *button = nullptr;
