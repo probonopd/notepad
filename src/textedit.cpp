@@ -78,7 +78,9 @@ void Textedit::save()
 void Textedit::printClick()
 {
     QPrinter printer;
-    QPrintDialog printDialog(&printer, this);
+    QPainter painter(&printer);
+    painter.drawText(0, 0, toPlainText());
+    QPrintPreviewDialog printDialog(&printer);
     if (printDialog.exec() == QDialog::Accepted)
     {
         print(&printer);

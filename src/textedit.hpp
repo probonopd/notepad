@@ -24,7 +24,9 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #include <QDebug>
 #include <QPushButton>
 #include <QPrintDialog>
+#include <QPrintPreviewDialog>
 #include <QPrinter>
+#include <QPainter>
 
 class Textedit : public QPlainTextEdit
 {
