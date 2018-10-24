@@ -78,12 +78,11 @@ void Textedit::save()
 void Textedit::printClick()
 {
     QPrinter printer;
-    QPainter painter(&printer);
-    painter.drawText(0, 0, toPlainText());
     QPrintPreviewDialog printDialog(&printer);
+    connect(&printDialog, &QPrintPreviewDialog::paintRequested, this, &Textedit::paintOnPrinter);
     if (printDialog.exec() == QDialog::Accepted)
     {
-        print(&printer);
+        //print(&printer);
     }
 }
 void Textedit::onchange()
@@ -102,6 +101,13 @@ void Textedit::setRedo(bool available)
 void Textedit::setCopy(bool available)
 {
     canCopy=available;
+}
+void Textedit::paintOnPrinter(QPrinter *printer)
+{
+    QPainter painter(printer);
+    painter.setPen(Qt::black);
+    painter.setFont(font());
+    painter.drawText(printer->pageRect(QPrinter::DevicePixel), toPlainText());
 }
 Textedit::~Textedit()
 {

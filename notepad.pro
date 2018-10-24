@@ -26,7 +26,7 @@ HEADERS += src/editmenu.hpp \
            src/notepadapp.hpp \
            src/setsmenu.hpp \
            src/tabwidget.hpp \
-           src/textedit.hpp
+           src/textedit.hpp 
 SOURCES += src/editmenu.cpp \
            src/filemenu.cpp \
            src/helpmenu.cpp \
@@ -35,7 +35,7 @@ SOURCES += src/editmenu.cpp \
            src/notepadapp.cpp \
            src/setsmenu.cpp \
            src/tabwidget.cpp \
-           src/textedit.cpp
+           src/textedit.cpp 
 TRANSLATIONS = translations/notepad_pl.ts
 MOC_DIR = moc
 OBJECTS_DIR = obj
