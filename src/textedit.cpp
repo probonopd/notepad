@@ -78,12 +78,10 @@ void Textedit::save()
 void Textedit::printClick()
 {
     QPrinter printer;
+    printer.setDocName(documentTitle());
     QPrintPreviewDialog printDialog(&printer);
     connect(&printDialog, &QPrintPreviewDialog::paintRequested, this, &Textedit::paintOnPrinter);
-    if (printDialog.exec() == QDialog::Accepted)
-    {
-        //print(&printer);
-    }
+    printDialog.exec();
 }
 void Textedit::onchange()
 {
@@ -107,7 +105,25 @@ void Textedit::paintOnPrinter(QPrinter *printer)
     QPainter painter(printer);
     painter.setPen(Qt::black);
     painter.setFont(font());
-    painter.drawText(printer->pageRect(QPrinter::DevicePixel), toPlainText());
+    QString text = toPlainText();
+    QTextStream stream(&text);
+    int linesOnPage = floor(printer->pageRect(QPrinter::Point).height()/(font().pointSizeF()+1.7));
+    bool notAllPainted = true;
+    bool firstPage = true;
+    while(notAllPainted)
+    {
+        QString page, line;
+        for (int i = 0; i<linesOnPage&&notAllPainted; i++)
+        {
+            notAllPainted = stream.readLineInto(&line);
+            page += line+"\n";
+        }     
+        if (!firstPage)
+            printer->newPage();
+        else
+            firstPage = false;
+        painter.drawText(printer->pageRect(QPrinter::DevicePixel), page);
+    }
 }
 Textedit::~Textedit()
 {
