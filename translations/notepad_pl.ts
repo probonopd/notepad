@@ -88,7 +88,7 @@
     <message>
         <location filename="../src/filemenu.cpp" line="63"/>
         <source>&amp;Print</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Drukuj</translation>
     </message>
     <message>
         <location filename="../src/filemenu.cpp" line="69"/>
@@ -116,7 +116,6 @@
     <message>
         <location filename="../src/helpmenu.cpp" line="27"/>
         <source>About &amp;Qt</source>
-        <oldsource>&amp;About Qt</oldsource>
         <translation>O &amp;Qt</translation>
     </message>
 </context>
