@@ -34,9 +34,8 @@
         <translation>&amp;Wklej</translation>
     </message>
     <message>
-        <location filename="../src/editmenu.cpp" line="52"/>
         <source>&amp;Find</source>
-        <translation>&amp;Znajdź</translation>
+        <translation type="vanished">&amp;Znajdź</translation>
     </message>
 </context>
 <context>
@@ -88,11 +87,16 @@
     </message>
     <message>
         <location filename="../src/filemenu.cpp" line="63"/>
+        <source>&amp;Print</source>
+        <translation>&amp;Drukuj</translation>
+    </message>
+    <message>
+        <location filename="../src/filemenu.cpp" line="69"/>
         <source>&amp;Close window</source>
         <translation>Za&amp;mknij okno</translation>
     </message>
     <message>
-        <location filename="../src/filemenu.cpp" line="69"/>
+        <location filename="../src/filemenu.cpp" line="75"/>
         <source>&amp;Quit</source>
         <translation>Zakoń&amp;cz</translation>
     </message>
@@ -112,7 +116,6 @@
     <message>
         <location filename="../src/helpmenu.cpp" line="27"/>
         <source>About &amp;Qt</source>
-        <oldsource>&amp;About Qt</oldsource>
         <translation>O &amp;Qt</translation>
     </message>
 </context>
@@ -224,42 +227,42 @@
 <context>
     <name>TabWidget</name>
     <message>
-        <location filename="../src/tabwidget.cpp" line="62"/>
+        <location filename="../src/tabwidget.cpp" line="78"/>
         <source>new file</source>
         <translation>nowy plik</translation>
     </message>
     <message>
-        <location filename="../src/tabwidget.cpp" line="71"/>
+        <location filename="../src/tabwidget.cpp" line="87"/>
         <source>Select files to open</source>
         <translation>Wybierz pliki do otwarcia</translation>
     </message>
     <message>
-        <location filename="../src/tabwidget.cpp" line="73"/>
+        <location filename="../src/tabwidget.cpp" line="89"/>
         <source>All files(*);;Text file(*.txt)</source>
         <translation>Wszystkie pliki(*);;Plik tekstowy(*.txt)</translation>
     </message>
     <message>
-        <location filename="../src/tabwidget.cpp" line="172"/>
+        <location filename="../src/tabwidget.cpp" line="182"/>
         <source>Menu</source>
         <translation>Menu</translation>
     </message>
     <message>
-        <location filename="../src/tabwidget.cpp" line="191"/>
+        <location filename="../src/tabwidget.cpp" line="201"/>
         <source>Closing tab</source>
         <translation>Zamykanie karty</translation>
     </message>
     <message>
-        <location filename="../src/tabwidget.cpp" line="191"/>
+        <location filename="../src/tabwidget.cpp" line="201"/>
         <source>Would you like to save changes in file</source>
         <translation>Czy chcesz zapisać zmiany w pliku</translation>
     </message>
     <message>
-        <location filename="../src/tabwidget.cpp" line="260"/>
+        <location filename="../src/tabwidget.cpp" line="270"/>
         <source>Closing notepad</source>
         <translation>Zamykanie Notatnika</translation>
     </message>
     <message>
-        <location filename="../src/tabwidget.cpp" line="260"/>
+        <location filename="../src/tabwidget.cpp" line="270"/>
         <source>Would you like to safe chages in files?</source>
         <translation>Czy chcesz zapisać zmiany w plikach?</translation>
     </message>

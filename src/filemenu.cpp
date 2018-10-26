@@ -60,6 +60,12 @@ FileMenu::FileMenu()
 	
 	addSeparator();
 	
+	printAct = new QAction(QIcon::fromTheme("document-print"), tr("&Print"));
+	saveAct->setShortcut(QKeySequence::Print);
+	addAction(printAct);
+	
+	addSeparator();
+	
     closeAct = new QAction(QIcon::fromTheme("window-close"), tr("&Close window"));
     closeAct->setShortcut(QKeySequence::Close);
     addAction(closeAct);
@@ -78,6 +84,7 @@ FileMenu::FileMenu()
     connect(saveAllAct, &QAction::triggered, this, &FileMenu::saveAll);
     connect(saveSessionAct, &QAction::triggered, this, &FileMenu::saveSession);
     connect(openSessionAct, &QAction::triggered, this, &FileMenu::openSession);
+    connect(printAct, &QAction::triggered, this, &FileMenu::print);
     connect(closeAct, &QAction::triggered, this, &FileMenu::closeclick);
     connect(quitAct, &QAction::triggered, this, &FileMenu::quitclick);
 }

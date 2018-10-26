@@ -8,3 +8,5 @@ config
 *.exe
 build-dir
 *.qm
+build
+CMakeFiles

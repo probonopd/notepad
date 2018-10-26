@@ -15,6 +15,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
+#pragma once
 #include <QMenu>
 
 class FileMenu:public QMenu
@@ -33,9 +34,10 @@ signals:
     void saveAll();
     void saveSession();
     void openSession();
+    void print();
     void closeclick();
     void quitclick();
     
 private:
-    QAction *newAct, *newWindowAct, *openAct, *saveAct, *saveasAct, *saveAllAct,*saveSessionAct, *openSessionAct, *closeAct, *quitAct;
+    QAction *newAct, *newWindowAct, *openAct, *saveAct, *saveasAct, *saveAllAct,*saveSessionAct, *openSessionAct, *printAct, *closeAct, *quitAct;
 };
