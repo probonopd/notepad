@@ -38,6 +38,7 @@ public:
     void saveclick();
     void saveas();
     void printClick();
+    void find(QString string);
     bool isEdited() {return edited;};
     QString Url() {return url;};
     QPushButton *button = nullptr;

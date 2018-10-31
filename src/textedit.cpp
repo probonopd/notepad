@@ -36,6 +36,7 @@ bool Textedit::openfile(QString fileurl)
         file.close();
         setDocumentTitle(url.mid(url.lastIndexOf('/')+1));
         edited = false;
+        find("a");
         return true;
      }
      else 
@@ -82,6 +83,22 @@ void Textedit::printClick()
     QPrintPreviewDialog printDialog(&printer);
     connect(&printDialog, &QPrintPreviewDialog::paintRequested, this, &Textedit::paintOnPrinter);
     printDialog.exec();
+}
+void Textedit::find(QString string)
+{
+    int pos = 0;
+    QList<QTextEdit::ExtraSelection> list;
+    for(QTextCursor cursor = document()->find(string, pos);cursor.hasSelection();cursor = document()->find(string, pos))
+    {
+        QTextEdit::ExtraSelection selection;
+        selection.cursor = cursor;
+        QTextCharFormat format;
+        format.setBackground(QBrush(QColor(0xff7e8f48)));
+        selection.format = format;
+        list.append(selection);
+        pos = cursor.position();
+    }
+    setExtraSelections(list);
 }
 void Textedit::onchange()
 {
