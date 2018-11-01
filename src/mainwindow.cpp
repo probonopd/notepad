@@ -19,6 +19,12 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 MainWindow::MainWindow(bool useMenu, bool toolBarEnabled, QFont *font)
 {
+    QStatusBar *statusbar = new QStatusBar();
+    statusbar->addWidget(new QLineEdit(), 1);
+    statusbar->addWidget(new QPushButton());
+    setStatusBar(statusbar);
+    statusbar->hide();
+    
     mainToolBar = addToolBar(tr("Toolbar"));
     
 	tabwidget = new TabWidget(font);
