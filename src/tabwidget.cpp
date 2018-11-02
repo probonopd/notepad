@@ -176,6 +176,11 @@ void TabWidget::setFont(QFont *newFont)
         w->setFont(*font);
     }
 }
+void TabWidget::find(QString text)
+{
+    findEdit = (Textedit*) currentWidget();
+    findEdit->find(text);
+}
 void TabWidget::setMenu(QMenu *menu)
 {
 	if (menu !=  nullptr) {
@@ -245,6 +250,11 @@ void TabWidget::changetabname(Textedit* textedit,  QString newtext, bool edited)
 }
 void TabWidget::onCurrentChange()
 {
+    if(findEdit !=  nullptr)
+    {
+        findEdit->find("");
+        findEdit = nullptr;
+    }
     Textedit* w = (Textedit*) currentWidget(); 
     disconnect(0, 0, this, SLOT(undoAvailable));
     connect(w, &Textedit::undoAvailable, this, &TabWidget::undoAvailable);

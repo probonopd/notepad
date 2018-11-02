@@ -43,6 +43,7 @@ public slots:
     void menu(bool useMenuBar = true);
     void changeToolBarVisibility(bool newValue);
 private slots:
+    void onTabChange(QString newText);
     void closeEvent(QCloseEvent *event);
     
 private:
@@ -54,6 +55,7 @@ private:
 	TabWidget *tabwidget;
 	QToolBar *mainToolBar;
 	void setToolBar(bool useToolBar);
+	QStatusBar *statusbar;
 
 signals:
     void newWindowRequest();

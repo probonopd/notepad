@@ -32,8 +32,8 @@ class TabWidget: public QTabWidget
 Q_OBJECT
 public:
     TabWidget(QFont *font);
-    void setMenu(QMenu *menu=nullptr);
     ~TabWidget();
+    void setMenu(QMenu *menu=nullptr);
     void openFiles(QStringList files);
     void closeEvent(QCloseEvent *event);
     
@@ -52,10 +52,12 @@ public slots:
     void copy();
     void paste();
     void setFont(QFont *newFont);
+    void find(QString text);
 
 private:
     QPushButton *button = nullptr;
     QFont *font=nullptr;
+    Textedit *findEdit = nullptr;
     
 private slots:
     void closetab(int index);

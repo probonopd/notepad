@@ -19,9 +19,13 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 MainWindow::MainWindow(bool useMenu, bool toolBarEnabled, QFont *font)
 {
-    QStatusBar *statusbar = new QStatusBar();
-    statusbar->addWidget(new QLineEdit(), 1);
-    statusbar->addWidget(new QPushButton());
+    statusbar = new QStatusBar();
+    QLineEdit *findLine = new QLineEdit();
+    statusbar->addWidget(findLine, 1);
+    QPushButton *closeButton = new QPushButton(QIcon::fromTheme("window-close"), "", statusbar);
+    closeButton->setFlat(true);
+    closeButton->setShortcut(QKeySequence("Esc"));
+    statusbar->addWidget(closeButton);
     setStatusBar(statusbar);
     statusbar->hide();
     
@@ -29,7 +33,7 @@ MainWindow::MainWindow(bool useMenu, bool toolBarEnabled, QFont *font)
     
 	tabwidget = new TabWidget(font);
 
-    connect(tabwidget,  &TabWidget::currentTextChanged, this,  &QMainWindow::setWindowTitle);
+    connect(tabwidget,  &TabWidget::currentTextChanged, this,  &MainWindow::onTabChange);
     
     fileMenu = new FileMenu();
     editMenu = new EditMenu();
@@ -53,6 +57,7 @@ MainWindow::MainWindow(bool useMenu, bool toolBarEnabled, QFont *font)
     connect(editMenu, &EditMenu::cut, tabwidget, &TabWidget::cut);
     connect(editMenu, &EditMenu::copy, tabwidget, &TabWidget::copy);
     connect(editMenu, &EditMenu::paste, tabwidget, &TabWidget::paste);
+    connect(editMenu, &EditMenu::find, statusbar, &QWidget::show);
 
     connect(setsMenu, &SetsMenu::font, this, &MainWindow::font); 
     connect(setsMenu, &SetsMenu::menuChange, this, &MainWindow::menuChange);
@@ -65,13 +70,15 @@ MainWindow::MainWindow(bool useMenu, bool toolBarEnabled, QFont *font)
     connect(tabwidget,  &TabWidget::copyAvailable, editMenu,  &EditMenu::copyAvailable);
     
     connect(mainToolBar->toggleViewAction(), &QAction::toggled, this, &MainWindow::toolBarChange);
+    connect(this, &MainWindow::fontChanged, tabwidget, &TabWidget::setFont);
+    
+    connect(findLine, &QLineEdit::textChanged, tabwidget, &TabWidget::find);
     
     setToolBar(toolBarEnabled);
     
     setCentralWidget(tabwidget);
     
     menu(useMenu);
-    connect(this, &MainWindow::fontChanged, tabwidget, &TabWidget::setFont);
 }
 void MainWindow::openFiles(QStringList files)
 {
@@ -133,6 +140,11 @@ void MainWindow::changeToolBarVisibility(bool newValue)
         if (current) mainToolBar->hide();
         else mainToolBar->show();
     }
+}
+void MainWindow::onTabChange(QString newText)
+{
+    setWindowTitle(newText);
+    statusbar->hide();
 }
 void MainWindow::closeEvent(QCloseEvent *event)
 {
