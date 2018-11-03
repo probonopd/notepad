@@ -55,6 +55,7 @@ public slots:
     void find(QString text);
 
 private:
+    void removeTab(int index);
     QPushButton *button = nullptr;
     QFont *font=nullptr;
     Textedit *findEdit = nullptr;

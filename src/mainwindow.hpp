@@ -22,14 +22,13 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #include <QMainWindow>
 #include <QMenuBar>
 #include <QToolBar>
-#include <QStatusBar>
-#include <QLineEdit>
 
 #include "filemenu.hpp"
 #include "editmenu.hpp"
 #include "setsmenu.hpp"
 #include "helpmenu.hpp"
 #include "tabwidget.hpp"
+#include "findbar.hpp"
 
 class MainWindow : public QMainWindow
 {
@@ -55,7 +54,7 @@ private:
 	TabWidget *tabwidget;
 	QToolBar *mainToolBar;
 	void setToolBar(bool useToolBar);
-	QStatusBar *statusbar;
+	FindBar *findbar;
 
 signals:
     void newWindowRequest();

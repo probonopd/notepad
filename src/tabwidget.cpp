@@ -181,25 +181,36 @@ void TabWidget::find(QString text)
     findEdit = (Textedit*) currentWidget();
     findEdit->find(text);
 }
+void TabWidget::removeTab(int index)
+{
+    Textedit *w = (Textedit*) widget(index);
+    if (findEdit == w) findEdit = nullptr;
+    delete w;
+}
 void TabWidget::setMenu(QMenu *menu)
 {
 	if (menu !=  nullptr) {
-        	button = new QPushButton(tr("Menu"),this);
-        	button->setMenu(menu);
-        	setCornerWidget(button, Qt::TopLeftCorner);
-        	button->show();
-    	}
+        button = new QPushButton(tr("Menu"),this);
+        button->setMenu(menu);
+        setCornerWidget(button, Qt::TopLeftCorner);
+        button->show();
+    }
 	else{
-            setCornerWidget(0, Qt::TopLeftCorner);
-            if (button != nullptr)
-            {
-                delete button;
-                button = nullptr;
-            }
+        setCornerWidget(0, Qt::TopLeftCorner);
+        if (button != nullptr)
+        {
+            delete button;
+            button = nullptr;
+        }
 	}
 }
 void TabWidget::closetab(int index)
 {
+     if(findEdit !=  nullptr)
+    {
+        findEdit->find("");
+        findEdit = nullptr;
+    }
     Textedit* b = (Textedit*) widget(index);
     if (b->isEdited()) 
     {
@@ -211,20 +222,17 @@ void TabWidget::closetab(int index)
             b->saveclick();
             if (count() == 1) newFileCreate();
             removeTab(index);
-            delete b;
         }
         else if (result == 0x00800000)
         {
             if (count() == 1) newFileCreate();
             removeTab(index);
-            delete b;
         }
     }
     else 
     {
         if (count() == 1) newFileCreate();
         removeTab(index);
-        delete b;
     }
 }
 void TabWidget::changetabname(Textedit* textedit,  QString newtext, bool edited)
@@ -250,11 +258,6 @@ void TabWidget::changetabname(Textedit* textedit,  QString newtext, bool edited)
 }
 void TabWidget::onCurrentChange()
 {
-    if(findEdit !=  nullptr)
-    {
-        findEdit->find("");
-        findEdit = nullptr;
-    }
     Textedit* w = (Textedit*) currentWidget(); 
     disconnect(0, 0, this, SLOT(undoAvailable));
     connect(w, &Textedit::undoAvailable, this, &TabWidget::undoAvailable);
@@ -266,6 +269,11 @@ void TabWidget::onCurrentChange()
     connect(w, &Textedit::copyAvailable, this, &TabWidget::copyAvailable);
     emit copyAvailable(w->isCopyAvailable());
     emit currentTextChanged(w->documentTitle());
+    if(findEdit !=  nullptr)
+    {
+        findEdit->find("");
+        findEdit = nullptr;
+    }
 }
 void TabWidget::closeEvent(QCloseEvent *event)
 {

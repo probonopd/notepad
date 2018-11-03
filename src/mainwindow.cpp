@@ -19,15 +19,8 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 MainWindow::MainWindow(bool useMenu, bool toolBarEnabled, QFont *font)
 {
-    statusbar = new QStatusBar();
-    QLineEdit *findLine = new QLineEdit();
-    statusbar->addWidget(findLine, 1);
-    QPushButton *closeButton = new QPushButton(QIcon::fromTheme("window-close"), "", statusbar);
-    closeButton->setFlat(true);
-    closeButton->setShortcut(QKeySequence("Esc"));
-    statusbar->addWidget(closeButton);
-    setStatusBar(statusbar);
-    statusbar->hide();
+    findbar = new FindBar();
+    setStatusBar(findbar);
     
     mainToolBar = addToolBar(tr("Toolbar"));
     
@@ -57,7 +50,7 @@ MainWindow::MainWindow(bool useMenu, bool toolBarEnabled, QFont *font)
     connect(editMenu, &EditMenu::cut, tabwidget, &TabWidget::cut);
     connect(editMenu, &EditMenu::copy, tabwidget, &TabWidget::copy);
     connect(editMenu, &EditMenu::paste, tabwidget, &TabWidget::paste);
-    connect(editMenu, &EditMenu::find, statusbar, &QWidget::show);
+    connect(editMenu, &EditMenu::find, findbar, &FindBar::show);
 
     connect(setsMenu, &SetsMenu::font, this, &MainWindow::font); 
     connect(setsMenu, &SetsMenu::menuChange, this, &MainWindow::menuChange);
@@ -72,7 +65,7 @@ MainWindow::MainWindow(bool useMenu, bool toolBarEnabled, QFont *font)
     connect(mainToolBar->toggleViewAction(), &QAction::toggled, this, &MainWindow::toolBarChange);
     connect(this, &MainWindow::fontChanged, tabwidget, &TabWidget::setFont);
     
-    connect(findLine, &QLineEdit::textChanged, tabwidget, &TabWidget::find);
+    connect(findbar, &FindBar::find, tabwidget, &TabWidget::find);
     
     setToolBar(toolBarEnabled);
     
@@ -144,7 +137,7 @@ void MainWindow::changeToolBarVisibility(bool newValue)
 void MainWindow::onTabChange(QString newText)
 {
     setWindowTitle(newText);
-    statusbar->hide();
+    findbar->hide();
 }
 void MainWindow::closeEvent(QCloseEvent *event)
 {
