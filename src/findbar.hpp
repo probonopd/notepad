@@ -27,20 +27,15 @@ Q_OBJECT
 public:
     FindBar();
     ~FindBar();
-
-public slots:
-    void show();
-    void hide();
+    QString text() {return textLine->text();};
+    void setText(QString text) {textLine->setText(text);};
 
 private:
-    QLineEdit *textLine = nullptr;
+    QLineEdit *textLine;
     QPushButton *closeButton;
-    QString text;
     
-private slots:
-    void onPress();
-
 signals:
     void find(QString text);
+    void closeClicked();
         
 };

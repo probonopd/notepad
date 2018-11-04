@@ -52,7 +52,7 @@ public slots:
     void copy();
     void paste();
     void setFont(QFont *newFont);
-    void find(QString text);
+    void find();
 
 private:
     void removeTab(int index);

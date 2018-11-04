@@ -19,14 +19,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 FindBar::FindBar()
 {
-    QWidget::hide();
-}
-FindBar::~FindBar()
-{
-}
-void FindBar::show()
-{
-    textLine = new QLineEdit(text);
+    textLine = new QLineEdit();
     addWidget(textLine, 1);
     closeButton = new QPushButton(QIcon::fromTheme("window-close"), "", this);
     closeButton->setFlat(true);
@@ -34,28 +27,9 @@ void FindBar::show()
     addWidget(closeButton);
     
     connect(textLine, &QLineEdit::textChanged, this, &FindBar::find);
-    connect(closeButton, &QPushButton::pressed, this, &FindBar::onPress);
-    
-    emit find(text);
-    
-    QWidget::show();
+    connect(closeButton, &QPushButton::pressed, this, &FindBar::closeClicked);
 }
-void FindBar::hide()
+FindBar::~FindBar()
 {
-    if (textLine != nullptr)
-    {
-        text = textLine->text();
-        
-        delete textLine;
-        textLine = nullptr;
-        
-        delete closeButton;
-        
-        QWidget::hide();
-    }
-}
-void FindBar::onPress()
-{
-    emit find(textLine->text());
-    hide();
+    delete textLine, closeButton;
 }

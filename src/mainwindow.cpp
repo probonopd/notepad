@@ -19,14 +19,11 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 MainWindow::MainWindow(bool useMenu, bool toolBarEnabled, QFont *font)
 {
-    findbar = new FindBar();
-    setStatusBar(findbar);
-    
     mainToolBar = addToolBar(tr("Toolbar"));
     
 	tabwidget = new TabWidget(font);
 
-    connect(tabwidget,  &TabWidget::currentTextChanged, this,  &MainWindow::onTabChange);
+    connect(tabwidget,  &TabWidget::currentTextChanged, this,  &MainWindow::setWindowTitle);
     
     fileMenu = new FileMenu();
     editMenu = new EditMenu();
@@ -50,7 +47,7 @@ MainWindow::MainWindow(bool useMenu, bool toolBarEnabled, QFont *font)
     connect(editMenu, &EditMenu::cut, tabwidget, &TabWidget::cut);
     connect(editMenu, &EditMenu::copy, tabwidget, &TabWidget::copy);
     connect(editMenu, &EditMenu::paste, tabwidget, &TabWidget::paste);
-    connect(editMenu, &EditMenu::find, findbar, &FindBar::show);
+    connect(editMenu, &EditMenu::find, tabwidget, &TabWidget::find);
 
     connect(setsMenu, &SetsMenu::font, this, &MainWindow::font); 
     connect(setsMenu, &SetsMenu::menuChange, this, &MainWindow::menuChange);
@@ -64,8 +61,6 @@ MainWindow::MainWindow(bool useMenu, bool toolBarEnabled, QFont *font)
     
     connect(mainToolBar->toggleViewAction(), &QAction::toggled, this, &MainWindow::toolBarChange);
     connect(this, &MainWindow::fontChanged, tabwidget, &TabWidget::setFont);
-    
-    connect(findbar, &FindBar::find, tabwidget, &TabWidget::find);
     
     setToolBar(toolBarEnabled);
     
@@ -133,11 +128,6 @@ void MainWindow::changeToolBarVisibility(bool newValue)
         if (current) mainToolBar->hide();
         else mainToolBar->show();
     }
-}
-void MainWindow::onTabChange(QString newText)
-{
-    setWindowTitle(newText);
-    findbar->hide();
 }
 void MainWindow::closeEvent(QCloseEvent *event)
 {

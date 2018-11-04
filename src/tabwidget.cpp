@@ -176,10 +176,10 @@ void TabWidget::setFont(QFont *newFont)
         w->setFont(*font);
     }
 }
-void TabWidget::find(QString text)
+void TabWidget::find()
 {
-    findEdit = (Textedit*) currentWidget();
-    findEdit->find(text);
+    Textedit *w = (Textedit*) currentWidget();
+    w->openFindBar();
 }
 void TabWidget::removeTab(int index)
 {

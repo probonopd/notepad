@@ -19,11 +19,15 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 Textedit::Textedit()
 {
-    connect(this, &QPlainTextEdit::textChanged, this, &Textedit::onchange);
-    connect(this, &QPlainTextEdit::undoAvailable, this, &Textedit::setUndo);
-    connect(this, &QPlainTextEdit::redoAvailable, this, &Textedit::setRedo);
-    connect(this, &QPlainTextEdit::copyAvailable, this, &Textedit::setCopy);
-    setDocumentTitle(tr("new file"));
+    connect(&textedit, &QPlainTextEdit::textChanged, this, &Textedit::onchange);
+    connect(&textedit, &QPlainTextEdit::undoAvailable, this, &Textedit::setUndo);
+    connect(&textedit, &QPlainTextEdit::redoAvailable, this, &Textedit::setRedo);
+    connect(&textedit, &QPlainTextEdit::copyAvailable, this, &Textedit::setCopy);
+    connect(&textedit, &QPlainTextEdit::undoAvailable, this, &Textedit::undoAvailable);
+    connect(&textedit, &QPlainTextEdit::redoAvailable, this, &Textedit::redoAvailable);
+    connect(&textedit, &QPlainTextEdit::copyAvailable, this, &Textedit::copyAvailable);
+    textedit.setDocumentTitle(tr("new file"));
+    setCentralWidget(&textedit);
 }
 bool Textedit::openfile(QString fileurl)
 {
@@ -32,11 +36,10 @@ bool Textedit::openfile(QString fileurl)
     if (file.open(QIODevice::ReadOnly | QIODevice::Text))
      {
         QTextStream stream(&file);
-        setPlainText(stream.readAll());
+        textedit.setPlainText(stream.readAll());
         file.close();
-        setDocumentTitle(url.mid(url.lastIndexOf('/')+1));
+        textedit.setDocumentTitle(url.mid(url.lastIndexOf('/')+1));
         edited = false;
-        find("a");
         return true;
      }
      else 
@@ -44,6 +47,10 @@ bool Textedit::openfile(QString fileurl)
          qDebug() << tr("Failed to open file ") << url;
          return false;
      }
+}
+QString Textedit::documentTitle()
+{
+    return textedit.documentTitle();
 }
 void Textedit::saveclick()
 {
@@ -62,10 +69,10 @@ void Textedit::save()
     if (file.open(QIODevice::WriteOnly | QIODevice::Text))
     {
             QTextStream stream(&file);
-            stream<<toPlainText();
+            stream<<textedit.toPlainText();
             file.close();
             edited = false;
-            setDocumentTitle(url.mid(url.lastIndexOf('/')+1));
+            textedit.setDocumentTitle(url.mid(url.lastIndexOf('/')+1));
             emit tabtextchange(this,  documentTitle(), false);
             if (button != nullptr) 
             {
@@ -84,11 +91,29 @@ void Textedit::printClick()
     connect(&printDialog, &QPrintPreviewDialog::paintRequested, this, &Textedit::paintOnPrinter);
     printDialog.exec();
 }
+void Textedit::openFindBar()
+{
+    if (findBar == nullptr)
+    {
+        findBar = new FindBar();
+        setStatusBar(findBar);
+        connect(findBar, &FindBar::find, this, &Textedit::find);
+        connect(findBar, &FindBar::closeClicked, this, &Textedit::closeFindBar);
+        findBar->setText(findText);
+    }
+}
+void Textedit::closeFindBar()
+{
+    findText = findBar->text();
+    delete findBar;
+    findBar = nullptr;
+    find("");
+}
 void Textedit::find(QString string)
 {
     int pos = 0;
     QList<QTextEdit::ExtraSelection> list;
-    for(QTextCursor cursor = document()->find(string, pos);cursor.hasSelection();cursor = document()->find(string, pos))
+    for(QTextCursor cursor = textedit.document()->find(string, pos);cursor.hasSelection();cursor = textedit.document()->find(string, pos))
     {
         QTextEdit::ExtraSelection selection;
         selection.cursor = cursor;
@@ -98,7 +123,7 @@ void Textedit::find(QString string)
         list.append(selection);
         pos = cursor.position();
     }
-    setExtraSelections(list);
+    textedit.setExtraSelections(list);
 }
 void Textedit::onchange()
 {
@@ -122,7 +147,7 @@ void Textedit::paintOnPrinter(QPrinter *printer)
     QPainter painter(printer);
     painter.setPen(Qt::black);
     painter.setFont(font());
-    QString text = toPlainText();
+    QString text = textedit.toPlainText();
     QTextStream stream(&text);
     int linesOnPage = floor(printer->pageRect(QPrinter::Point).height()/(font().pointSizeF()+1.7));
     bool notAllPainted = true;
