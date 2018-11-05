@@ -21,7 +21,7 @@ MainWindow::MainWindow(bool useMenu, bool toolBarEnabled, QFont *font)
 {
     mainToolBar = addToolBar(tr("Toolbar"));
     
-	tabwidget = new TabWidget(font);
+	tabwidget = new TabWidget(this, font);
 
     connect(tabwidget,  &TabWidget::currentTextChanged, this,  &MainWindow::setWindowTitle);
     

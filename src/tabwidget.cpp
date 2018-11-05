@@ -19,8 +19,10 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 #include <QApplication>
 
-TabWidget::TabWidget(QFont *font)
+TabWidget::TabWidget(QWidget *parent, QFont *font)
+  : QTabWidget::QTabWidget(parent)
 {
+    setFocus();
     connect(this, &QTabWidget::tabCloseRequested, this, &TabWidget::closetab); 
     connect(this, &QTabWidget::currentChanged, this, &TabWidget::onCurrentChange);
     setTabsClosable(true);
@@ -49,7 +51,7 @@ TabWidget::~TabWidget()
         }
         if(!alreadyOpen)
         {
-            w = new Textedit();
+            w = new Textedit(this);
             if(w->openfile(files.at(i)))
             {
                 addTab(w,w->documentTitle());
@@ -74,7 +76,7 @@ TabWidget::~TabWidget()
 }
 void TabWidget::newFileCreate()
 {
-    Textedit *w = new Textedit();
+    Textedit *w = new Textedit(this);
     addTab(w,tr("new file"));
     connect(w, &Textedit::tabtextchange, this, &TabWidget::changetabname);
     setCurrentWidget(w);

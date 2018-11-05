@@ -17,8 +17,10 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 #include "textedit.hpp"
 
-Textedit::Textedit()
+Textedit::Textedit(QWidget *parent)
+  : QMainWindow::QMainWindow(parent)
 {
+    setFocus();
     connect(&textedit, &QPlainTextEdit::textChanged, this, &Textedit::onchange);
     connect(&textedit, &QPlainTextEdit::undoAvailable, this, &Textedit::setUndo);
     connect(&textedit, &QPlainTextEdit::redoAvailable, this, &Textedit::setRedo);

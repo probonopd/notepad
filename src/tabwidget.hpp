@@ -31,7 +31,7 @@ class TabWidget: public QTabWidget
 {
 Q_OBJECT
 public:
-    TabWidget(QFont *font);
+    TabWidget(QWidget *parent, QFont *font);
     ~TabWidget();
     void setMenu(QMenu *menu=nullptr);
     void openFiles(QStringList files);

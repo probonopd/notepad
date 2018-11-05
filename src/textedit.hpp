@@ -35,7 +35,7 @@ class Textedit : public QMainWindow
 {
 Q_OBJECT
 public:
-	Textedit();
+	Textedit(QWidget *parent);
 	~Textedit();
     bool openfile(QString fileurl);
     QString documentTitle();
