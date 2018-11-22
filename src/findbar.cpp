@@ -16,10 +16,11 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 #include "findbar.hpp"
+#include <QTimer>
 
 FindBar::FindBar()
 {
-    textLine = new QLineEdit();
+    textLine = new QLineEdit(this);
     addWidget(textLine, 1);
     closeButton = new QPushButton(QIcon::fromTheme("window-close"), "", this);
     closeButton->setFlat(true);
@@ -28,6 +29,7 @@ FindBar::FindBar()
     
     connect(textLine, &QLineEdit::textChanged, this, &FindBar::find);
     connect(closeButton, &QPushButton::pressed, this, &FindBar::closeClicked);
+    QTimer::singleShot(0, textLine, SLOT(setFocus()));
 }
 FindBar::~FindBar()
 {

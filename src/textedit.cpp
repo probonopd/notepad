@@ -20,16 +20,17 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 Textedit::Textedit(QWidget *parent)
   : QMainWindow::QMainWindow(parent)
 {
-    setFocus();
-    connect(&textedit, &QPlainTextEdit::textChanged, this, &Textedit::onchange);
-    connect(&textedit, &QPlainTextEdit::undoAvailable, this, &Textedit::setUndo);
-    connect(&textedit, &QPlainTextEdit::redoAvailable, this, &Textedit::setRedo);
-    connect(&textedit, &QPlainTextEdit::copyAvailable, this, &Textedit::setCopy);
-    connect(&textedit, &QPlainTextEdit::undoAvailable, this, &Textedit::undoAvailable);
-    connect(&textedit, &QPlainTextEdit::redoAvailable, this, &Textedit::redoAvailable);
-    connect(&textedit, &QPlainTextEdit::copyAvailable, this, &Textedit::copyAvailable);
-    textedit.setDocumentTitle(tr("new file"));
-    setCentralWidget(&textedit);
+    textedit = new QPlainTextEdit(this);
+    connect(textedit, &QPlainTextEdit::textChanged, this, &Textedit::onchange);
+    connect(textedit, &QPlainTextEdit::undoAvailable, this, &Textedit::setUndo);
+    connect(textedit, &QPlainTextEdit::redoAvailable, this, &Textedit::setRedo);
+    connect(textedit, &QPlainTextEdit::copyAvailable, this, &Textedit::setCopy);
+    connect(textedit, &QPlainTextEdit::undoAvailable, this, &Textedit::undoAvailable);
+    connect(textedit, &QPlainTextEdit::redoAvailable, this, &Textedit::redoAvailable);
+    connect(textedit, &QPlainTextEdit::copyAvailable, this, &Textedit::copyAvailable);
+    textedit->setDocumentTitle(tr("new file"));
+    setCentralWidget(textedit);
+    QTimer::singleShot(0, textedit, SLOT(setFocus()));
 }
 bool Textedit::openfile(QString fileurl)
 {
@@ -38,9 +39,9 @@ bool Textedit::openfile(QString fileurl)
     if (file.open(QIODevice::ReadOnly | QIODevice::Text))
      {
         QTextStream stream(&file);
-        textedit.setPlainText(stream.readAll());
+        textedit->setPlainText(stream.readAll());
         file.close();
-        textedit.setDocumentTitle(url.mid(url.lastIndexOf('/')+1));
+        textedit->setDocumentTitle(url.mid(url.lastIndexOf('/')+1));
         edited = false;
         return true;
      }
@@ -52,7 +53,7 @@ bool Textedit::openfile(QString fileurl)
 }
 QString Textedit::documentTitle()
 {
-    return textedit.documentTitle();
+    return textedit->documentTitle();
 }
 void Textedit::saveclick()
 {
@@ -71,10 +72,10 @@ void Textedit::save()
     if (file.open(QIODevice::WriteOnly | QIODevice::Text))
     {
             QTextStream stream(&file);
-            stream<<textedit.toPlainText();
+            stream<<textedit->toPlainText();
             file.close();
             edited = false;
-            textedit.setDocumentTitle(url.mid(url.lastIndexOf('/')+1));
+            textedit->setDocumentTitle(url.mid(url.lastIndexOf('/')+1));
             emit tabtextchange(this,  documentTitle(), false);
             if (button != nullptr) 
             {
@@ -115,7 +116,7 @@ void Textedit::find(QString string)
 {
     int pos = 0;
     QList<QTextEdit::ExtraSelection> list;
-    for(QTextCursor cursor = textedit.document()->find(string, pos);cursor.hasSelection();cursor = textedit.document()->find(string, pos))
+    for(QTextCursor cursor = textedit->document()->find(string, pos);cursor.hasSelection();cursor = textedit->document()->find(string, pos))
     {
         QTextEdit::ExtraSelection selection;
         selection.cursor = cursor;
@@ -125,7 +126,7 @@ void Textedit::find(QString string)
         list.append(selection);
         pos = cursor.position();
     }
-    textedit.setExtraSelections(list);
+    textedit->setExtraSelections(list);
 }
 void Textedit::onchange()
 {
@@ -149,7 +150,7 @@ void Textedit::paintOnPrinter(QPrinter *printer)
     QPainter painter(printer);
     painter.setPen(Qt::black);
     painter.setFont(font());
-    QString text = textedit.toPlainText();
+    QString text = textedit->toPlainText();
     QTextStream stream(&text);
     int linesOnPage = floor(printer->pageRect(QPrinter::Point).height()/(font().pointSizeF()+1.7));
     bool notAllPainted = true;
@@ -172,4 +173,5 @@ void Textedit::paintOnPrinter(QPrinter *printer)
 Textedit::~Textedit()
 {
     if (button != nullptr) delete button;
+    delete textedit;
 }

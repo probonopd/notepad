@@ -28,6 +28,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #include <QPainter>
 #include <QMainWindow>
 #include <cmath>
+#include <QTimer>
 
 #include "findbar.hpp"
 
@@ -50,13 +51,13 @@ public:
     bool isUndoAvailable(){return canUndo;};
     bool isRedoAvailable(){return canRedo;};
     bool isCopyAvailable(){return canCopy;}; 
-    void undo() {textedit.undo();};
-    void redo() {textedit.redo();};
-    void paste() {textedit.paste();};
-    void copy() {textedit.copy();};
-    void cut() {textedit.cut();};
+    void undo() {textedit->undo();};
+    void redo() {textedit->redo();};
+    void paste() {textedit->paste();};
+    void copy() {textedit->copy();};
+    void cut() {textedit->cut();};
 private:
-    QPlainTextEdit textedit;
+    QPlainTextEdit *textedit;
     FindBar *findBar = nullptr;
     QString findText;
     QString url;

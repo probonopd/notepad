@@ -16,6 +16,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 #include "mainwindow.hpp"
+#include <QVBoxLayout>
 
 MainWindow::MainWindow(bool useMenu, bool toolBarEnabled, QFont *font)
 {
@@ -74,7 +75,7 @@ void MainWindow::openFiles(QStringList files)
 }
 void MainWindow::menu(bool useMenuBar)
 {
-	if(useMenuBar)
+    if(useMenuBar)
 	{
         menubar = new QMenuBar();
         menubar -> addMenu(fileMenu);

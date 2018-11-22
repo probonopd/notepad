@@ -22,7 +22,6 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 TabWidget::TabWidget(QWidget *parent, QFont *font)
   : QTabWidget::QTabWidget(parent)
 {
-    setFocus();
     connect(this, &QTabWidget::tabCloseRequested, this, &TabWidget::closetab); 
     connect(this, &QTabWidget::currentChanged, this, &TabWidget::onCurrentChange);
     setTabsClosable(true);
