@@ -73,4 +73,5 @@ void EditMenu::copyAvailable(bool available)
 }
 EditMenu::~EditMenu()
 {
+    delete undoAct, redoAct, cutAct, copyAct, pasteAct, findAct;
 }

@@ -36,4 +36,5 @@ SetsMenu::SetsMenu(bool menuChecked, QAction *toolBarAct)
 }
 SetsMenu::~SetsMenu()
 {
+    delete fontAct, menuAct;
 }

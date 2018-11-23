@@ -57,8 +57,8 @@ public slots:
 private:
     void removeTab(int index);
     QPushButton *button = nullptr;
+    QMenu *menu = nullptr;
     QFont *font=nullptr;
-    Textedit *findEdit = nullptr;
     
 private slots:
     void closetab(int index);

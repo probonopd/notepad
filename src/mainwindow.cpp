@@ -136,4 +136,6 @@ void MainWindow::closeEvent(QCloseEvent *event)
 }
 MainWindow::~MainWindow()
 {
+    if (menubar != nullptr) delete menubar;
+    delete fileMenu, editMenu, setsMenu, helpMenu, mainToolBar, tabwidget;
 }

@@ -173,5 +173,6 @@ void Textedit::paintOnPrinter(QPrinter *printer)
 Textedit::~Textedit()
 {
     if (button != nullptr) delete button;
+    if (findBar != nullptr) delete findBar;
     delete textedit;
 }

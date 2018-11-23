@@ -32,6 +32,8 @@ TabWidget::TabWidget(QWidget *parent, QFont *font)
 }
 TabWidget::~TabWidget()
 {
+    if (button != nullptr)
+        delete button, menu;
 }
  void TabWidget::openFiles(QStringList files)
 {
@@ -185,12 +187,12 @@ void TabWidget::find()
 void TabWidget::removeTab(int index)
 {
     Textedit *w = (Textedit*) widget(index);
-    if (findEdit == w) findEdit = nullptr;
     delete w;
 }
 void TabWidget::setMenu(QMenu *menu)
 {
 	if (menu !=  nullptr) {
+        this->menu = menu;
         button = new QPushButton(tr("Menu"),this);
         button->setMenu(menu);
         setCornerWidget(button, Qt::TopLeftCorner);
@@ -207,11 +209,6 @@ void TabWidget::setMenu(QMenu *menu)
 }
 void TabWidget::closetab(int index)
 {
-     if(findEdit !=  nullptr)
-    {
-        findEdit->find("");
-        findEdit = nullptr;
-    }
     Textedit* b = (Textedit*) widget(index);
     if (b->isEdited()) 
     {
@@ -270,11 +267,6 @@ void TabWidget::onCurrentChange()
     connect(w, &Textedit::copyAvailable, this, &TabWidget::copyAvailable);
     emit copyAvailable(w->isCopyAvailable());
     emit currentTextChanged(w->documentTitle());
-    if(findEdit !=  nullptr)
-    {
-        findEdit->find("");
-        findEdit = nullptr;
-    }
 }
 void TabWidget::closeEvent(QCloseEvent *event)
 {
