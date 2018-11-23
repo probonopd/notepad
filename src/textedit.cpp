@@ -121,7 +121,8 @@ void Textedit::find(QString string)
         QTextEdit::ExtraSelection selection;
         selection.cursor = cursor;
         QTextCharFormat format;
-        format.setBackground(QBrush(QColor(0xff7e8f48)));
+        format.setBackground(this->palette().brush(QPalette::Text));
+        format.setForeground(this->palette().brush(QPalette::Window));
         selection.format = format;
         list.append(selection);
         pos = cursor.position();
