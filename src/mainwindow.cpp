@@ -16,14 +16,15 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 #include "mainwindow.hpp"
+#include <QVBoxLayout>
 
 MainWindow::MainWindow(bool useMenu, bool toolBarEnabled, QFont *font)
 {
     mainToolBar = addToolBar(tr("Toolbar"));
     
-	tabwidget = new TabWidget(font);
+	tabwidget = new TabWidget(this, font);
 
-    connect(tabwidget,  &TabWidget::currentTextChanged, this,  &QMainWindow::setWindowTitle);
+    connect(tabwidget,  &TabWidget::currentTextChanged, this,  &MainWindow::setWindowTitle);
     
     fileMenu = new FileMenu();
     editMenu = new EditMenu();
@@ -47,6 +48,7 @@ MainWindow::MainWindow(bool useMenu, bool toolBarEnabled, QFont *font)
     connect(editMenu, &EditMenu::cut, tabwidget, &TabWidget::cut);
     connect(editMenu, &EditMenu::copy, tabwidget, &TabWidget::copy);
     connect(editMenu, &EditMenu::paste, tabwidget, &TabWidget::paste);
+    connect(editMenu, &EditMenu::find, tabwidget, &TabWidget::find);
 
     connect(setsMenu, &SetsMenu::font, this, &MainWindow::font); 
     connect(setsMenu, &SetsMenu::menuChange, this, &MainWindow::menuChange);
@@ -59,13 +61,13 @@ MainWindow::MainWindow(bool useMenu, bool toolBarEnabled, QFont *font)
     connect(tabwidget,  &TabWidget::copyAvailable, editMenu,  &EditMenu::copyAvailable);
     
     connect(mainToolBar->toggleViewAction(), &QAction::toggled, this, &MainWindow::toolBarChange);
+    connect(this, &MainWindow::fontChanged, tabwidget, &TabWidget::setFont);
     
     setToolBar(toolBarEnabled);
     
     setCentralWidget(tabwidget);
     
     menu(useMenu);
-    connect(this, &MainWindow::fontChanged, tabwidget, &TabWidget::setFont);
 }
 void MainWindow::openFiles(QStringList files)
 {
@@ -73,7 +75,7 @@ void MainWindow::openFiles(QStringList files)
 }
 void MainWindow::menu(bool useMenuBar)
 {
-	if(useMenuBar)
+    if(useMenuBar)
 	{
         menubar = new QMenuBar();
         menubar -> addMenu(fileMenu);
@@ -134,4 +136,6 @@ void MainWindow::closeEvent(QCloseEvent *event)
 }
 MainWindow::~MainWindow()
 {
+    if (menubar != nullptr) delete menubar;
+    delete fileMenu, editMenu, setsMenu, helpMenu, mainToolBar, tabwidget;
 }

@@ -32,4 +32,5 @@ HelpMenu::HelpMenu()
 }
 HelpMenu::~HelpMenu()
 {
+    delete aboutAct, aboutQtAct;
 }

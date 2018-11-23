@@ -15,26 +15,27 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
-#include "setsmenu.hpp"
+#pragma once
+#include <QStatusBar>
+#include <QLineEdit>
+#include <QPushButton>
 
-SetsMenu::SetsMenu(bool menuChecked, QAction *toolBarAct)
+class FindBar : public QStatusBar
 {
-    setTitle(tr("&Settings"));
+Q_OBJECT
+
+public:
+    FindBar();
+    ~FindBar();
+    QString text() {return textLine->text();};
+    void setText(QString text) {textLine->setText(text);};
+
+private:
+    QLineEdit *textLine;
+    QPushButton *closeButton;
+    
+signals:
+    void find(QString text);
+    void closeClicked();
         
-    fontAct = new QAction(QIcon::fromTheme("font-select-symbolic"), tr("&Font"));
-	addAction(fontAct);
-	
-	menuAct = new QAction(tr("&Menu bar"));
-	menuAct->setCheckable(true);
-	menuAct->setChecked(menuChecked);
-	addAction(menuAct);
-	
-	addAction(toolBarAct);
-	
-	connect(fontAct, &QAction::triggered, this, &SetsMenu::font);
-	connect(menuAct, &QAction::toggled, this, &SetsMenu::menuChange);
-}
-SetsMenu::~SetsMenu()
-{
-    delete fontAct, menuAct;
-}
+};

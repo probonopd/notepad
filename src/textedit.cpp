@@ -17,13 +17,20 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 #include "textedit.hpp"
 
-Textedit::Textedit()
+Textedit::Textedit(QWidget *parent)
+  : QMainWindow::QMainWindow(parent)
 {
-    connect(this, &QPlainTextEdit::textChanged, this, &Textedit::onchange);
-    connect(this, &QPlainTextEdit::undoAvailable, this, &Textedit::setUndo);
-    connect(this, &QPlainTextEdit::redoAvailable, this, &Textedit::setRedo);
-    connect(this, &QPlainTextEdit::copyAvailable, this, &Textedit::setCopy);
-    setDocumentTitle(tr("new file"));
+    textedit = new QPlainTextEdit(this);
+    connect(textedit, &QPlainTextEdit::textChanged, this, &Textedit::onchange);
+    connect(textedit, &QPlainTextEdit::undoAvailable, this, &Textedit::setUndo);
+    connect(textedit, &QPlainTextEdit::redoAvailable, this, &Textedit::setRedo);
+    connect(textedit, &QPlainTextEdit::copyAvailable, this, &Textedit::setCopy);
+    connect(textedit, &QPlainTextEdit::undoAvailable, this, &Textedit::undoAvailable);
+    connect(textedit, &QPlainTextEdit::redoAvailable, this, &Textedit::redoAvailable);
+    connect(textedit, &QPlainTextEdit::copyAvailable, this, &Textedit::copyAvailable);
+    textedit->setDocumentTitle(tr("new file"));
+    setCentralWidget(textedit);
+    QTimer::singleShot(0, textedit, SLOT(setFocus()));
 }
 bool Textedit::openfile(QString fileurl)
 {
@@ -32,9 +39,9 @@ bool Textedit::openfile(QString fileurl)
     if (file.open(QIODevice::ReadOnly | QIODevice::Text))
      {
         QTextStream stream(&file);
-        setPlainText(stream.readAll());
+        textedit->setPlainText(stream.readAll());
         file.close();
-        setDocumentTitle(url.mid(url.lastIndexOf('/')+1));
+        textedit->setDocumentTitle(url.mid(url.lastIndexOf('/')+1));
         edited = false;
         return true;
      }
@@ -43,6 +50,10 @@ bool Textedit::openfile(QString fileurl)
          qDebug() << tr("Failed to open file ") << url;
          return false;
      }
+}
+QString Textedit::documentTitle()
+{
+    return textedit->documentTitle();
 }
 void Textedit::saveclick()
 {
@@ -61,10 +72,10 @@ void Textedit::save()
     if (file.open(QIODevice::WriteOnly | QIODevice::Text))
     {
             QTextStream stream(&file);
-            stream<<toPlainText();
+            stream<<textedit->toPlainText();
             file.close();
             edited = false;
-            setDocumentTitle(url.mid(url.lastIndexOf('/')+1));
+            textedit->setDocumentTitle(url.mid(url.lastIndexOf('/')+1));
             emit tabtextchange(this,  documentTitle(), false);
             if (button != nullptr) 
             {
@@ -82,6 +93,41 @@ void Textedit::printClick()
     QPrintPreviewDialog printDialog(&printer);
     connect(&printDialog, &QPrintPreviewDialog::paintRequested, this, &Textedit::paintOnPrinter);
     printDialog.exec();
+}
+void Textedit::openFindBar()
+{
+    if (findBar == nullptr)
+    {
+        findBar = new FindBar();
+        setStatusBar(findBar);
+        connect(findBar, &FindBar::find, this, &Textedit::find);
+        connect(findBar, &FindBar::closeClicked, this, &Textedit::closeFindBar);
+        findBar->setText(findText);
+    }
+    else QTimer::singleShot(0, findBar, SLOT(setFocus()));
+}
+void Textedit::closeFindBar()
+{
+    findText = findBar->text();
+    find("");
+    QTimer::singleShot(0, [this]{delete findBar, findBar = nullptr;});
+}
+void Textedit::find(QString string)
+{
+    int pos = 0;
+    QList<QTextEdit::ExtraSelection> list;
+    for(QTextCursor cursor = textedit->document()->find(string, pos);cursor.hasSelection();cursor = textedit->document()->find(string, pos))
+    {
+        QTextEdit::ExtraSelection selection;
+        selection.cursor = cursor;
+        QTextCharFormat format;
+        format.setBackground(this->palette().brush(QPalette::Text));
+        format.setForeground(this->palette().brush(QPalette::Window));
+        selection.format = format;
+        list.append(selection);
+        pos = cursor.position();
+    }
+    textedit->setExtraSelections(list);
 }
 void Textedit::onchange()
 {
@@ -105,7 +151,7 @@ void Textedit::paintOnPrinter(QPrinter *printer)
     QPainter painter(printer);
     painter.setPen(Qt::black);
     painter.setFont(font());
-    QString text = toPlainText();
+    QString text = textedit->toPlainText();
     QTextStream stream(&text);
     int linesOnPage = floor(printer->pageRect(QPrinter::Point).height()/(font().pointSizeF()+1.7));
     bool notAllPainted = true;
@@ -128,4 +174,6 @@ void Textedit::paintOnPrinter(QPrinter *printer)
 Textedit::~Textedit()
 {
     if (button != nullptr) delete button;
+    if (findBar != nullptr) delete findBar;
+    delete textedit;
 }

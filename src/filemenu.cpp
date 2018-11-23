@@ -90,4 +90,5 @@ FileMenu::FileMenu()
 }
 FileMenu::~FileMenu()
 {
+    delete newAct, newWindowAct, openAct, saveAct, saveasAct, saveAllAct, saveSessionAct, openSessionAct, printAct, closeAct, quitAct;
 }

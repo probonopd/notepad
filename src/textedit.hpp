@@ -26,25 +26,40 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #include <QPrintPreviewDialog>
 #include <QPrinter>
 #include <QPainter>
+#include <QMainWindow>
 #include <cmath>
+#include <QTimer>
 
-class Textedit : public QPlainTextEdit
+#include "findbar.hpp"
+
+class Textedit : public QMainWindow
 {
 Q_OBJECT
 public:
-	Textedit();
+	Textedit(QWidget *parent);
 	~Textedit();
     bool openfile(QString fileurl);
+    QString documentTitle();
     void saveclick();
     void saveas();
     void printClick();
+    void openFindBar();
+    void find(QString string);
     bool isEdited() {return edited;};
     QString Url() {return url;};
     QPushButton *button = nullptr;
     bool isUndoAvailable(){return canUndo;};
     bool isRedoAvailable(){return canRedo;};
-    bool isCopyAvailable(){return canCopy;};
+    bool isCopyAvailable(){return canCopy;}; 
+    void undo() {textedit->undo();};
+    void redo() {textedit->redo();};
+    void paste() {textedit->paste();};
+    void copy() {textedit->copy();};
+    void cut() {textedit->cut();};
 private:
+    QPlainTextEdit *textedit;
+    FindBar *findBar = nullptr;
+    QString findText;
     QString url;
     bool edited = false;
     void save();
@@ -52,6 +67,7 @@ private:
     bool canRedo=false;
     bool canCopy=false;
 private slots:
+    void closeFindBar();
     void onchange();
     void setUndo(bool available);
     void setRedo(bool available);
@@ -59,6 +75,9 @@ private slots:
     void paintOnPrinter(QPrinter *printer);
 signals:
     void tabtextchange(Textedit *textedit,  QString newtext,  bool edited);
+    void undoAvailable(bool value);
+    void redoAvailable(bool value);
+    void copyAvailable(bool value);
 };
 
 #endif // TEXTEDIT_HPP

@@ -19,7 +19,8 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 #include <QApplication>
 
-TabWidget::TabWidget(QFont *font)
+TabWidget::TabWidget(QWidget *parent, QFont *font)
+  : QTabWidget::QTabWidget(parent)
 {
     connect(this, &QTabWidget::tabCloseRequested, this, &TabWidget::closetab); 
     connect(this, &QTabWidget::currentChanged, this, &TabWidget::onCurrentChange);
@@ -31,6 +32,8 @@ TabWidget::TabWidget(QFont *font)
 }
 TabWidget::~TabWidget()
 {
+    if (button != nullptr)
+        delete button, menu;
 }
  void TabWidget::openFiles(QStringList files)
 {
@@ -49,7 +52,7 @@ TabWidget::~TabWidget()
         }
         if(!alreadyOpen)
         {
-            w = new Textedit();
+            w = new Textedit(this);
             if(w->openfile(files.at(i)))
             {
                 addTab(w,w->documentTitle());
@@ -74,7 +77,7 @@ TabWidget::~TabWidget()
 }
 void TabWidget::newFileCreate()
 {
-    Textedit *w = new Textedit();
+    Textedit *w = new Textedit(this);
     addTab(w,tr("new file"));
     connect(w, &Textedit::tabtextchange, this, &TabWidget::changetabname);
     setCurrentWidget(w);
@@ -176,21 +179,32 @@ void TabWidget::setFont(QFont *newFont)
         w->setFont(*font);
     }
 }
+void TabWidget::find()
+{
+    Textedit *w = (Textedit*) currentWidget();
+    w->openFindBar();
+}
+void TabWidget::removeTab(int index)
+{
+    Textedit *w = (Textedit*) widget(index);
+    delete w;
+}
 void TabWidget::setMenu(QMenu *menu)
 {
 	if (menu !=  nullptr) {
-        	button = new QPushButton(tr("Menu"),this);
-        	button->setMenu(menu);
-        	setCornerWidget(button, Qt::TopLeftCorner);
-        	button->show();
-    	}
+        this->menu = menu;
+        button = new QPushButton(tr("Menu"),this);
+        button->setMenu(menu);
+        setCornerWidget(button, Qt::TopLeftCorner);
+        button->show();
+    }
 	else{
-            setCornerWidget(0, Qt::TopLeftCorner);
-            if (button != nullptr)
-            {
-                delete button;
-                button = nullptr;
-            }
+        setCornerWidget(0, Qt::TopLeftCorner);
+        if (button != nullptr)
+        {
+            delete button;
+            button = nullptr;
+        }
 	}
 }
 void TabWidget::closetab(int index)
@@ -206,20 +220,17 @@ void TabWidget::closetab(int index)
             b->saveclick();
             if (count() == 1) newFileCreate();
             removeTab(index);
-            delete b;
         }
         else if (result == 0x00800000)
         {
             if (count() == 1) newFileCreate();
             removeTab(index);
-            delete b;
         }
     }
     else 
     {
         if (count() == 1) newFileCreate();
         removeTab(index);
-        delete b;
     }
 }
 void TabWidget::changetabname(Textedit* textedit,  QString newtext, bool edited)

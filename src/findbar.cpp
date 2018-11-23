@@ -15,26 +15,24 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
-#include "setsmenu.hpp"
+#include "findbar.hpp"
+#include <QTimer>
 
-SetsMenu::SetsMenu(bool menuChecked, QAction *toolBarAct)
+FindBar::FindBar()
 {
-    setTitle(tr("&Settings"));
-        
-    fontAct = new QAction(QIcon::fromTheme("font-select-symbolic"), tr("&Font"));
-	addAction(fontAct);
-	
-	menuAct = new QAction(tr("&Menu bar"));
-	menuAct->setCheckable(true);
-	menuAct->setChecked(menuChecked);
-	addAction(menuAct);
-	
-	addAction(toolBarAct);
-	
-	connect(fontAct, &QAction::triggered, this, &SetsMenu::font);
-	connect(menuAct, &QAction::toggled, this, &SetsMenu::menuChange);
+    textLine = new QLineEdit(this);
+    addWidget(textLine, 1);
+    closeButton = new QPushButton(QIcon::fromTheme("window-close"), "", this);
+    closeButton->setFlat(true);
+    closeButton->setShortcut(QKeySequence("Esc"));
+    addWidget(closeButton);
+    
+    connect(textLine, &QLineEdit::textChanged, this, &FindBar::find);
+    connect(closeButton, &QPushButton::pressed, this, &FindBar::closeClicked);
+    QTimer::singleShot(0, textLine, SLOT(setFocus()));
+    setFocusProxy(textLine);
 }
-SetsMenu::~SetsMenu()
+FindBar::~FindBar()
 {
-    delete fontAct, menuAct;
+    delete textLine, closeButton;
 }
