@@ -104,13 +104,13 @@ void Textedit::openFindBar()
         connect(findBar, &FindBar::closeClicked, this, &Textedit::closeFindBar);
         findBar->setText(findText);
     }
+    else QTimer::singleShot(0, findBar, SLOT(setFocus()));
 }
 void Textedit::closeFindBar()
 {
     findText = findBar->text();
-    delete findBar;
-    findBar = nullptr;
     find("");
+    QTimer::singleShot(0, [this]{delete findBar, findBar = nullptr;});
 }
 void Textedit::find(QString string)
 {

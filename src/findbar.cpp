@@ -30,6 +30,7 @@ FindBar::FindBar()
     connect(textLine, &QLineEdit::textChanged, this, &FindBar::find);
     connect(closeButton, &QPushButton::pressed, this, &FindBar::closeClicked);
     QTimer::singleShot(0, textLine, SLOT(setFocus()));
+    setFocusProxy(textLine);
 }
 FindBar::~FindBar()
 {
