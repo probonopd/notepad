@@ -25,6 +25,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #include <QTextStream>
 #include <QFont>
 
+#include "tabbar.hpp"
 #include "textedit.hpp"
 
 class TabWidget: public QTabWidget
@@ -59,6 +60,7 @@ private:
     QPushButton *button = nullptr;
     QMenu *menu = nullptr;
     QFont *font=nullptr;
+    TabBar *tabBar;
     
 private slots:
     void closetab(int index);

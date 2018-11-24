@@ -22,6 +22,8 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 TabWidget::TabWidget(QWidget *parent, QFont *font)
   : QTabWidget::QTabWidget(parent)
 {
+    tabBar = new TabBar();
+    setTabBar(tabBar);
     connect(this, &QTabWidget::tabCloseRequested, this, &TabWidget::closetab); 
     connect(this, &QTabWidget::currentChanged, this, &TabWidget::onCurrentChange);
     setTabsClosable(true);
@@ -34,6 +36,7 @@ TabWidget::~TabWidget()
 {
     if (button != nullptr)
         delete button, menu;
+    delete tabBar;
 }
  void TabWidget::openFiles(QStringList files)
 {
@@ -250,10 +253,10 @@ void TabWidget::changetabname(Textedit* textedit,  QString newtext, bool edited)
             textedit->button = new QPushButton(QIcon::fromTheme("document-save"), "", this);
             textedit->button->setFlat(true);
             connect(textedit->button, &QPushButton::clicked, textedit, &Textedit::saveclick);
-            tabBar()->setTabButton(indexOf(textedit), QTabBar::LeftSide, textedit->button);
+            tabBar->setTabButton(indexOf(textedit), QTabBar::LeftSide, textedit->button);
         }
     }
-    else tabBar()->setTabButton(indexOf(textedit), QTabBar::LeftSide, 0);
+    else tabBar->setTabButton(indexOf(textedit), QTabBar::LeftSide, 0);
 }
 void TabWidget::onCurrentChange()
 {

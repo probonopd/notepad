@@ -38,6 +38,8 @@ set(notepad_SRCS
     src/textedit.hpp
     src/findbar.cpp
     src/findbar.hpp
+    src/tabbar.cpp
+    src/tabbar.hpp
     #${CMAKE_BINARY_DIR}/translations.qrc
     ${QM_FILES}
 )
