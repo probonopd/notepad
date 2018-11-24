@@ -19,6 +19,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #include <QStatusBar>
 #include <QLineEdit>
 #include <QPushButton>
+#include <QTimer>
 
 class FindBar : public QStatusBar
 {

@@ -202,8 +202,9 @@ void TabWidget::setMenu(QMenu *menu)
         setCornerWidget(0, Qt::TopLeftCorner);
         if (button != nullptr)
         {
-            delete button;
+            delete button, this->menu;
             button = nullptr;
+            this->menu = nullptr;
         }
 	}
 }
