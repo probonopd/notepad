@@ -30,7 +30,7 @@ NotepadApp::NotepadApp(int& argc, char**& argv)
     installTranslator(notepadTranslator);
     setApplicationName(tr("Notepad"));
     setApplicationDisplayName(tr("Notepad"));
-    setApplicationVersion("1.1");
+    setApplicationVersion("1.2");
     setWindowIcon(QIcon::fromTheme("accessories-text-editor"));
     QCommandLineParser parser;
     parser.setApplicationDescription(tr("Text editor with tabs"));
