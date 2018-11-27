@@ -271,6 +271,7 @@ void TabWidget::onCurrentChange()
     connect(w, &Textedit::copyAvailable, this, &TabWidget::copyAvailable);
     emit copyAvailable(w->isCopyAvailable());
     emit currentTextChanged(w->documentTitle());
+    qDebug() << "AAA";
 }
 void TabWidget::closeEvent(QCloseEvent *event)
 {

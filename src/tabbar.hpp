@@ -10,5 +10,7 @@ public:
     TabBar();
     ~TabBar();
 private:
+    bool cardClicked = false;
+    void mousePressEvent(QMouseEvent *event);
     void mouseMoveEvent(QMouseEvent *event);
 };
