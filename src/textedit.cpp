@@ -15,6 +15,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
+
 #include "textedit.hpp"
 
 Textedit::Textedit(QWidget *parent)
@@ -176,4 +177,25 @@ Textedit::~Textedit()
     if (button != nullptr) delete button;
     if (findBar != nullptr) delete findBar;
     delete textedit;
+}
+QDataStream & operator<< (QDataStream &stream, Textedit &textedit)
+{
+    stream << textedit.documentTitle() << textedit.Url() << textedit.isEdited() << textedit.textedit->toPlainText();
+    if(textedit.findBar != nullptr) return stream << true << textedit.findBar->text();
+    else return stream << false << textedit.findText;
+}
+QDataStream & operator>> (QDataStream &stream, Textedit &textedit)
+{
+    QString title, text, findText;
+    bool isFindBar;
+    stream >> title >> textedit.url >> textedit.edited >> text >> isFindBar >> findText;
+    textedit.textedit->setDocumentTitle(title);
+    textedit.textedit->setPlainText(text);
+    if (isFindBar) 
+    {
+        textedit.openFindBar();
+        textedit.findBar->setText(findText);
+    }
+    else textedit.findText = findText;
+    return stream;
 }

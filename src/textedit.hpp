@@ -29,6 +29,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #include <QMainWindow>
 #include <cmath>
 #include <QTimer>
+#include <QString>
 
 #include "findbar.hpp"
 
@@ -56,6 +57,8 @@ public:
     void paste() {textedit->paste();};
     void copy() {textedit->copy();};
     void cut() {textedit->cut();};
+    friend QDataStream & operator<< (QDataStream &stream, Textedit &textedit);
+    friend QDataStream & operator>> (QDataStream &stream, Textedit &textedit);
 private:
     QPlainTextEdit *textedit;
     FindBar *findBar = nullptr;
@@ -79,5 +82,6 @@ signals:
     void redoAvailable(bool value);
     void copyAvailable(bool value);
 };
+QDataStream & operator<< (QDataStream &stream, Textedit &textedit);
 
 #endif // TEXTEDIT_HPP
