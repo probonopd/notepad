@@ -30,9 +30,11 @@ public:
     ~TabBar();
 private:
     bool cardClicked = false;
+    bool tabDetached = false;
     void mousePressEvent(QMouseEvent *event);
     void mouseMoveEvent(QMouseEvent *event);
     void mouseReleaseEvent(QMouseEvent *event);
+    void dragEnterEvent(QDragEnterEvent *event);
     void dropEvent(QDropEvent *event);
 
 signals:

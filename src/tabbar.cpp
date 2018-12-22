@@ -38,7 +38,10 @@ void TabBar::mouseMoveEvent(QMouseEvent *event)
         if (!rect().contains(event->pos()))
         {
             unsetCursor();
-            emit tabDragOut();
+            if(!tabDetached){
+                emit tabDragOut();
+                tabDetached=true;
+            }
         }
         else 
         {
@@ -46,12 +49,23 @@ void TabBar::mouseMoveEvent(QMouseEvent *event)
             QTabBar::mouseMoveEvent(event);
         }
     }
-    else QTabBar::mouseMoveEvent(event);
+    else
+    {
+        QTabBar::mouseMoveEvent(event);
+    }
 }
 void TabBar::mouseReleaseEvent(QMouseEvent *event)
 {
+    tabDetached=false;
     unsetCursor();
     QTabBar::mouseReleaseEvent(event);
+}
+void TabBar::dragEnterEvent(QDragEnterEvent *event)
+{
+    if(event->mimeData()->hasFormat("application/x-notepad-textedit"))
+    {
+        event->acceptProposedAction();
+    }
 }
 void TabBar::dropEvent(QDropEvent *event)
 {

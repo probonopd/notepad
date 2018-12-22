@@ -57,6 +57,7 @@ public slots:
 
 private:
     void removeTab(int index);
+    void dragEnterEvent(QDragEnterEvent *event);
     QPushButton *button = nullptr;
     QMenu *menu = nullptr;
     QFont *font=nullptr;
@@ -66,6 +67,7 @@ private slots:
     void closetab(int index);
     void changetabname(Textedit* textedit,  QString newtext,  bool edited);
     void onCurrentChange();
+    void detachTab();
     
 signals:
     void currentTextChanged(QString newtext);

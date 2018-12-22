@@ -26,6 +26,7 @@ TabWidget::TabWidget(QWidget *parent, QFont *font)
     setTabBar(tabBar);
     connect(this, &QTabWidget::tabCloseRequested, this, &TabWidget::closetab); 
     connect(this, &QTabWidget::currentChanged, this, &TabWidget::onCurrentChange);
+    connect(tabBar, &TabBar::tabDragOut, this, &TabWidget::detachTab);
     setTabsClosable(true);
 	setMovable(true);
     setDocumentMode(true);
@@ -271,7 +272,36 @@ void TabWidget::onCurrentChange()
     connect(w, &Textedit::copyAvailable, this, &TabWidget::copyAvailable);
     emit copyAvailable(w->isCopyAvailable());
     emit currentTextChanged(w->documentTitle());
-    qDebug() << "AAA";
+}
+void TabWidget::detachTab()
+{
+    QWidget *parentWidget = (QWidget*) parent();
+    QDataStream stream;
+    Textedit *textedit = (Textedit*) currentWidget();
+    stream<<*textedit;
+    if(count()!=1) delete textedit;
+    else parentWidget->hide();
+    QByteArray array;
+    stream>>array;
+    QMimeData *data = new QMimeData();
+    data->setData("application/x-notepad-textedit", array);
+    QDrag *drag = new QDrag(this);
+    drag->setMimeData(data);
+    if(drag->exec()==Qt::IgnoreAction)
+    {
+        if(parentWidget->isHidden())
+        {
+            parentWidget->show();
+        }
+        delete drag;
+    }
+    else if(parentWidget->isHidden())
+    {
+        parentWidget->close();
+    }
+}
+void TabWidget::dragEnterEvent(QDragEnterEvent *event)
+{
 }
 void TabWidget::closeEvent(QCloseEvent *event)
 {
