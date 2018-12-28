@@ -34,8 +34,8 @@ set(notepad_SRCS
     src/setsmenu.hpp
     src/tabwidget.cpp
     src/tabwidget.hpp
-    src/notepadcard.cpp
-    src/notepadcard.hpp
+    src/notepadtab.cpp
+    src/notepadtab.hpp
     src/findbar.cpp
     src/findbar.hpp
     src/tabbar.cpp

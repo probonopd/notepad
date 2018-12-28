@@ -42,14 +42,14 @@ TabWidget::~TabWidget()
 }
  void TabWidget::openFiles(QStringList files)
 {
-    NotepadCard *w;
-    NotepadCard *d = (NotepadCard*)currentWidget();
+    NotepadTab *w;
+    NotepadTab *d = (NotepadTab*)currentWidget();
     for(int i = 0; i<files.count(); i++)
     {
         bool alreadyOpen = false;
         for(int j = 0; j<count(); j++)
         {
-            w = (NotepadCard*)widget(j);
+            w = (NotepadTab*)widget(j);
             if(w->Url() == files.at(i)) {
                 alreadyOpen = true;
                 break;
@@ -57,11 +57,11 @@ TabWidget::~TabWidget()
         }
         if(!alreadyOpen)
         {
-            w = new NotepadCard(this);
+            w = new NotepadTab(this);
             if(w->openfile(files.at(i)))
             {
                 addTab(w,w->documentTitle());
-                connect(w, &NotepadCard::tabtextchange, this, &TabWidget::changetabname);
+                connect(w, &NotepadTab::tabtextchange, this, &TabWidget::changetabname);
                 if (font != nullptr) w->setFont(*font);
                 d = w;
             }
@@ -74,7 +74,7 @@ TabWidget::~TabWidget()
     if(count() == 0) newFileCreate();
     if(files.count()!=0)
     {
-        NotepadCard *b = (NotepadCard*)currentWidget();
+        NotepadTab *b = (NotepadTab*)currentWidget();
         if (b != d && b->Url().isEmpty() && !b->isEdited()) delete b;
         setCurrentWidget(d);
         emit currentTextChanged(d->documentTitle());
@@ -82,9 +82,9 @@ TabWidget::~TabWidget()
 }
 void TabWidget::newFileCreate()
 {
-    NotepadCard *w = new NotepadCard(this);
+    NotepadTab *w = new NotepadTab(this);
     addTab(w,tr("new file"));
-    connect(w, &NotepadCard::tabtextchange, this, &TabWidget::changetabname);
+    connect(w, &NotepadTab::tabtextchange, this, &TabWidget::changetabname);
     setCurrentWidget(w);
     if (font != nullptr) w->setFont(*font);
 }
@@ -102,19 +102,19 @@ void TabWidget::openFilesClicked()
 }
 void TabWidget::saveclick()
 {
-    NotepadCard *w = (NotepadCard*) currentWidget();
+    NotepadTab *w = (NotepadTab*) currentWidget();
     w->saveclick();
 }
 void TabWidget::saveas()
 {
-    NotepadCard *w = (NotepadCard*) currentWidget();
+    NotepadTab *w = (NotepadTab*) currentWidget();
     w->saveas();
 }
 void TabWidget::saveAll()
 {
     for(int i =0; i<count(); i++) 
     {
-        NotepadCard *w = (NotepadCard*) widget(i);
+        NotepadTab *w = (NotepadTab*) widget(i);
         w->saveclick();
     }
 }
@@ -123,10 +123,10 @@ void TabWidget::saveSession()
     QFile file(qApp->applicationDirPath()+"/session");
     if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
         QTextStream stream(&file);
-        NotepadCard *w;
+        NotepadTab *w;
         for(int i =0; i<count(); i++) 
         {
-            w = (NotepadCard*) widget(i);
+            w = (NotepadTab*) widget(i);
             stream << w->Url();
         }
         file.close();
@@ -146,52 +146,52 @@ void TabWidget::openSession() {
 }
 void TabWidget::print()
 {
-    NotepadCard *w = (NotepadCard*) currentWidget();
+    NotepadTab *w = (NotepadTab*) currentWidget();
     w->printClick();
 }
 void TabWidget::undo()
 {
-    NotepadCard *w = (NotepadCard*) currentWidget();
+    NotepadTab *w = (NotepadTab*) currentWidget();
     w->undo();
 }
 void TabWidget::redo()
 {
-    NotepadCard *w = (NotepadCard*) currentWidget();
+    NotepadTab *w = (NotepadTab*) currentWidget();
     w->redo();
 }
 void TabWidget::cut()
 {
-    NotepadCard *w = (NotepadCard*) currentWidget();
+    NotepadTab *w = (NotepadTab*) currentWidget();
     w->cut();
 }
 void TabWidget::copy()
 {
-    NotepadCard *w = (NotepadCard*) currentWidget();
+    NotepadTab *w = (NotepadTab*) currentWidget();
     w->copy();
 }
 void TabWidget::paste()
 {
-    NotepadCard *w = (NotepadCard*) currentWidget();
+    NotepadTab *w = (NotepadTab*) currentWidget();
     w->paste();
 }
 void TabWidget::setFont(QFont *newFont)
 {
     font = newFont;
-    NotepadCard *w;
+    NotepadTab *w;
     for(int i =0; i<count(); i++) 
     {
-        w = (NotepadCard*) widget(i);
+        w = (NotepadTab*) widget(i);
         w->setFont(*font);
     }
 }
 void TabWidget::find()
 {
-    NotepadCard *w = (NotepadCard*) currentWidget();
+    NotepadTab *w = (NotepadTab*) currentWidget();
     w->openFindBar();
 }
 void TabWidget::removeTab(int index)
 {
-    NotepadCard *w = (NotepadCard*) widget(index);
+    NotepadTab *w = (NotepadTab*) widget(index);
     delete w;
 }
 void TabWidget::setMenu(QMenu *menu)
@@ -215,7 +215,7 @@ void TabWidget::setMenu(QMenu *menu)
 }
 void TabWidget::closetab(int index)
 {
-    NotepadCard* b = (NotepadCard*) widget(index);
+    NotepadTab* b = (NotepadTab*) widget(index);
     if (b->isEdited()) 
     {
         QMessageBox *message = new QMessageBox(QMessageBox::Warning, tr("Closing tab"), tr("Would you like to save changes in file")+" \"" +b->documentTitle()+"\" ?",QMessageBox::Save | QMessageBox::Discard | QMessageBox::Cancel ); 
@@ -239,10 +239,10 @@ void TabWidget::closetab(int index)
         removeTab(index);
     }
 }
-void TabWidget::changetabname(NotepadCard* textedit,  QString newtext, bool edited)
+void TabWidget::changetabname(NotepadTab* tab,  QString newtext, bool edited)
 {
-    setTabText(indexOf(textedit),  newtext);
-    if (indexOf(textedit) == currentIndex())
+    setTabText(indexOf(tab),  newtext);
+    if (indexOf(tab) == currentIndex())
     {
         if (edited) newtext = "*"+newtext;
         emit currentTextChanged(newtext);
@@ -250,27 +250,27 @@ void TabWidget::changetabname(NotepadCard* textedit,  QString newtext, bool edit
     }
     if (edited)
     {
-        if (textedit->button == nullptr)
+        if (tab->button == nullptr)
         {
-            textedit->button = new QPushButton(QIcon::fromTheme("document-save"), "", this);
-            textedit->button->setFlat(true);
-            connect(textedit->button, &QPushButton::clicked, textedit, &NotepadCard::saveclick);
-            tabBar->setTabButton(indexOf(textedit), QTabBar::LeftSide, textedit->button);
+            tab->button = new QPushButton(QIcon::fromTheme("document-save"), "", this);
+            tab->button->setFlat(true);
+            connect(tab->button, &QPushButton::clicked, tab, &NotepadTab::saveclick);
+            tabBar->setTabButton(indexOf(tab), QTabBar::LeftSide, tab->button);
         }
     }
-    else tabBar->setTabButton(indexOf(textedit), QTabBar::LeftSide, 0);
+    else tabBar->setTabButton(indexOf(tab), QTabBar::LeftSide, 0);
 }
 void TabWidget::onCurrentChange()
 {
-    NotepadCard* w = (NotepadCard*) currentWidget(); 
+    NotepadTab* w = (NotepadTab*) currentWidget(); 
     disconnect(0, 0, this, SLOT(undoAvailable));
-    connect(w, &NotepadCard::undoAvailable, this, &TabWidget::undoAvailable);
+    connect(w, &NotepadTab::undoAvailable, this, &TabWidget::undoAvailable);
     emit undoAvailable(w->isUndoAvailable());
     disconnect(0, 0, this, SLOT(redoAvailable));
-    connect(w, &NotepadCard::redoAvailable, this, &TabWidget::redoAvailable);
+    connect(w, &NotepadTab::redoAvailable, this, &TabWidget::redoAvailable);
     emit undoAvailable(w->isRedoAvailable());
     disconnect(0, 0, this, SLOT(copyAvailable));
-    connect(w, &NotepadCard::copyAvailable, this, &TabWidget::copyAvailable);
+    connect(w, &NotepadTab::copyAvailable, this, &TabWidget::copyAvailable);
     emit copyAvailable(w->isCopyAvailable());
     emit currentTextChanged(w->documentTitle());
 }
@@ -279,7 +279,7 @@ void TabWidget::detachTab()
     QWidget *parentWidget = (QWidget*) parent();
     QByteArray array;
     QDataStream stream(&array,QIODevice::WriteOnly);
-    NotepadCard *textedit = (NotepadCard*) currentWidget();
+    NotepadTab *textedit = (NotepadTab*) currentWidget();
     stream<<*textedit;
     qDebug()<<array;
     if(count()!=1) delete textedit;
@@ -313,7 +313,7 @@ void TabWidget::dropEvent(QDropEvent *event)
     if(event->mimeData()->hasFormat("application/x-notepad-textedit"))
     {
         event->acceptProposedAction();
-        NotepadCard *w = new NotepadCard(this);
+        NotepadTab *w = new NotepadTab(this);
         QByteArray array=event->mimeData()->data("application/x-notepad-textedit");
         qDebug()<<array;
         QDataStream stream(&array,QIODevice::ReadOnly);
@@ -324,9 +324,10 @@ void TabWidget::dropEvent(QDropEvent *event)
         stream>>*w;
         qDebug()<<w->documentTitle();
         addTab(w,w->documentTitle());
-        connect(w, &NotepadCard::tabtextchange, this, &TabWidget::changetabname);
+        connect(w, &NotepadTab::tabtextchange, this, &TabWidget::changetabname);
         setCurrentWidget(w);
         if (font != nullptr) w->setFont(*font);
+        if (w->isEdited()) changetabname(w,  w->documentTitle(), true);
     }
 }
 void TabWidget::closeEvent(QCloseEvent *event)
@@ -334,7 +335,7 @@ void TabWidget::closeEvent(QCloseEvent *event)
     bool edited = false;
     for (int i = 0;i<count() && !edited;i++)
     {
-        NotepadCard *w = (NotepadCard*) widget(i);
+        NotepadTab *w = (NotepadTab*) widget(i);
         if (w->isEdited()) edited = true;
     }
     if (edited)

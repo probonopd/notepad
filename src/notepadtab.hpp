@@ -33,13 +33,13 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 #include "findbar.hpp"
 
-class NotepadCard : public QMainWindow
+class NotepadTab : public QMainWindow
 {
 Q_OBJECT
 public:
-	NotepadCard(QWidget *parent=nullptr);
-    NotepadCard(const NotepadCard &textedit);
-	~NotepadCard();
+	NotepadTab(QWidget *parent=nullptr);
+    NotepadTab(const NotepadTab &textedit);
+	~NotepadTab();
     bool openfile(QString fileurl);
     QString documentTitle() const;
     void saveclick();
@@ -58,8 +58,8 @@ public:
     void paste() {textedit->paste();};
     void copy() {textedit->copy();};
     void cut() {textedit->cut();};
-    friend QDataStream & operator<< (QDataStream &stream, const NotepadCard &notepadCard);
-    friend QDataStream & operator>> (QDataStream &stream, NotepadCard &notepadCard);
+    friend QDataStream & operator<< (QDataStream &stream, const NotepadTab &notepadTab);
+    friend QDataStream & operator>> (QDataStream &stream, NotepadTab &notepadTab);
 private:
     QPlainTextEdit *textedit;
     QString title;
@@ -79,12 +79,12 @@ private slots:
     void setCopy(bool available);
     void paintOnPrinter(QPrinter *printer);
 signals:
-    void tabtextchange(NotepadCard *textedit,  QString newtext,  bool edited);
+    void tabtextchange(NotepadTab *textedit,  QString newtext,  bool edited);
     void undoAvailable(bool value);
     void redoAvailable(bool value);
     void copyAvailable(bool value);
 };
 
-Q_DECLARE_METATYPE(NotepadCard)
+Q_DECLARE_METATYPE(NotepadTab)
 
 #endif // TEXTEDIT_HPP
