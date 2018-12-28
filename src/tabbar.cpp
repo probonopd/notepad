@@ -30,6 +30,7 @@ void TabBar::mousePressEvent(QMouseEvent *event)
     if (tabAt(event->pos()) != -1&&event->button() == Qt::LeftButton) cardClicked = true;
     else cardClicked = false;
     QTabBar::mousePressEvent(event);
+    qDebug()<<"Pressed";
 }
 void TabBar::mouseMoveEvent(QMouseEvent *event)
 {
@@ -52,6 +53,7 @@ void TabBar::mouseMoveEvent(QMouseEvent *event)
     else
     {
         QTabBar::mouseMoveEvent(event);
+        unsetCursor();
     }
 }
 void TabBar::mouseReleaseEvent(QMouseEvent *event)
@@ -62,10 +64,7 @@ void TabBar::mouseReleaseEvent(QMouseEvent *event)
 }
 void TabBar::dragEnterEvent(QDragEnterEvent *event)
 {
-    if(event->mimeData()->hasFormat("application/x-notepad-textedit"))
-    {
-        event->acceptProposedAction();
-    }
+    event->ignore();
 }
 void TabBar::dropEvent(QDropEvent *event)
 {

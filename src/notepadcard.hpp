@@ -33,21 +33,22 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 #include "findbar.hpp"
 
-class Textedit : public QMainWindow
+class NotepadCard : public QMainWindow
 {
 Q_OBJECT
 public:
-	Textedit(QWidget *parent);
-	~Textedit();
+	NotepadCard(QWidget *parent=nullptr);
+    NotepadCard(const NotepadCard &textedit);
+	~NotepadCard();
     bool openfile(QString fileurl);
-    QString documentTitle();
+    QString documentTitle() const;
     void saveclick();
     void saveas();
     void printClick();
     void openFindBar();
     void find(QString string);
-    bool isEdited() {return edited;};
-    QString Url() {return url;};
+    bool isEdited() const {return edited;};
+    QString Url() const {return url;};
     QPushButton *button = nullptr;
     bool isUndoAvailable(){return canUndo;};
     bool isRedoAvailable(){return canRedo;};
@@ -57,10 +58,11 @@ public:
     void paste() {textedit->paste();};
     void copy() {textedit->copy();};
     void cut() {textedit->cut();};
-    friend QDataStream & operator<< (QDataStream &stream, Textedit &textedit);
-    friend QDataStream & operator>> (QDataStream &stream, Textedit &textedit);
+    friend QDataStream & operator<< (QDataStream &stream, const NotepadCard &notepadCard);
+    friend QDataStream & operator>> (QDataStream &stream, NotepadCard &notepadCard);
 private:
     QPlainTextEdit *textedit;
+    QString title;
     FindBar *findBar = nullptr;
     QString findText;
     QString url;
@@ -77,11 +79,12 @@ private slots:
     void setCopy(bool available);
     void paintOnPrinter(QPrinter *printer);
 signals:
-    void tabtextchange(Textedit *textedit,  QString newtext,  bool edited);
+    void tabtextchange(NotepadCard *textedit,  QString newtext,  bool edited);
     void undoAvailable(bool value);
     void redoAvailable(bool value);
     void copyAvailable(bool value);
 };
-QDataStream & operator<< (QDataStream &stream, Textedit &textedit);
+
+Q_DECLARE_METATYPE(NotepadCard)
 
 #endif // TEXTEDIT_HPP

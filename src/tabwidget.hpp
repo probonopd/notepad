@@ -26,7 +26,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #include <QFont>
 
 #include "tabbar.hpp"
-#include "textedit.hpp"
+#include "notepadcard.hpp"
 
 class TabWidget: public QTabWidget
 {
@@ -58,6 +58,7 @@ public slots:
 private:
     void removeTab(int index);
     void dragEnterEvent(QDragEnterEvent *event);
+    void dropEvent(QDropEvent *event);
     QPushButton *button = nullptr;
     QMenu *menu = nullptr;
     QFont *font=nullptr;
@@ -65,7 +66,7 @@ private:
     
 private slots:
     void closetab(int index);
-    void changetabname(Textedit* textedit,  QString newtext,  bool edited);
+    void changetabname(NotepadCard* textedit,  QString newtext,  bool edited);
     void onCurrentChange();
     void detachTab();
     

@@ -22,6 +22,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 int main (int argc, char *argv[])
 {
-        NotepadApp app(argc, argv);
-        return app.exec();
+    qRegisterMetaTypeStreamOperators<NotepadCard>("NotepadCard");
+    NotepadApp app(argc, argv);
+    return app.exec();
 }
