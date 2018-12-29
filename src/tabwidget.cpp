@@ -204,6 +204,8 @@ void TabWidget::setMenu(QMenu *menu)
         {
             delete button;
             button = nullptr;
+            delete this->menu;
+            this->menu=nullptr;
         }
 	}
 }
@@ -252,7 +254,13 @@ void TabWidget::changetabname(Textedit* textedit,  QString newtext, bool edited)
             tabBar()->setTabButton(indexOf(textedit), QTabBar::LeftSide, textedit->button);
         }
     }
-    else tabBar()->setTabButton(indexOf(textedit), QTabBar::LeftSide, 0);
+    else {
+        tabBar()->setTabButton(indexOf(textedit), QTabBar::LeftSide, 0);
+        if(button!=nullptr){
+            delete textedit->button;
+            textedit->button=nullptr;
+        }
+    }
 }
 void TabWidget::onCurrentChange()
 {

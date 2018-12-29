@@ -51,13 +51,13 @@ public:
     bool isUndoAvailable(){return canUndo;};
     bool isRedoAvailable(){return canRedo;};
     bool isCopyAvailable(){return canCopy;}; 
-    void undo() {textedit->undo();};
-    void redo() {textedit->redo();};
-    void paste() {textedit->paste();};
-    void copy() {textedit->copy();};
-    void cut() {textedit->cut();};
+    void undo() {textedit.undo();};
+    void redo() {textedit.redo();};
+    void paste() {textedit.paste();};
+    void copy() {textedit.copy();};
+    void cut() {textedit.cut();};
 private:
-    QPlainTextEdit *textedit;
+    QPlainTextEdit textedit;
     FindBar *findBar = nullptr;
     QString findText;
     QString url;
