@@ -24,6 +24,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #include <QFile>
 #include <QTextStream>
 #include <QFont>
+#include <QMenu>
 
 #include "tabbar.hpp"
 #include "notepadtab.hpp"

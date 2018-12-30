@@ -53,15 +53,15 @@ public:
     bool isUndoAvailable(){return canUndo;};
     bool isRedoAvailable(){return canRedo;};
     bool isCopyAvailable(){return canCopy;}; 
-    void undo() {textedit->undo();};
-    void redo() {textedit->redo();};
-    void paste() {textedit->paste();};
-    void copy() {textedit->copy();};
-    void cut() {textedit->cut();};
+    void undo() {textedit.undo();};
+    void redo() {textedit.redo();};
+    void paste() {textedit.paste();};
+    void copy() {textedit.copy();};
+    void cut() {textedit.cut();};
     friend QDataStream & operator<< (QDataStream &stream, const NotepadTab &notepadTab);
     friend QDataStream & operator>> (QDataStream &stream, NotepadTab &notepadTab);
 private:
-    QPlainTextEdit *textedit;
+    QPlainTextEdit textedit;
     QString title;
     FindBar *findBar = nullptr;
     QString findText;

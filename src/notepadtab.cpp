@@ -16,22 +16,23 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+<<<<<<< HEAD:src/notepadtab.cpp
 #include "notepadtab.hpp"
 
 NotepadTab::NotepadTab(QWidget *parent)
-  : QMainWindow::QMainWindow(parent)
+  : QMainWindow::QMainWindow(parent),
+  textedit(this)
 {
-    textedit = new QPlainTextEdit(this);
-    connect(textedit, &QPlainTextEdit::textChanged, this, &NotepadTab::onchange);
-    connect(textedit, &QPlainTextEdit::undoAvailable, this, &NotepadTab::setUndo);
-    connect(textedit, &QPlainTextEdit::redoAvailable, this, &NotepadTab::setRedo);
-    connect(textedit, &QPlainTextEdit::copyAvailable, this, &NotepadTab::setCopy);
-    connect(textedit, &QPlainTextEdit::undoAvailable, this, &NotepadTab::undoAvailable);
-    connect(textedit, &QPlainTextEdit::redoAvailable, this, &NotepadTab::redoAvailable);
-    connect(textedit, &QPlainTextEdit::copyAvailable, this, &NotepadTab::copyAvailable);
+    connect(&textedit, &QPlainTextEdit::textChanged, this, &Textedit::onchange);
+    connect(&textedit, &QPlainTextEdit::undoAvailable, this, &Textedit::setUndo);
+    connect(&textedit, &QPlainTextEdit::redoAvailable, this, &Textedit::setRedo);
+    connect(&textedit, &QPlainTextEdit::copyAvailable, this, &Textedit::setCopy);
+    connect(&textedit, &QPlainTextEdit::undoAvailable, this, &Textedit::undoAvailable);
+    connect(&textedit, &QPlainTextEdit::redoAvailable, this, &Textedit::redoAvailable);
+    connect(&textedit, &QPlainTextEdit::copyAvailable, this, &Textedit::copyAvailable);
     title=tr("new file");
-    setCentralWidget(textedit);
-    QTimer::singleShot(0, textedit, SLOT(setFocus()));
+    setCentralWidget(&textedit);
+    QTimer::singleShot(0, &textedit, SLOT(setFocus()));
 }
 NotepadTab::NotepadTab(const NotepadTab &notepadTab)
   : NotepadTab::NotepadTab((QWidget*)notepadTab.parent())
@@ -50,7 +51,7 @@ bool NotepadTab::openfile(QString fileurl)
     if (file.open(QIODevice::ReadOnly | QIODevice::Text))
      {
         QTextStream stream(&file);
-        textedit->setPlainText(stream.readAll());
+        textedit.setPlainText(stream.readAll());
         file.close();
         title=url.mid(url.lastIndexOf('/')+1);
         edited = false;
@@ -83,17 +84,11 @@ void NotepadTab::save()
     if (file.open(QIODevice::WriteOnly | QIODevice::Text))
     {
             QTextStream stream(&file);
-            stream<<textedit->toPlainText();
+            stream<<textedit.toPlainText();
             file.close();
             edited = false;
             title=url.mid(url.lastIndexOf('/')+1);
             emit tabtextchange(this,  documentTitle(), false);
-            if (button != nullptr) 
-            {
-                disconnect(button, &QPushButton::clicked, this, &NotepadTab::saveclick);
-                delete button;
-                button = nullptr;
-            }
     }
     else qDebug() << tr("Failed to save file ") << url;
 }
@@ -127,7 +122,7 @@ void NotepadTab::find(QString string)
 {
     int pos = 0;
     QList<QTextEdit::ExtraSelection> list;
-    for(QTextCursor cursor = textedit->document()->find(string, pos);cursor.hasSelection();cursor = textedit->document()->find(string, pos))
+    for(QTextCursor cursor = textedit.document()->find(string, pos);cursor.hasSelection();cursor = textedit.document()->find(string, pos))
     {
         QTextEdit::ExtraSelection selection;
         selection.cursor = cursor;
@@ -138,7 +133,7 @@ void NotepadTab::find(QString string)
         list.append(selection);
         pos = cursor.position();
     }
-    textedit->setExtraSelections(list);
+    textedit.setExtraSelections(list);
 }
 void NotepadTab::onchange()
 {
@@ -162,7 +157,7 @@ void NotepadTab::paintOnPrinter(QPrinter *printer)
     QPainter painter(printer);
     painter.setPen(Qt::black);
     painter.setFont(font());
-    QString text = textedit->toPlainText();
+    QString text = textedit.toPlainText();
     QTextStream stream(&text);
     int linesOnPage = floor(printer->pageRect(QPrinter::Point).height()/(font().pointSizeF()+1.7));
     bool notAllPainted = true;
@@ -184,9 +179,8 @@ void NotepadTab::paintOnPrinter(QPrinter *printer)
 }
 NotepadTab::~NotepadTab()
 {
-    if (button != nullptr) delete button;
+    emit tabtextchange(this,  documentTitle(), false);
     if (findBar != nullptr) delete findBar;
-    delete textedit;
 }
 QDataStream & operator<< (QDataStream &stream, const NotepadTab &notepadTab)
 {

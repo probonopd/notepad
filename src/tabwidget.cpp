@@ -207,9 +207,11 @@ void TabWidget::setMenu(QMenu *menu)
         setCornerWidget(0, Qt::TopLeftCorner);
         if (button != nullptr)
         {
-            delete button, this->menu;
+            delete button;
             button = nullptr;
-            this->menu = nullptr;
+
+            delete this->menu;
+            this->menu=nullptr;
         }
 	}
 }
@@ -258,7 +260,13 @@ void TabWidget::changetabname(NotepadTab* tab,  QString newtext, bool edited)
             tabBar->setTabButton(indexOf(tab), QTabBar::LeftSide, tab->button);
         }
     }
-    else tabBar->setTabButton(indexOf(tab), QTabBar::LeftSide, 0);
+    else {
+        tabBar()->setTabButton(indexOf(textedit), QTabBar::LeftSide, 0);
+        if(button!=nullptr){
+            delete textedit->button;
+            textedit->button=nullptr;
+        }
+    }
 }
 void TabWidget::onCurrentChange()
 {
