@@ -16,20 +16,19 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-<<<<<<< HEAD:src/notepadtab.cpp
 #include "notepadtab.hpp"
 
 NotepadTab::NotepadTab(QWidget *parent)
   : QMainWindow::QMainWindow(parent),
   textedit(this)
 {
-    connect(&textedit, &QPlainTextEdit::textChanged, this, &Textedit::onchange);
-    connect(&textedit, &QPlainTextEdit::undoAvailable, this, &Textedit::setUndo);
-    connect(&textedit, &QPlainTextEdit::redoAvailable, this, &Textedit::setRedo);
-    connect(&textedit, &QPlainTextEdit::copyAvailable, this, &Textedit::setCopy);
-    connect(&textedit, &QPlainTextEdit::undoAvailable, this, &Textedit::undoAvailable);
-    connect(&textedit, &QPlainTextEdit::redoAvailable, this, &Textedit::redoAvailable);
-    connect(&textedit, &QPlainTextEdit::copyAvailable, this, &Textedit::copyAvailable);
+    connect(&textedit, &QPlainTextEdit::textChanged, this, &NotepadTab::onchange);
+    connect(&textedit, &QPlainTextEdit::undoAvailable, this, &NotepadTab::setUndo);
+    connect(&textedit, &QPlainTextEdit::redoAvailable, this, &NotepadTab::setRedo);
+    connect(&textedit, &QPlainTextEdit::copyAvailable, this, &NotepadTab::setCopy);
+    connect(&textedit, &QPlainTextEdit::undoAvailable, this, &NotepadTab::undoAvailable);
+    connect(&textedit, &QPlainTextEdit::redoAvailable, this, &NotepadTab::redoAvailable);
+    connect(&textedit, &QPlainTextEdit::copyAvailable, this, &NotepadTab::copyAvailable);
     title=tr("new file");
     setCentralWidget(&textedit);
     QTimer::singleShot(0, &textedit, SLOT(setFocus()));
@@ -37,10 +36,10 @@ NotepadTab::NotepadTab(QWidget *parent)
 NotepadTab::NotepadTab(const NotepadTab &notepadTab)
   : NotepadTab::NotepadTab((QWidget*)notepadTab.parent())
 {
-    textedit->setDocumentTitle(notepadTab.documentTitle());
+    title=notepadTab.documentTitle();
     url=notepadTab.url;
     edited=notepadTab.edited;
-    textedit->setPlainText(notepadTab.textedit->toPlainText());
+    textedit.setPlainText(notepadTab.textedit.toPlainText());
     findText=notepadTab.findText;
     if(notepadTab.findBar != nullptr) openFindBar();
 }
@@ -184,7 +183,7 @@ NotepadTab::~NotepadTab()
 }
 QDataStream & operator<< (QDataStream &stream, const NotepadTab &notepadTab)
 {
-    return stream << notepadTab.documentTitle() << notepadTab.Url() << notepadTab.isEdited() << notepadTab.textedit->toPlainText()<<((notepadTab.findBar!=nullptr)?true:false)<< (notepadTab.findBar != nullptr?notepadTab.findBar->text():notepadTab.findText);
+    return stream << notepadTab.documentTitle() << notepadTab.Url() << notepadTab.isEdited() << notepadTab.textedit.toPlainText()<<((notepadTab.findBar!=nullptr)?true:false)<< (notepadTab.findBar != nullptr?notepadTab.findBar->text():notepadTab.findText);
 }
 QDataStream & operator>> (QDataStream &stream, NotepadTab &notepadTab)
 {
@@ -193,7 +192,7 @@ QDataStream & operator>> (QDataStream &stream, NotepadTab &notepadTab)
     stream >> notepadTab.title >> notepadTab.url>> wasEdited>>text>>isFindBar>>findText;
     qDebug() << notepadTab.title << notepadTab.url<< wasEdited<<text<<isFindBar<<findText;
     qDebug()<<notepadTab.documentTitle();
-    notepadTab.textedit->setPlainText(text);
+    notepadTab.textedit.setPlainText(text);
     notepadTab.edited=wasEdited;
     notepadTab.findText = findText;
     if (isFindBar) notepadTab.openFindBar();

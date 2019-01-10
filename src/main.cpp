@@ -17,12 +17,12 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 #include <QSharedMemory>
 
-#include "mainwindow.hpp"
+// #include "mainwindow.hpp"
 #include "notepadapp.hpp"
 
 int main (int argc, char *argv[])
 {
-    qRegisterMetaTypeStreamOperators<NotepadTab>("NotepadTab");
+//     qRegisterMetaTypeStreamOperators<NotepadTab>("NotepadTab");
     NotepadApp app(argc, argv);
     return app.exec();
 }

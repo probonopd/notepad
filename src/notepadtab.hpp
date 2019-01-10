@@ -85,6 +85,6 @@ signals:
     void copyAvailable(bool value);
 };
 
-Q_DECLARE_METATYPE(NotepadTab)
+// Q_DECLARE_METATYPE(NotepadTab)
 
 #endif // TEXTEDIT_HPP

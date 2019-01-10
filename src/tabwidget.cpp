@@ -261,10 +261,10 @@ void TabWidget::changetabname(NotepadTab* tab,  QString newtext, bool edited)
         }
     }
     else {
-        tabBar()->setTabButton(indexOf(textedit), QTabBar::LeftSide, 0);
+        tabBar->setTabButton(indexOf(tab), QTabBar::LeftSide, 0);
         if(button!=nullptr){
-            delete textedit->button;
-            textedit->button=nullptr;
+            delete tab->button;
+            tab->button=nullptr;
         }
     }
 }

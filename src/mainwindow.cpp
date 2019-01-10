@@ -132,7 +132,8 @@ void MainWindow::changeToolBarVisibility(bool newValue)
 }
 void MainWindow::closeEvent(QCloseEvent *event)
 {
-    tabwidget->closeEvent(event);
+    if(isHidden()) event->accept();
+    else tabwidget->closeEvent(event);
 }
 MainWindow::~MainWindow()
 {
