@@ -41,6 +41,7 @@ public:
     
 public slots:
 	void newFileCreate();
+    void openTab(NotepadTab *tab);
     void openFilesClicked();
     void saveclick();
     void saveas();
@@ -76,6 +77,7 @@ signals:
     void undoAvailable(bool available);
     void redoAvailable(bool available);
     void copyAvailable(bool available);
+    void tabDetached(NotepadTab *tab);
 };
 
 #endif

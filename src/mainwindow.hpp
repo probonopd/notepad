@@ -36,6 +36,7 @@ public:
     MainWindow(bool useMenu, bool toolBarEnabled,  QFont *font);
 	~MainWindow();
 	void openFiles(QStringList files);
+    void openTab(NotepadTab *tab);
 
 public slots:
     void menu(bool useMenuBar = true);
@@ -62,6 +63,7 @@ signals:
     void aboutQt();
     void toolBarChange(bool newValue);
     void fontChanged(QFont *newFont);
+    void tabDetached(NotepadTab *tab);
 };
 
 

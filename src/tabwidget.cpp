@@ -100,6 +100,14 @@ void TabWidget::openFilesClicked()
 		openFiles(files);
 	}
 }
+void TabWidget::openTab(NotepadTab *tab)
+{
+    addTab(tab,tab->documentTitle());
+    connect(tab, &NotepadTab::tabtextchange, this, &TabWidget::changetabname);
+    setCurrentWidget(tab);
+    if (font != nullptr) tab->setFont(*font);
+    if (tab->isEdited()) changetabname(tab,  tab->documentTitle(), true);
+}
 void TabWidget::saveclick()
 {
     NotepadTab *w = (NotepadTab*) currentWidget();
@@ -290,7 +298,7 @@ void TabWidget::detachTab()
     NotepadTab *textedit = (NotepadTab*) currentWidget();
     stream<<*textedit;
     qDebug()<<array;
-    if(count()!=1) delete textedit;
+    if(count()!=1) removeTab(indexOf(textedit));
     else parentWidget->hide();
     QMimeData *data = new QMimeData();
     data->setData("application/x-notepad-textedit", array);
@@ -302,12 +310,16 @@ void TabWidget::detachTab()
         {
             parentWidget->show();
         }
+        else{
+            emit tabDetached(textedit);
+        }
         delete drag;
     }
     else if(parentWidget->isHidden())
     {
         parentWidget->close();
     }
+    else delete textedit;
 }
 void TabWidget::dragEnterEvent(QDragEnterEvent *event)
 {
@@ -330,12 +342,7 @@ void TabWidget::dropEvent(QDropEvent *event)
 //         stream>>string>>string2>>edited;
 //         qDebug()<<string<<string2<<edited;
         stream>>*w;
-        qDebug()<<w->documentTitle();
-        addTab(w,w->documentTitle());
-        connect(w, &NotepadTab::tabtextchange, this, &TabWidget::changetabname);
-        setCurrentWidget(w);
-        if (font != nullptr) w->setFont(*font);
-        if (w->isEdited()) changetabname(w,  w->documentTitle(), true);
+        openTab(w);
     }
 }
 void TabWidget::closeEvent(QCloseEvent *event)

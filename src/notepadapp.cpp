@@ -107,6 +107,7 @@ MainWindow* NotepadApp::newWindowInstance()
     connect(newWindow, &MainWindow::about, this, &NotepadApp::about);
     connect(newWindow, &MainWindow::aboutQt, this, &NotepadApp::aboutQt);
     connect(newWindow, &MainWindow::toolBarChange, this, &NotepadApp::changeToolBar);
+    connect(newWindow, &MainWindow::tabDetached, [=](NotepadTab *tab){newWindowInstance()->openTab(tab);});
     connect(this, &NotepadApp::menuChanged, newWindow, &MainWindow::menu);
     connect(this, &NotepadApp::fontChanged, newWindow, &MainWindow::fontChanged);
     connect(this, &NotepadApp::toolBarChanged, newWindow, &MainWindow::changeToolBarVisibility);

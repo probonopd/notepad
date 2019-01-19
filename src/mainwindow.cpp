@@ -60,6 +60,8 @@ MainWindow::MainWindow(bool useMenu, bool toolBarEnabled, QFont *font)
     connect(tabwidget,  &TabWidget::redoAvailable, editMenu,  &EditMenu::redoAvailable);
     connect(tabwidget,  &TabWidget::copyAvailable, editMenu,  &EditMenu::copyAvailable);
     
+    connect(tabwidget, &TabWidget::tabDetached, this, &MainWindow::tabDetached);
+    
     connect(mainToolBar->toggleViewAction(), &QAction::toggled, this, &MainWindow::toolBarChange);
     connect(this, &MainWindow::fontChanged, tabwidget, &TabWidget::setFont);
     
@@ -72,6 +74,10 @@ MainWindow::MainWindow(bool useMenu, bool toolBarEnabled, QFont *font)
 void MainWindow::openFiles(QStringList files)
 {
     tabwidget->openFiles(files);
+}
+void MainWindow::openTab(NotepadTab *tab)
+{
+    tabwidget->openTab(tab);
 }
 void MainWindow::menu(bool useMenuBar)
 {
