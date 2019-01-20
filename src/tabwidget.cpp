@@ -83,10 +83,7 @@ TabWidget::~TabWidget()
 void TabWidget::newFileCreate()
 {
     NotepadTab *w = new NotepadTab(this);
-    addTab(w,tr("new file"));
-    connect(w, &NotepadTab::tabtextchange, this, &TabWidget::changetabname);
-    setCurrentWidget(w);
-    if (font != nullptr) w->setFont(*font);
+    openTab(w);
 }
 void TabWidget::openFilesClicked()
 {
@@ -100,13 +97,14 @@ void TabWidget::openFilesClicked()
 		openFiles(files);
 	}
 }
-void TabWidget::openTab(NotepadTab *tab)
+void TabWidget::openTab(NotepadTab *tab, bool closeFirstTab)
 {
     addTab(tab,tab->documentTitle());
     connect(tab, &NotepadTab::tabtextchange, this, &TabWidget::changetabname);
     setCurrentWidget(tab);
     if (font != nullptr) tab->setFont(*font);
     if (tab->isEdited()) changetabname(tab,  tab->documentTitle(), true);
+    if (closeFirstTab) delete (NotepadTab*) widget(0);
 }
 void TabWidget::saveclick()
 {

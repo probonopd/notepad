@@ -41,7 +41,7 @@ public:
     
 public slots:
 	void newFileCreate();
-    void openTab(NotepadTab *tab);
+    void openTab(NotepadTab *tab, bool closeFirstTab = false);
     void openFilesClicked();
     void saveclick();
     void saveas();

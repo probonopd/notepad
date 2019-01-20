@@ -77,7 +77,7 @@ void MainWindow::openFiles(QStringList files)
 }
 void MainWindow::openTab(NotepadTab *tab)
 {
-    tabwidget->openTab(tab);
+    tabwidget->openTab(tab,true);
 }
 void MainWindow::menu(bool useMenuBar)
 {
