@@ -302,6 +302,7 @@ void TabWidget::detachTab()
         if(parentWidget->isHidden())
         {
             parentWidget->show();
+            parentWidget->move(QCursor::pos()-pos());
         }
         else{
             emit tabDetached(textedit);
