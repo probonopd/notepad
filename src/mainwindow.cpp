@@ -78,6 +78,7 @@ void MainWindow::openFiles(QStringList files)
 void MainWindow::openTab(NotepadTab *tab)
 {
     tabwidget->openTab(tab,true);
+    move(QCursor::pos()-tabwidget->pos());
 }
 void MainWindow::menu(bool useMenuBar)
 {
