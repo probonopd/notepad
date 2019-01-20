@@ -58,7 +58,6 @@ public slots:
     void find();
 
 private:
-    void removeTab(int index);
     void dragEnterEvent(QDragEnterEvent *event);
     void dropEvent(QDropEvent *event);
     QPushButton *button = nullptr;

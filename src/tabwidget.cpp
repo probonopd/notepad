@@ -197,11 +197,6 @@ void TabWidget::find()
     NotepadTab *w = (NotepadTab*) currentWidget();
     w->openFindBar();
 }
-void TabWidget::removeTab(int index)
-{
-    NotepadTab *w = (NotepadTab*) widget(index);
-    delete w;
-}
 void TabWidget::setMenu(QMenu *menu)
 {
 	if (menu !=  nullptr) {
@@ -235,18 +230,18 @@ void TabWidget::closetab(int index)
         {
             b->saveclick();
             if (count() == 1) newFileCreate();
-            removeTab(index);
+            delete b;
         }
         else if (result == 0x00800000)
         {
             if (count() == 1) newFileCreate();
-            removeTab(index);
+            delete b;
         }
     }
     else 
     {
         if (count() == 1) newFileCreate();
-        removeTab(index);
+        delete b;
     }
 }
 void TabWidget::changetabname(NotepadTab* tab,  QString newtext, bool edited)
