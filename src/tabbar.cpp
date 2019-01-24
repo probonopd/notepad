@@ -21,6 +21,7 @@ TabBar::TabBar(QWidget *parent)
   : QTabBar::QTabBar(parent)
 {
     setAcceptDrops(true);
+    setChangeCurrentOnDrag(true);
 }
 TabBar::~TabBar()
 {
@@ -64,7 +65,8 @@ void TabBar::mouseReleaseEvent(QMouseEvent *event)
 }
 void TabBar::dragEnterEvent(QDragEnterEvent *event)
 {
-    event->ignore();
+    if(!event->mimeData()->hasFormat("application/x-notepad-textedit")) QTabBar::dragEnterEvent(event);
+    else event->ignore();
 }
 void TabBar::dropEvent(QDropEvent *event)
 {
