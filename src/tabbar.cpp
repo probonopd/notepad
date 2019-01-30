@@ -65,9 +65,8 @@ void TabBar::mouseReleaseEvent(QMouseEvent *event)
 }
 void TabBar::dragEnterEvent(QDragEnterEvent *event)
 {
-    if(event->mimeData()->hasFormat("application/x-notepad-textedit")) event->ignore();
+    if(event->mimeData()->hasFormat("application/x-notepad-textedit")||event->mimeData()->hasUrls()) event->ignore();
     else QTabBar::dragEnterEvent(event);
-    if (event->mimeData()->hasUrls()) event->ignore();
 }
 void TabBar::dropEvent(QDropEvent *event)
 {
