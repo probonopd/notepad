@@ -317,7 +317,7 @@ void TabWidget::detachTab()
 }
 void TabWidget::dragEnterEvent(QDragEnterEvent *event)
 {
-    if(event->mimeData()->hasFormat("application/x-notepad-textedit"))
+    if((event->mimeData()->hasFormat("application/x-notepad-textedit"))||(event->mimeData()->hasUrls()))
     {
         event->acceptProposedAction();
     }
@@ -337,6 +337,17 @@ void TabWidget::dropEvent(QDropEvent *event)
 //         qDebug()<<string<<string2<<edited;
         stream>>*w;
         openTab(w);
+    }
+    else if(event->mimeData()->hasUrls())
+    {
+        QStringList files;
+        QList<QUrl> filesUrls = event->mimeData()->urls();
+        for (int i = 0;i<filesUrls.count();i++)
+        {
+            QFileInfo file(filesUrls.at(i).path()); 
+            if (file.exists()) files.append(file.canonicalFilePath());
+        }
+        openFiles(files);
     }
 }
 void TabWidget::closeEvent(QCloseEvent *event)
