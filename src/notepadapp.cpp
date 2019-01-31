@@ -16,6 +16,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 #include"notepadapp.hpp"
+#include <QStandardPaths>
 
 NotepadApp::NotepadApp(int& argc, char**& argv)
   : QApplication::QApplication(argc, argv)
@@ -46,8 +47,11 @@ NotepadApp::NotepadApp(int& argc, char**& argv)
         QFileInfo file(args.at(i));
         if (file.exists()) files->append(file.canonicalFilePath());
     }
+    #ifdef DEBUG
     QFile file(applicationDirPath()+"/config");
-    
+    #else
+    QFile file(QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation)+"/config");
+    #endif
 	if (file.open(QIODevice::ReadOnly | QIODevice::Text))
     {
         QTextStream stream(&file);
@@ -73,7 +77,12 @@ NotepadApp::NotepadApp(int& argc, char**& argv)
 
 NotepadApp::~NotepadApp()
 {
+    #ifdef DEBUG
     QFile file(applicationDirPath()+"/config");
+    #else
+    #warning Not debug release
+    QFile file(QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation)+"/config");
+    #endif
     if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
         QTextStream stream(&file);
         if(font!=nullptr) stream << font->toString();

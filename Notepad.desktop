@@ -1,5 +1,5 @@
 [Desktop Entry]
-Exec=/home/michal/Programy/c++/qt5/notepad/notepad
+Exec=/home/michal/Programy/c++/qt5/notepad/build/bin/notepad
 Name=Notepad
 Name[pl_PL]=Notatnik
 GenericName=Text editor with tabs

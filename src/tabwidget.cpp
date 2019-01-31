@@ -17,6 +17,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 #include "tabwidget.hpp"
 
+#include <QStandardPaths>
 #include <QApplication>
 
 TabWidget::TabWidget(QWidget *parent, QFont *font)
@@ -126,7 +127,11 @@ void TabWidget::saveAll()
 }
 void TabWidget::saveSession()
 {
+    #ifdef DEBUG
     QFile file(qApp->applicationDirPath()+"/session");
+    #else
+    QFile file(QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation)+"/session");
+    #endif
     if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
         QTextStream stream(&file);
         NotepadTab *w;
@@ -139,7 +144,11 @@ void TabWidget::saveSession()
     }
 }
 void TabWidget::openSession() {
+    #ifdef DEBUG
     QFile file(qApp->applicationDirPath()+"/session");
+    #else
+    QFile file(QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation)+"/session");
+    #endif
     if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
         QTextStream stream(&file);
         QStringList files;

@@ -11,6 +11,8 @@ set(translations_SRCS
     translations/notepad_pl.ts
 )
 
+set_property(GLOBAL APPEND PROPERTY COMPILE_DEFINITIONS $<$<CONFIG:Debug>:DEBUG>)
+
 file(MAKE_DIRECTORY bin)
 set (CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 file(MAKE_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/translations)
