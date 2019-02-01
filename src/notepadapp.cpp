@@ -21,15 +21,19 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 NotepadApp::NotepadApp(int& argc, char**& argv)
   : QApplication::QApplication(argc, argv)
 {
+    setApplicationName("Notepad");
     QTranslator *qtTranslator = new QTranslator();
     qtTranslator->load("qt_" + QLocale::system().name(),
             QLibraryInfo::location(QLibraryInfo::TranslationsPath));
     installTranslator(qtTranslator);
 
     QTranslator *notepadTranslator = new QTranslator();
+    #ifdef DEBUG
     notepadTranslator->load(applicationDirPath()+"/translations/notepad_" + QLocale::system().name());
+    #else
+    notepadTranslator->load(QStandardPaths::locate(QStandardPaths::AppDataLocation, "translations",QStandardPaths::LocateDirectory) +"/notepad_"+ QLocale::system().name());
+    #endif
     installTranslator(notepadTranslator);
-    setApplicationName(tr("Notepad"));
     setApplicationDisplayName(tr("Notepad"));
     setApplicationVersion("1.3-develop");
     setWindowIcon(QIcon::fromTheme("accessories-text-editor"));
