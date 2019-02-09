@@ -306,7 +306,7 @@ void TabWidget::detachTab()
     data->setData("application/x-notepad-textedit", array);
     QDrag *drag = new QDrag(this);
     drag->setMimeData(data);
-    if(drag->exec()==Qt::IgnoreAction)
+    if(drag->exec()==Qt::IgnoreAction||drag->target()==nullptr)
     {
         if(parentWidget->isHidden())
         {
