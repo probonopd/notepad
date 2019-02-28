@@ -1,6 +1,7 @@
 #!/bin/bash
 mkdir Notepad.AppDir
 wget https://github.com/AppImage/AppImageKit/releases/download/11/AppRun-x86_64 -O Notepad.AppDir/AppRun
+chmod +x Notepad.AppDir/AppRun
 cp notepad.desktop Notepad.AppDir
 mkdir Notepad.AppDir/bin
 cp build/bin/notepad Notepad.AppDir/bin
