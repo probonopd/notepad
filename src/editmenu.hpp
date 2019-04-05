@@ -34,7 +34,7 @@ signals:
     void find();
     
 private:
-    QAction *undoAct, *redoAct, *cutAct, *copyAct , *pasteAct, *findAct;
+    QAction undoAct, redoAct, cutAct, copyAct , pasteAct, findAct;
     
 public slots:
     void undoAvailable(bool available);

@@ -18,77 +18,76 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #include "filemenu.hpp"
 
 FileMenu::FileMenu()
+:newAct(QIcon::fromTheme("document-new"), tr("&New")),
+newWindowAct(QIcon::fromTheme("window-new"), tr("New &window")),
+openAct(QIcon::fromTheme("document-open"), tr("&Open...")),
+saveAct(QIcon::fromTheme("document-save"), tr("&Save")),
+saveasAct(QIcon::fromTheme("document-save-as"), tr("Sa&ve as...")),
+saveAllAct(QIcon::fromTheme("document-save-all"), tr("Save &all")),
+saveSessionAct(QIcon::fromTheme("document-save"), tr("Sav&e session")),
+openSessionAct(QIcon::fromTheme("document-open"), tr("O&pen session")),
+printAct(QIcon::fromTheme("document-print"), tr("&Print")),
+closeAct(QIcon::fromTheme("window-close"), tr("&Close window")),
+quitAct(QIcon::fromTheme("application-exit"), tr("&Quit"))
 {
     setTitle(tr("&File"));
     
-    newAct = new QAction(QIcon::fromTheme("document-new"), tr("&New"));
-    newAct->setShortcut(QKeySequence::New);
-	addAction(newAct);
+    newAct.setShortcut(QKeySequence::New);
+	addAction(&newAct);
 	
 	addSeparator();
 	
-	newWindowAct = new QAction(QIcon::fromTheme("window-new"), tr("New &window"));
-    //newAct->setShortcut(QKeySequence::New);
-	addAction(newWindowAct);
+    //newAct.setShortcut(QKeySequence::New);
+	addAction(&newWindowAct);
 	
 	addSeparator();
 	
-    openAct = new QAction(QIcon::fromTheme("document-open"), tr("&Open..."));
-    openAct->setShortcut(QKeySequence::Open);
-	addAction(openAct);
+    openAct.setShortcut(QKeySequence::Open);
+	addAction(&openAct);
 	
 	addSeparator();
 
-    saveAct = new QAction(QIcon::fromTheme("document-save"), tr("&Save"));
-    saveAct->setShortcut(QKeySequence::Save);
-	addAction(saveAct);
+    saveAct.setShortcut(QKeySequence::Save);
+	addAction(&saveAct);
     
-    saveasAct = new QAction(QIcon::fromTheme("document-save-as"), tr("Sa&ve as..."));
-    saveasAct->setShortcut(QKeySequence::SaveAs);
-    addAction(saveasAct);
+    saveasAct.setShortcut(QKeySequence::SaveAs);
+    addAction(&saveasAct);
     
-    saveAllAct = new QAction(QIcon::fromTheme("document-save-all"), tr("Save &all"));
-	addAction(saveAllAct);
+	addAction(&saveAllAct);
 	
 	addSeparator();
 	
-    saveSessionAct = new QAction(QIcon::fromTheme("document-save"), tr("Sav&e session"));
-	addAction(saveSessionAct);
+	addAction(&saveSessionAct);
 	
-	openSessionAct = new QAction(QIcon::fromTheme("document-open"), tr("O&pen session"));
-	addAction(openSessionAct);
+	addAction(&openSessionAct);
 	
 	addSeparator();
 	
-	printAct = new QAction(QIcon::fromTheme("document-print"), tr("&Print"));
-	saveAct->setShortcut(QKeySequence::Print);
-	addAction(printAct);
+	printAct.setShortcut(QKeySequence::Print);
+	addAction(&printAct);
 	
 	addSeparator();
 	
-    closeAct = new QAction(QIcon::fromTheme("window-close"), tr("&Close window"));
-    closeAct->setShortcut(QKeySequence::Close);
-    addAction(closeAct);
+    closeAct.setShortcut(QKeySequence::Close);
+    addAction(&closeAct);
     
     addSeparator();
     
-    quitAct = new QAction(QIcon::fromTheme("application-exit"), tr("&Quit"));
-    quitAct->setShortcut(QKeySequence::Quit);
-    addAction(quitAct);
+    quitAct.setShortcut(QKeySequence::Quit);
+    addAction(&quitAct);
     
-    connect(newAct, &QAction::triggered, this, &FileMenu::newFileclick);
-    connect(newWindowAct, &QAction::triggered, this, &FileMenu::newWindowClick);
-	connect(openAct, &QAction::triggered, this, &FileMenu::openclick);
-    connect(saveAct, &QAction::triggered, this, &FileMenu::saveclick);
-    connect(saveasAct, &QAction::triggered, this, &FileMenu::saveasclick);
-    connect(saveAllAct, &QAction::triggered, this, &FileMenu::saveAll);
-    connect(saveSessionAct, &QAction::triggered, this, &FileMenu::saveSession);
-    connect(openSessionAct, &QAction::triggered, this, &FileMenu::openSession);
-    connect(printAct, &QAction::triggered, this, &FileMenu::print);
-    connect(closeAct, &QAction::triggered, this, &FileMenu::closeclick);
-    connect(quitAct, &QAction::triggered, this, &FileMenu::quitclick);
+    connect(&newAct, &QAction::triggered, this, &FileMenu::newFileclick);
+    connect(&newWindowAct, &QAction::triggered, this, &FileMenu::newWindowClick);
+	connect(&openAct, &QAction::triggered, this, &FileMenu::openclick);
+    connect(&saveAct, &QAction::triggered, this, &FileMenu::saveclick);
+    connect(&saveasAct, &QAction::triggered, this, &FileMenu::saveasclick);
+    connect(&saveAllAct, &QAction::triggered, this, &FileMenu::saveAll);
+    connect(&saveSessionAct, &QAction::triggered, this, &FileMenu::saveSession);
+    connect(&openSessionAct, &QAction::triggered, this, &FileMenu::openSession);
+    connect(&printAct, &QAction::triggered, this, &FileMenu::print);
+    connect(&closeAct, &QAction::triggered, this, &FileMenu::closeclick);
+    connect(&quitAct, &QAction::triggered, this, &FileMenu::quitclick);
 }
 FileMenu::~FileMenu()
 {
-    delete newAct, newWindowAct, openAct, saveAct, saveasAct, saveAllAct, saveSessionAct, openSessionAct, printAct, closeAct, quitAct;
 }

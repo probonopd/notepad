@@ -26,8 +26,8 @@ public:
     ~SetsMenu();
     
 private:
-    QAction *fontAct;
-    QAction *menuAct;
+    QAction fontAct;
+    QAction menuAct;
     
 signals:
     void font();

@@ -63,7 +63,7 @@ private:
     QPushButton *button = nullptr;
     QMenu *menu = nullptr;
     QFont *font=nullptr;
-    TabBar *tabBar;
+    TabBar tabBar;
     
 private slots:
     void closetab(int index);

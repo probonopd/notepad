@@ -18,20 +18,20 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #include "findbar.hpp"
 
 FindBar::FindBar()
+:textLine(this),
+closeButton(QIcon::fromTheme("window-close"), "", this)
 {
-    textLine = new QLineEdit(this);
-    addWidget(textLine, 1);
-    closeButton = new QPushButton(QIcon::fromTheme("window-close"), "", this);
-    closeButton->setFlat(true);
-    closeButton->setShortcut(QKeySequence("Esc"));
-    addWidget(closeButton);
+    addWidget(&textLine, 1);
     
-    connect(textLine, &QLineEdit::textChanged, this, &FindBar::find);
-    connect(closeButton, &QPushButton::pressed, this, &FindBar::closeClicked);
-    QTimer::singleShot(0, textLine, SLOT(setFocus()));
-    setFocusProxy(textLine);
+    closeButton.setFlat(true);
+    closeButton.setShortcut(QKeySequence("Esc"));
+    addWidget(&closeButton);
+    
+    connect(&textLine, &QLineEdit::textChanged, this, &FindBar::find);
+    connect(&closeButton, &QPushButton::pressed, this, &FindBar::closeClicked);
+    QTimer::singleShot(0, &textLine, SLOT(setFocus()));
+    setFocusProxy(&textLine);
 }
 FindBar::~FindBar()
 {
-    delete textLine, closeButton;
 }

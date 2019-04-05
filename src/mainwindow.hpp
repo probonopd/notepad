@@ -50,7 +50,7 @@ private:
 	SetsMenu *setsMenu;
 	HelpMenu *helpMenu;
 	QMenuBar *menubar=nullptr;
-	TabWidget *tabwidget;
+	TabWidget tabwidget;
 	QToolBar *mainToolBar;
 	void setToolBar(bool useToolBar);
 

@@ -26,7 +26,7 @@ public:
     ~HelpMenu(); 
 
 private:
-    QAction *aboutAct, *aboutQtAct;
+    QAction aboutAct, aboutQtAct;
     
 signals:
     void about();

@@ -28,12 +28,12 @@ Q_OBJECT
 public:
     FindBar();
     ~FindBar();
-    QString text() {return textLine->text();};
-    void setText(QString text) {textLine->setText(text);};
+    QString text() {return textLine.text();};
+    void setText(QString text) {textLine.setText(text);};
 
 private:
-    QLineEdit *textLine;
-    QPushButton *closeButton;
+    QLineEdit textLine;
+    QPushButton closeButton;
     
 signals:
     void find(QString text);

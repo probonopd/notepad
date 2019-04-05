@@ -107,8 +107,18 @@ NotepadApp::~NotepadApp()
 }
 void NotepadApp::about()
 {
+    QFile file(applicationDirPath()+"/../../LICENSE");
+    #ifdef NOT
+    QFile file(QStandardPaths::locate(QStandardPaths::AppDataLocation, "LICENSE",QStandardPaths::LocateFile));
+    #endif
+    QString license;
+    if (file.open(QIODevice::ReadOnly | QIODevice::Text)) 
+    {
+        QTextStream stream(&file);
+        license=stream.readAll();
+    }
     QMessageBox::about(activeWindow(), tr("About notepad"),
-            tr("Notepad-Text editor with tabs"));
+            tr("Notepad-Text editor with tabs")+license);
 }
 MainWindow* NotepadApp::newWindowInstance()
 {

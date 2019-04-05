@@ -18,19 +18,18 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #include "helpmenu.hpp"
 
 HelpMenu::HelpMenu()
+:aboutAct(QIcon::fromTheme("accessories-text-editor"), tr("&About Notepad")),
+aboutQtAct(QIcon::fromTheme("accessories-text-editor"), tr("About &Qt"))
 {
     setTitle(tr("&Help"));
     
-    aboutAct = new QAction(QIcon::fromTheme("accessories-text-editor"), tr("&About Notepad"));
-	addAction(aboutAct);
+	addAction(&aboutAct);
 	
-    aboutQtAct = new QAction(QIcon::fromTheme("accessories-text-editor"), tr("About &Qt"));
-	addAction(aboutQtAct);
+	addAction(&aboutQtAct);
 	
-    connect(aboutAct, &QAction::triggered, this, &HelpMenu::about);
-    connect(aboutQtAct, &QAction::triggered, this, &HelpMenu::aboutQt);
+    connect(&aboutAct, &QAction::triggered, this, &HelpMenu::about);
+    connect(&aboutQtAct, &QAction::triggered, this, &HelpMenu::aboutQt);
 }
 HelpMenu::~HelpMenu()
 {
-    delete aboutAct, aboutQtAct;
 }

@@ -19,36 +19,35 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #include <QVBoxLayout>
 
 MainWindow::MainWindow(bool useMenu, bool toolBarEnabled, QFont *font)
+:tabwidget(this, font)
 {
     mainToolBar = addToolBar(tr("Toolbar"));
-    
-	tabwidget = new TabWidget(this, font);
 
-    connect(tabwidget,  &TabWidget::currentTextChanged, this,  &MainWindow::setWindowTitle);
+    connect(&tabwidget,  &TabWidget::currentTextChanged, this,  &MainWindow::setWindowTitle);
     
     fileMenu = new FileMenu();
     editMenu = new EditMenu();
     setsMenu = new SetsMenu(useMenu, mainToolBar->toggleViewAction());
     helpMenu = new HelpMenu();
 
-    connect(fileMenu, &FileMenu::newFileclick, tabwidget, &TabWidget::newFileCreate);
+    connect(fileMenu, &FileMenu::newFileclick, &tabwidget, &TabWidget::newFileCreate);
     connect(fileMenu, &FileMenu::newWindowClick, this, &MainWindow::newWindowRequest);
-    connect(fileMenu, &FileMenu::openclick, tabwidget, &TabWidget::openFilesClicked);
-    connect(fileMenu, &FileMenu::saveclick, tabwidget, &TabWidget::saveclick);
-    connect(fileMenu, &FileMenu::saveasclick, tabwidget, &TabWidget::saveas);
-    connect(fileMenu, &FileMenu::saveAll, tabwidget, &TabWidget::saveAll);
-    connect(fileMenu, &FileMenu::saveSession, tabwidget, &TabWidget::saveSession);
-    connect(fileMenu, &FileMenu::openSession, tabwidget, &TabWidget::openSession);
-    connect(fileMenu, &FileMenu::print, tabwidget, &TabWidget::print);
+    connect(fileMenu, &FileMenu::openclick, &tabwidget, &TabWidget::openFilesClicked);
+    connect(fileMenu, &FileMenu::saveclick, &tabwidget, &TabWidget::saveclick);
+    connect(fileMenu, &FileMenu::saveasclick, &tabwidget, &TabWidget::saveas);
+    connect(fileMenu, &FileMenu::saveAll, &tabwidget, &TabWidget::saveAll);
+    connect(fileMenu, &FileMenu::saveSession, &tabwidget, &TabWidget::saveSession);
+    connect(fileMenu, &FileMenu::openSession, &tabwidget, &TabWidget::openSession);
+    connect(fileMenu, &FileMenu::print, &tabwidget, &TabWidget::print);
     connect(fileMenu, &FileMenu::closeclick, this, &MainWindow::close);
     connect(fileMenu, &FileMenu::quitclick, this, &MainWindow::quitRequest);
     
-    connect(editMenu, &EditMenu::undo, tabwidget, &TabWidget::undo);
-    connect(editMenu, &EditMenu::redo, tabwidget, &TabWidget::redo);
-    connect(editMenu, &EditMenu::cut, tabwidget, &TabWidget::cut);
-    connect(editMenu, &EditMenu::copy, tabwidget, &TabWidget::copy);
-    connect(editMenu, &EditMenu::paste, tabwidget, &TabWidget::paste);
-    connect(editMenu, &EditMenu::find, tabwidget, &TabWidget::find);
+    connect(editMenu, &EditMenu::undo, &tabwidget, &TabWidget::undo);
+    connect(editMenu, &EditMenu::redo, &tabwidget, &TabWidget::redo);
+    connect(editMenu, &EditMenu::cut, &tabwidget, &TabWidget::cut);
+    connect(editMenu, &EditMenu::copy, &tabwidget, &TabWidget::copy);
+    connect(editMenu, &EditMenu::paste, &tabwidget, &TabWidget::paste);
+    connect(editMenu, &EditMenu::find, &tabwidget, &TabWidget::find);
 
     connect(setsMenu, &SetsMenu::font, this, &MainWindow::font); 
     connect(setsMenu, &SetsMenu::menuChange, this, &MainWindow::menuChange);
@@ -56,29 +55,29 @@ MainWindow::MainWindow(bool useMenu, bool toolBarEnabled, QFont *font)
     connect(helpMenu, &HelpMenu::about, this, &MainWindow::about);
     connect(helpMenu, &HelpMenu::aboutQt, this, &MainWindow::aboutQt);
 
-    connect(tabwidget,  &TabWidget::undoAvailable, editMenu,  &EditMenu::undoAvailable);
-    connect(tabwidget,  &TabWidget::redoAvailable, editMenu,  &EditMenu::redoAvailable);
-    connect(tabwidget,  &TabWidget::copyAvailable, editMenu,  &EditMenu::copyAvailable);
+    connect(&tabwidget,  &TabWidget::undoAvailable, editMenu,  &EditMenu::undoAvailable);
+    connect(&tabwidget,  &TabWidget::redoAvailable, editMenu,  &EditMenu::redoAvailable);
+    connect(&tabwidget,  &TabWidget::copyAvailable, editMenu,  &EditMenu::copyAvailable);
     
-    connect(tabwidget, &TabWidget::tabDetached, this, &MainWindow::tabDetached);
+    connect(&tabwidget, &TabWidget::tabDetached, this, &MainWindow::tabDetached);
     
     connect(mainToolBar->toggleViewAction(), &QAction::toggled, this, &MainWindow::toolBarChange);
-    connect(this, &MainWindow::fontChanged, tabwidget, &TabWidget::setFont);
+    connect(this, &MainWindow::fontChanged, &tabwidget, &TabWidget::setFont);
     
     setToolBar(toolBarEnabled);
     
-    setCentralWidget(tabwidget);
+    setCentralWidget(&tabwidget);
     
     menu(useMenu);
 }
 void MainWindow::openFiles(QStringList files)
 {
-    tabwidget->openFiles(files);
+    tabwidget.openFiles(files);
 }
 void MainWindow::openTab(NotepadTab *tab)
 {
-    tabwidget->openTab(tab,true);
-    move(QCursor::pos()-tabwidget->pos());
+    tabwidget.openTab(tab,true);
+    move(QCursor::pos()-tabwidget.pos());
 }
 void MainWindow::menu(bool useMenuBar)
 {
@@ -90,7 +89,7 @@ void MainWindow::menu(bool useMenuBar)
         menubar -> addMenu(setsMenu);
         menubar -> addMenu(helpMenu);
         setMenuBar(menubar);
-		tabwidget->setMenu();
+		tabwidget.setMenu();
     }
     else{
         if(menubar!=nullptr)
@@ -103,7 +102,7 @@ void MainWindow::menu(bool useMenuBar)
         menu -> addMenu(editMenu);
         menu -> addMenu(setsMenu);
         menu -> addMenu(helpMenu);
-		tabwidget->setMenu(menu);
+		tabwidget.setMenu(menu);
     }
 }
 void MainWindow::setToolBar(bool useToolBar)
@@ -118,15 +117,15 @@ void MainWindow::setToolBar(bool useToolBar)
         auto openSessionAct = mainToolBar->addAction(QIcon::fromTheme("document-open"), tr("Open session"));
         auto undoAct = mainToolBar->addAction(QIcon::fromTheme("edit-undo"), tr("Undo"));
         auto redoAct = mainToolBar->addAction(QIcon::fromTheme("edit-redo"), tr("Redo"));
-        connect(newAct, &QAction::triggered, tabwidget, &TabWidget::newFileCreate);
-        connect(openAct, &QAction::triggered, tabwidget, &TabWidget::openFilesClicked);
-        connect(saveAct, &QAction::triggered, tabwidget, &TabWidget::saveclick);
-        connect(saveAsAct, &QAction::triggered, tabwidget, &TabWidget::saveas);
-        connect(saveAllAct, &QAction::triggered, tabwidget, &TabWidget::saveAll);
-        connect(saveSessionAct, &QAction::triggered, tabwidget, &TabWidget::saveSession);
-        connect(openSessionAct, &QAction::triggered, tabwidget, &TabWidget::openSession);
-        connect(undoAct, &QAction::triggered, tabwidget, &TabWidget::undo);
-        connect(redoAct, &QAction::triggered, tabwidget, &TabWidget::redo);
+        connect(newAct, &QAction::triggered, &tabwidget, &TabWidget::newFileCreate);
+        connect(openAct, &QAction::triggered, &tabwidget, &TabWidget::openFilesClicked);
+        connect(saveAct, &QAction::triggered, &tabwidget, &TabWidget::saveclick);
+        connect(saveAsAct, &QAction::triggered, &tabwidget, &TabWidget::saveas);
+        connect(saveAllAct, &QAction::triggered, &tabwidget, &TabWidget::saveAll);
+        connect(saveSessionAct, &QAction::triggered, &tabwidget, &TabWidget::saveSession);
+        connect(openSessionAct, &QAction::triggered, &tabwidget, &TabWidget::openSession);
+        connect(undoAct, &QAction::triggered, &tabwidget, &TabWidget::undo);
+        connect(redoAct, &QAction::triggered, &tabwidget, &TabWidget::redo);
         if (!useToolBar) mainToolBar->hide();
 }
 void MainWindow::changeToolBarVisibility(bool newValue)
@@ -140,10 +139,10 @@ void MainWindow::changeToolBarVisibility(bool newValue)
 void MainWindow::closeEvent(QCloseEvent *event)
 {
     if(isHidden()) event->accept();
-    else tabwidget->closeEvent(event);
+    else tabwidget.closeEvent(event);
 }
 MainWindow::~MainWindow()
 {
     if (menubar != nullptr) delete menubar;
-    delete fileMenu, editMenu, setsMenu, helpMenu, mainToolBar, tabwidget;
+    delete fileMenu, editMenu, setsMenu, helpMenu, mainToolBar;
 }

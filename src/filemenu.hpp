@@ -39,5 +39,5 @@ signals:
     void quitclick();
     
 private:
-    QAction *newAct, *newWindowAct, *openAct, *saveAct, *saveasAct, *saveAllAct,*saveSessionAct, *openSessionAct, *printAct, *closeAct, *quitAct;
+    QAction newAct, newWindowAct, openAct, saveAct, saveasAct, saveAllAct,saveSessionAct, openSessionAct, printAct, closeAct, quitAct;
 };

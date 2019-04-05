@@ -21,14 +21,14 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #include <QApplication>
 
 TabWidget::TabWidget(QWidget *parent, QFont *font)
-  : QTabWidget::QTabWidget(parent)
+  : QTabWidget::QTabWidget(parent),
+  tabBar(this)
 {
     setAcceptDrops(true);
-    tabBar = new TabBar(this);
-    setTabBar(tabBar);
+    setTabBar(&tabBar);
     connect(this, &QTabWidget::tabCloseRequested, this, &TabWidget::closetab); 
     connect(this, &QTabWidget::currentChanged, this, &TabWidget::onCurrentChange);
-    connect(tabBar, &TabBar::tabDragOut, this, &TabWidget::detachTab);
+    connect(&tabBar, &TabBar::tabDragOut, this, &TabWidget::detachTab);
     setTabsClosable(true);
 	setMovable(true);
     setDocumentMode(true);
@@ -39,7 +39,6 @@ TabWidget::~TabWidget()
 {
     if (button != nullptr)
         delete button, menu;
-    delete tabBar;
 }
  void TabWidget::openFiles(QStringList files)
 {
@@ -267,11 +266,11 @@ void TabWidget::changetabname(NotepadTab* tab,  QString newtext, bool edited)
             tab->button = new QPushButton(QIcon::fromTheme("document-save"), "", this);
             tab->button->setFlat(true);
             connect(tab->button, &QPushButton::clicked, tab, &NotepadTab::saveclick);
-            tabBar->setTabButton(indexOf(tab), QTabBar::LeftSide, tab->button);
+            tabBar.setTabButton(indexOf(tab), QTabBar::LeftSide, tab->button);
         }
     }
     else {
-        tabBar->setTabButton(indexOf(tab), QTabBar::LeftSide, 0);
+        tabBar.setTabButton(indexOf(tab), QTabBar::LeftSide, 0);
         if(button!=nullptr){
             delete tab->button;
             tab->button=nullptr;
