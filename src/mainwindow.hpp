@@ -45,13 +45,13 @@ private slots:
     void closeEvent(QCloseEvent *event);
     
 private:
-	FileMenu *fileMenu = nullptr;
-	EditMenu *editMenu;
-	SetsMenu *setsMenu;
-	HelpMenu *helpMenu;
+	FileMenu fileMenu;
+	EditMenu editMenu;
+	SetsMenu setsMenu;
+	HelpMenu helpMenu;
 	QMenuBar *menubar=nullptr;
 	TabWidget tabwidget;
-	QToolBar *mainToolBar;
+	QToolBar mainToolBar;
 	void setToolBar(bool useToolBar);
 
 signals:

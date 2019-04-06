@@ -22,7 +22,7 @@ class SetsMenu:public QMenu
 {
 Q_OBJECT
 public:
-    SetsMenu(bool menuChecked, QAction *toolBarAct);
+    SetsMenu(bool menuChecked);
     ~SetsMenu();
     
 private:

@@ -17,7 +17,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 #include "setsmenu.hpp"
 
-SetsMenu::SetsMenu(bool menuChecked, QAction *toolBarAct)
+SetsMenu::SetsMenu(bool menuChecked)
 :fontAct(QIcon::fromTheme("font-select-symbolic"), tr("&Font")),
 menuAct(tr("&Menu bar"))
 {
@@ -28,8 +28,6 @@ menuAct(tr("&Menu bar"))
 	menuAct.setCheckable(true);
 	menuAct.setChecked(menuChecked);
 	addAction(&menuAct);
-	
-	addAction(toolBarAct);
 	
 	connect(&fontAct, &QAction::triggered, this, &SetsMenu::font);
 	connect(&menuAct, &QAction::toggled, this, &SetsMenu::menuChange);
