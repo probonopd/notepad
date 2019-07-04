@@ -26,9 +26,11 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #include <QTextStream>
 #include <QFontDialog>
 #include <QFileInfo>
-#include <QLibraryInfo>
+#include <QLibraryInfo> 
+#include <QDesktopServices>
 
 #include "mainwindow.hpp"
+#include "licenceviewer.hpp"
 
 class NotepadApp : public QApplication
 {
@@ -43,6 +45,7 @@ public slots:
     void changeMenu(bool newValue);
     void changeToolBar(bool newValue);
     void changeFont();
+    void showHelp(const QUrl &url);
 
 private:
     bool menu = true;

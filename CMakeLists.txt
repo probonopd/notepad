@@ -42,6 +42,8 @@ set(notepad_SRCS
     src/findbar.hpp
     src/tabbar.cpp
     src/tabbar.hpp
+    src/licenceviewer.cpp
+    src/licenceviewer.hpp
     #${CMAKE_BINARY_DIR}/translations.qrc
     ${QM_FILES}
 )

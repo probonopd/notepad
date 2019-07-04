@@ -21,6 +21,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 NotepadApp::NotepadApp(int& argc, char**& argv)
   : QApplication::QApplication(argc, argv)
 {
+    QDesktopServices::setUrlHandler("help", this, "showHelp");
     setApplicationName("Notepad");
     QTranslator *qtTranslator = new QTranslator();
     qtTranslator->load("qt_" + QLocale::system().name(),
@@ -107,18 +108,8 @@ NotepadApp::~NotepadApp()
 }
 void NotepadApp::about()
 {
-    QFile file(applicationDirPath()+"/../../LICENSE");
-    #ifdef NOT
-    QFile file(QStandardPaths::locate(QStandardPaths::AppDataLocation, "LICENSE",QStandardPaths::LocateFile));
-    #endif
-    QString license;
-    if (file.open(QIODevice::ReadOnly | QIODevice::Text)) 
-    {
-        QTextStream stream(&file);
-        license=stream.readAll();
-    }
-    QMessageBox::about(activeWindow(), tr("About notepad"),
-            tr("Notepad-Text editor with tabs")+license);
+   QAction *openAct = new QAction(tr("&Open..."), this);
+   QMessageBox::about(activeWindow(),tr("About Notepad"), tr("<h3>Notepad-text editor with tabs</h3>&copy; 2018-2019  256Michael<br><a href=\"help:licence\">Licence:GPLv3</a><br><a href=\"https://github.com/256Michael/notepad\">Source code on Github</a>"));
 }
 MainWindow* NotepadApp::newWindowInstance()
 {
@@ -154,5 +145,13 @@ void NotepadApp::changeFont()
     *font = QFontDialog::getFont(&ok, *font, activeWindow());
     if (ok) {
         emit fontChanged(font);
+    }
+}
+void NotepadApp::showHelp(const QUrl &url)
+{
+    if(url.fileName()=="licence")
+    {
+        LicenceViewer licence(activeWindow());
+        licence.exec();
     }
 }
