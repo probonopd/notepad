@@ -23,6 +23,7 @@ NotepadApp::NotepadApp(int& argc, char**& argv)
 {
     QDesktopServices::setUrlHandler("help", this, "showHelp");
     setApplicationName("Notepad");
+    setDesktopFileName("/usr/share/applications/notepad.desktop");
     QTranslator *qtTranslator = new QTranslator();
     qtTranslator->load("qt_" + QLocale::system().name(),
             QLibraryInfo::location(QLibraryInfo::TranslationsPath));
