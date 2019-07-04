@@ -68,6 +68,8 @@ setsMenu(useMenu)
     setCentralWidget(&tabwidget);
     
     menu(useMenu);
+    
+    setWindowTitle(tr("new file"));
 }
 void MainWindow::openFiles(QStringList files)
 {
