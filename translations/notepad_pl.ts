@@ -137,47 +137,52 @@
         <translation>Pasek &amp;narzędzi</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="110"/>
+        <location filename="../src/mainwindow.cpp" line="72"/>
+        <source>new file</source>
+        <translation>nowy plik</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="112"/>
         <source>New</source>
         <translation>Nowy</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="111"/>
+        <location filename="../src/mainwindow.cpp" line="113"/>
         <source>Open</source>
         <translation>Otwórz</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="112"/>
+        <location filename="../src/mainwindow.cpp" line="114"/>
         <source>Save</source>
         <translation>Zapisz</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="113"/>
+        <location filename="../src/mainwindow.cpp" line="115"/>
         <source>Save as...</source>
         <translation>Zapisz jako...</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="114"/>
+        <location filename="../src/mainwindow.cpp" line="116"/>
         <source>Save all</source>
         <translation>Zapisz wszystko</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="115"/>
+        <location filename="../src/mainwindow.cpp" line="117"/>
         <source>Save session</source>
         <translation>Zapisz sesję</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="116"/>
+        <location filename="../src/mainwindow.cpp" line="118"/>
         <source>Open session</source>
         <translation>Otwórz sesję</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="117"/>
+        <location filename="../src/mainwindow.cpp" line="119"/>
         <source>Undo</source>
         <translation>Cofnij</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="118"/>
+        <location filename="../src/mainwindow.cpp" line="120"/>
         <source>Redo</source>
         <translation>Powtórz</translation>
     </message>
@@ -185,42 +190,42 @@
 <context>
     <name>NotepadApp</name>
     <message>
-        <location filename="../src/notepadapp.cpp" line="38"/>
+        <location filename="../src/notepadapp.cpp" line="39"/>
         <source>Notepad</source>
         <translation>Notatnik</translation>
     </message>
     <message>
-        <location filename="../src/notepadapp.cpp" line="42"/>
+        <location filename="../src/notepadapp.cpp" line="43"/>
         <source>Text editor with tabs</source>
         <translation>Edytor tekstu z kartami</translation>
     </message>
     <message>
-        <location filename="../src/notepadapp.cpp" line="46"/>
+        <location filename="../src/notepadapp.cpp" line="47"/>
         <source>Files to open.</source>
         <translation>Pliki do otwarcia</translation>
     </message>
     <message>
-        <location filename="../src/notepadapp.cpp" line="46"/>
+        <location filename="../src/notepadapp.cpp" line="47"/>
         <source>files</source>
         <translation>pliki</translation>
     </message>
     <message>
-        <location filename="../src/notepadapp.cpp" line="111"/>
+        <location filename="../src/notepadapp.cpp" line="112"/>
         <source>&amp;Open...</source>
         <translation>&amp;Otwórz...</translation>
     </message>
     <message>
-        <location filename="../src/notepadapp.cpp" line="112"/>
+        <location filename="../src/notepadapp.cpp" line="113"/>
         <source>About Notepad</source>
         <translation>O Notatniku</translation>
     </message>
     <message>
-        <location filename="../src/notepadapp.cpp" line="112"/>
+        <location filename="../src/notepadapp.cpp" line="113"/>
         <source>&lt;h3&gt;Notepad-text editor with tabs&lt;/h3&gt;&lt;h4&gt;Version: </source>
         <translation>&lt;h3&gt;Notatnik-edytor tekstu z kartami&lt;/h3&gt;&lt;h4&gt;Wersja: </translation>
     </message>
     <message>
-        <location filename="../src/notepadapp.cpp" line="112"/>
+        <location filename="../src/notepadapp.cpp" line="113"/>
         <source>&lt;/h4&gt;&amp;copy; 2018-2019  256Michael&lt;br&gt;&lt;a href=&quot;help:licence&quot;&gt;Licence:GPLv3&lt;/a&gt;&lt;br&gt;&lt;a href=&quot;https://github.com/256Michael/notepad&quot;&gt;Source code on Github&lt;/a&gt;</source>
         <translation>&lt;/h4&gt;&amp;copy; 2018-2019  256Michael&lt;br&gt;&lt;a href=&quot;help:licence&quot;&gt;Licencja:GPLv3&lt;/a&gt;&lt;br&gt;&lt;a href=&quot;https://github.com/256Michael/notepad&quot;&gt;Kod źródłowy na Githubie&lt;/a&gt;</translation>
     </message>
