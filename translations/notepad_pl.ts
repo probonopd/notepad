@@ -4,99 +4,100 @@
 <context>
     <name>EditMenu</name>
     <message>
-        <location filename="../src/editmenu.cpp" line="22"/>
+        <location filename="../src/editmenu.cpp" line="29"/>
         <source>&amp;Edit</source>
         <translation>&amp;Edycja</translation>
     </message>
     <message>
-        <location filename="../src/editmenu.cpp" line="24"/>
+        <location filename="../src/editmenu.cpp" line="21"/>
         <source>&amp;Undo</source>
         <translation>&amp;Cofnij</translation>
     </message>
     <message>
-        <location filename="../src/editmenu.cpp" line="29"/>
+        <location filename="../src/editmenu.cpp" line="22"/>
         <source>&amp;Redo</source>
         <translation>&amp;Powtórz</translation>
     </message>
     <message>
-        <location filename="../src/editmenu.cpp" line="36"/>
+        <location filename="../src/editmenu.cpp" line="23"/>
         <source>C&amp;ut</source>
         <translation>Wy&amp;tnij</translation>
     </message>
     <message>
-        <location filename="../src/editmenu.cpp" line="41"/>
+        <location filename="../src/editmenu.cpp" line="24"/>
         <source>&amp;Copy</source>
         <translation>&amp;Kopiuj</translation>
     </message>
     <message>
-        <location filename="../src/editmenu.cpp" line="46"/>
+        <location filename="../src/editmenu.cpp" line="25"/>
         <source>&amp;Paste</source>
         <translation>&amp;Wklej</translation>
     </message>
     <message>
+        <location filename="../src/editmenu.cpp" line="26"/>
         <source>&amp;Find</source>
-        <translation type="vanished">&amp;Znajdź</translation>
+        <translation>&amp;Znajdź</translation>
     </message>
 </context>
 <context>
     <name>FileMenu</name>
     <message>
-        <location filename="../src/filemenu.cpp" line="22"/>
+        <location filename="../src/filemenu.cpp" line="33"/>
         <source>&amp;File</source>
         <translation>&amp;Plik</translation>
     </message>
     <message>
-        <location filename="../src/filemenu.cpp" line="24"/>
+        <location filename="../src/filemenu.cpp" line="21"/>
         <source>&amp;New</source>
         <translation>&amp;Nowy</translation>
     </message>
     <message>
-        <location filename="../src/filemenu.cpp" line="30"/>
+        <location filename="../src/filemenu.cpp" line="22"/>
         <source>New &amp;window</source>
         <translation>Nowe &amp;okno</translation>
     </message>
     <message>
-        <location filename="../src/filemenu.cpp" line="36"/>
+        <location filename="../src/filemenu.cpp" line="23"/>
         <source>&amp;Open...</source>
         <translation>&amp;Otwórz...</translation>
     </message>
     <message>
-        <location filename="../src/filemenu.cpp" line="42"/>
+        <location filename="../src/filemenu.cpp" line="24"/>
         <source>&amp;Save</source>
         <translation>Zapi&amp;sz</translation>
     </message>
     <message>
-        <location filename="../src/filemenu.cpp" line="46"/>
+        <location filename="../src/filemenu.cpp" line="25"/>
         <source>Sa&amp;ve as...</source>
         <translation>&amp;Zapisz jako..</translation>
     </message>
     <message>
-        <location filename="../src/filemenu.cpp" line="50"/>
+        <location filename="../src/filemenu.cpp" line="26"/>
         <source>Save &amp;all</source>
         <translation>Zapisz &amp;wszystko</translation>
     </message>
     <message>
-        <location filename="../src/filemenu.cpp" line="55"/>
+        <location filename="../src/filemenu.cpp" line="27"/>
         <source>Sav&amp;e session</source>
         <translation>Za&amp;pisz sesję</translation>
     </message>
     <message>
-        <location filename="../src/filemenu.cpp" line="58"/>
+        <location filename="../src/filemenu.cpp" line="28"/>
         <source>O&amp;pen session</source>
         <translation>Ot&amp;wórz sesję</translation>
     </message>
     <message>
-        <location filename="../src/filemenu.cpp" line="63"/>
+        <location filename="../src/filemenu.cpp" line="29"/>
         <source>&amp;Print</source>
         <translation>&amp;Drukuj</translation>
     </message>
     <message>
-        <location filename="../src/filemenu.cpp" line="69"/>
+        <location filename="../src/filemenu.cpp" line="30"/>
         <source>&amp;Close window</source>
         <translation>Za&amp;mknij okno</translation>
     </message>
     <message>
-        <location filename="../src/filemenu.cpp" line="75"/>
+        <location filename="../src/filemenu.cpp" line="31"/>
         <source>&amp;Quit</source>
         <translation>Zakoń&amp;cz</translation>
     </message>
@@ -104,70 +105,79 @@
 <context>
     <name>HelpMenu</name>
     <message>
-        <location filename="../src/helpmenu.cpp" line="22"/>
+        <location filename="../src/helpmenu.cpp" line="24"/>
         <source>&amp;Help</source>
         <translation>P&amp;omoc</translation>
     </message>
     <message>
-        <location filename="../src/helpmenu.cpp" line="24"/>
+        <location filename="../src/helpmenu.cpp" line="21"/>
         <source>&amp;About Notepad</source>
         <translation>&amp;O Notatniku</translation>
     </message>
     <message>
-        <location filename="../src/helpmenu.cpp" line="27"/>
+        <location filename="../src/helpmenu.cpp" line="22"/>
         <source>About &amp;Qt</source>
         <translation>O &amp;Qt</translation>
     </message>
 </context>
 <context>
+    <name>LicenceViewer</name>
+    <message>
+        <location filename="../src/licenceviewer.cpp" line="20"/>
+        <location filename="../src/licenceviewer.cpp" line="21"/>
+        <source>Failed to open licence</source>
+        <translation>Nie można otworzyć licencji</translation>
+    </message>
+</context>
+<context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/mainwindow.cpp" line="22"/>
+        <location filename="../src/mainwindow.cpp" line="23"/>
         <source>Toolbar</source>
         <translation>Pasek &amp;narzędzi</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="103"/>
+        <location filename="../src/mainwindow.cpp" line="110"/>
         <source>New</source>
         <translation>Nowy</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="104"/>
+        <location filename="../src/mainwindow.cpp" line="111"/>
         <source>Open</source>
         <translation>Otwórz</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="105"/>
+        <location filename="../src/mainwindow.cpp" line="112"/>
         <source>Save</source>
         <translation>Zapisz</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="106"/>
+        <location filename="../src/mainwindow.cpp" line="113"/>
         <source>Save as...</source>
         <translation>Zapisz jako...</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="107"/>
+        <location filename="../src/mainwindow.cpp" line="114"/>
         <source>Save all</source>
         <translation>Zapisz wszystko</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="108"/>
+        <location filename="../src/mainwindow.cpp" line="115"/>
         <source>Save session</source>
         <translation>Zapisz sesję</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="109"/>
+        <location filename="../src/mainwindow.cpp" line="116"/>
         <source>Open session</source>
         <translation>Otwórz sesję</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="110"/>
+        <location filename="../src/mainwindow.cpp" line="117"/>
         <source>Undo</source>
         <translation>Cofnij</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="111"/>
+        <location filename="../src/mainwindow.cpp" line="118"/>
         <source>Redo</source>
         <translation>Powtórz</translation>
     </message>
@@ -175,51 +185,88 @@
 <context>
     <name>NotepadApp</name>
     <message>
-        <location filename="../src/notepadapp.cpp" line="31"/>
-        <location filename="../src/notepadapp.cpp" line="32"/>
+        <location filename="../src/notepadapp.cpp" line="38"/>
         <source>Notepad</source>
         <translation>Notatnik</translation>
     </message>
     <message>
-        <location filename="../src/notepadapp.cpp" line="36"/>
+        <location filename="../src/notepadapp.cpp" line="42"/>
         <source>Text editor with tabs</source>
         <translation>Edytor tekstu z kartami</translation>
     </message>
     <message>
-        <location filename="../src/notepadapp.cpp" line="40"/>
+        <location filename="../src/notepadapp.cpp" line="46"/>
         <source>Files to open.</source>
         <translation>Pliki do otwarcia</translation>
     </message>
     <message>
-        <location filename="../src/notepadapp.cpp" line="40"/>
+        <location filename="../src/notepadapp.cpp" line="46"/>
         <source>files</source>
         <translation>pliki</translation>
     </message>
     <message>
-        <location filename="../src/notepadapp.cpp" line="97"/>
-        <source>About notepad</source>
+        <location filename="../src/notepadapp.cpp" line="111"/>
+        <source>&amp;Open...</source>
+        <translation>&amp;Otwórz...</translation>
+    </message>
+    <message>
+        <location filename="../src/notepadapp.cpp" line="112"/>
+        <source>About Notepad</source>
         <translation>O Notatniku</translation>
     </message>
     <message>
-        <location filename="../src/notepadapp.cpp" line="98"/>
-        <source>Notepad-Text editor with tabs</source>
-        <translation>Notatnik-Edytor tekstu z kartami</translation>
+        <location filename="../src/notepadapp.cpp" line="112"/>
+        <source>&lt;h3&gt;Notepad-text editor with tabs&lt;/h3&gt;&lt;h4&gt;Version: </source>
+        <translation>&lt;h3&gt;Notatnik-edytor tekstu z kartami&lt;/h3&gt;&lt;h4&gt;Wersja: </translation>
+    </message>
+    <message>
+        <location filename="../src/notepadapp.cpp" line="112"/>
+        <source>&lt;/h4&gt;&amp;copy; 2018-2019  256Michael&lt;br&gt;&lt;a href=&quot;help:licence&quot;&gt;Licence:GPLv3&lt;/a&gt;&lt;br&gt;&lt;a href=&quot;https://github.com/256Michael/notepad&quot;&gt;Source code on Github&lt;/a&gt;</source>
+        <translation>&lt;/h4&gt;&amp;copy; 2018-2019  256Michael&lt;br&gt;&lt;a href=&quot;help:licence&quot;&gt;Licencja:GPLv3&lt;/a&gt;&lt;br&gt;&lt;a href=&quot;https://github.com/256Michael/notepad&quot;&gt;Kod źródłowy na Githubie&lt;/a&gt;</translation>
+    </message>
+</context>
+<context>
+    <name>NotepadTab</name>
+    <message>
+        <location filename="../src/notepadtab.cpp" line="32"/>
+        <source>new file</source>
+        <translation>nowy plik</translation>
+    </message>
+    <message>
+        <location filename="../src/notepadtab.cpp" line="61"/>
+        <source>Failed to open file </source>
+        <translation>Nie można otworzyć pliku </translation>
+    </message>
+    <message>
+        <location filename="../src/notepadtab.cpp" line="76"/>
+        <source>Save file </source>
+        <translation>Zapisz plik </translation>
+    </message>
+    <message>
+        <location filename="../src/notepadtab.cpp" line="77"/>
+        <source>All files(*);;Text file(*.txt)</source>
+        <translation>Wszystkie pliki(*);;Plik tekstowy(*.txt)</translation>
+    </message>
+    <message>
+        <location filename="../src/notepadtab.cpp" line="92"/>
+        <source>Failed to save file </source>
+        <translation>Nie można zapisać pliku </translation>
     </message>
 </context>
 <context>
     <name>SetsMenu</name>
     <message>
-        <location filename="../src/setsmenu.cpp" line="22"/>
+        <location filename="../src/setsmenu.cpp" line="24"/>
         <source>&amp;Settings</source>
         <translation>&amp;Ustawienia</translation>
     </message>
     <message>
-        <location filename="../src/setsmenu.cpp" line="24"/>
+        <location filename="../src/setsmenu.cpp" line="21"/>
         <source>&amp;Font</source>
         <translation>&amp;Czcionka</translation>
     </message>
     <message>
-        <location filename="../src/setsmenu.cpp" line="27"/>
+        <location filename="../src/setsmenu.cpp" line="22"/>
         <source>&amp;Menu bar</source>
         <translation>Pasek &amp;menu</translation>
     </message>
@@ -227,72 +274,39 @@
 <context>
     <name>TabWidget</name>
     <message>
-        <location filename="../src/tabwidget.cpp" line="78"/>
-        <source>new file</source>
-        <translation>nowy plik</translation>
-    </message>
-    <message>
-        <location filename="../src/tabwidget.cpp" line="87"/>
+        <location filename="../src/tabwidget.cpp" line="92"/>
         <source>Select files to open</source>
         <translation>Wybierz pliki do otwarcia</translation>
     </message>
     <message>
-        <location filename="../src/tabwidget.cpp" line="89"/>
+        <location filename="../src/tabwidget.cpp" line="94"/>
         <source>All files(*);;Text file(*.txt)</source>
         <translation>Wszystkie pliki(*);;Plik tekstowy(*.txt)</translation>
     </message>
     <message>
-        <location filename="../src/tabwidget.cpp" line="182"/>
+        <location filename="../src/tabwidget.cpp" line="210"/>
         <source>Menu</source>
         <translation>Menu</translation>
     </message>
     <message>
-        <location filename="../src/tabwidget.cpp" line="201"/>
+        <location filename="../src/tabwidget.cpp" line="232"/>
         <source>Closing tab</source>
         <translation>Zamykanie karty</translation>
     </message>
     <message>
-        <location filename="../src/tabwidget.cpp" line="201"/>
+        <location filename="../src/tabwidget.cpp" line="232"/>
         <source>Would you like to save changes in file</source>
         <translation>Czy chcesz zapisać zmiany w pliku</translation>
     </message>
     <message>
-        <location filename="../src/tabwidget.cpp" line="270"/>
+        <location filename="../src/tabwidget.cpp" line="371"/>
         <source>Closing notepad</source>
         <translation>Zamykanie Notatnika</translation>
     </message>
     <message>
-        <location filename="../src/tabwidget.cpp" line="270"/>
+        <location filename="../src/tabwidget.cpp" line="371"/>
         <source>Would you like to safe chages in files?</source>
         <translation>Czy chcesz zapisać zmiany w plikach?</translation>
-    </message>
-</context>
-<context>
-    <name>Textedit</name>
-    <message>
-        <location filename="../src/textedit.cpp" line="26"/>
-        <source>new file</source>
-        <translation>nowy plik</translation>
-    </message>
-    <message>
-        <location filename="../src/textedit.cpp" line="43"/>
-        <source>Failed to open file </source>
-        <translation>Nie można otworzyć pliku </translation>
-    </message>
-    <message>
-        <location filename="../src/textedit.cpp" line="54"/>
-        <source>Save file </source>
-        <translation>Zapisz plik </translation>
-    </message>
-    <message>
-        <location filename="../src/textedit.cpp" line="55"/>
-        <source>All files(*);;Text file(*.txt)</source>
-        <translation>Wszystkie pliki(*);;Plik tekstowy(*.txt)</translation>
-    </message>
-    <message>
-        <location filename="../src/textedit.cpp" line="76"/>
-        <source>Failed to save file </source>
-        <translation>Nie można zapisać pliku </translation>
     </message>
 </context>
 </TS>

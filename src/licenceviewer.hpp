@@ -1,3 +1,4 @@
+#pragma once
 #include <QDialog>
 #include <QPlainTextEdit>
 #include <QVBoxLayout>
@@ -10,6 +11,7 @@
 class LicenceViewer
 :public QDialog
 {
+Q_OBJECT
 public:
     LicenceViewer(QWidget *parent = nullptr);
     ~LicenceViewer();
