@@ -33,6 +33,7 @@ TabWidget::TabWidget(QWidget *parent, QFont *font)
 	setMovable(true);
     setDocumentMode(true);
     setFont(font);
+    newFileCreate();
 }
 TabWidget::~TabWidget()
 {
