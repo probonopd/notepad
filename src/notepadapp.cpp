@@ -109,7 +109,6 @@ NotepadApp::~NotepadApp()
 }
 void NotepadApp::about()
 {
-   QAction *openAct = new QAction(tr("&Open..."), this);
    QMessageBox::about(activeWindow(),tr("About Notepad"), tr("<h3>Notepad-text editor with tabs</h3><h4>Version: ") + applicationVersion() + tr("</h4>&copy; 2018-2019  256Michael<br><a href=\"help:licence\">Licence:GPLv3</a><br><a href=\"https://github.com/256Michael/notepad\">Source code on Github</a>"));
 }
 MainWindow* NotepadApp::newWindowInstance()
