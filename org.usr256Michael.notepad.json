@@ -1,22 +1,28 @@
 {
     "app-id": "org.usr256Michael.notepad",
     "runtime": "org.kde.Platform",
-    "runtime-version": "5.11",
+    "runtime-version": "5.12",
     "sdk": "org.kde.Sdk",
     "command": "notepad",
     "finish-args": ["--share=ipc","--socket=x11","--device=dri", "--filesystem=home"],
     "modules": [
         {
-            "name": "notatnik",
+            "name": "Notepad",
             "buildsystem": "simple",
             "build-commands": [
-                "install -D notepad /app/bin/notepad"
+                "install -D notepad /app/bin/notepad",
+		"mkdir -p /app/share/translations",
+		"install -D *.qm /app/share/translations"
             ],
             "sources": [
                 {
                     "type": "file",
-                    "path": "notepad"
-                }
+                    "path": "build/bin/notepad"
+                },
+		{
+		     "type":"dir",
+		     "path":"build/bin/translations"
+		}
             ]
         }
     ]

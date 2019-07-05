@@ -1,6 +1,6 @@
 /*
 notepad - Simple text editor with tabs
-Copyright (C) 2018  256Michael
+Copyright (C) 2018-2019  256Michael
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -16,23 +16,22 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 #include "findbar.hpp"
-#include <QTimer>
 
 FindBar::FindBar()
+:textLine(this),
+closeButton(QIcon::fromTheme("window-close"), "", this)
 {
-    textLine = new QLineEdit(this);
-    addWidget(textLine, 1);
-    closeButton = new QPushButton(QIcon::fromTheme("window-close"), "", this);
-    closeButton->setFlat(true);
-    closeButton->setShortcut(QKeySequence("Esc"));
-    addWidget(closeButton);
+    addWidget(&textLine, 1);
     
-    connect(textLine, &QLineEdit::textChanged, this, &FindBar::find);
-    connect(closeButton, &QPushButton::pressed, this, &FindBar::closeClicked);
-    QTimer::singleShot(0, textLine, SLOT(setFocus()));
-    setFocusProxy(textLine);
+    closeButton.setFlat(true);
+    closeButton.setShortcut(QKeySequence("Esc"));
+    addWidget(&closeButton);
+    
+    connect(&textLine, &QLineEdit::textChanged, this, &FindBar::find);
+    connect(&closeButton, &QPushButton::pressed, this, &FindBar::closeClicked);
+    QTimer::singleShot(0, &textLine, SLOT(setFocus()));
+    setFocusProxy(&textLine);
 }
 FindBar::~FindBar()
 {
-    delete textLine, closeButton;
 }

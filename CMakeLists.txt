@@ -11,6 +11,8 @@ set(translations_SRCS
     translations/notepad_pl.ts
 )
 
+set_property(GLOBAL APPEND PROPERTY COMPILE_DEFINITIONS $<$<CONFIG:Debug>:DEBUG>)
+
 file(MAKE_DIRECTORY bin)
 set (CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 file(MAKE_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/translations)
@@ -34,10 +36,14 @@ set(notepad_SRCS
     src/setsmenu.hpp
     src/tabwidget.cpp
     src/tabwidget.hpp
-    src/textedit.cpp
-    src/textedit.hpp
+    src/notepadtab.cpp
+    src/notepadtab.hpp
     src/findbar.cpp
     src/findbar.hpp
+    src/tabbar.cpp
+    src/tabbar.hpp
+    src/licenceviewer.cpp
+    src/licenceviewer.hpp
     #${CMAKE_BINARY_DIR}/translations.qrc
     ${QM_FILES}
 )

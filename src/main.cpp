@@ -1,6 +1,6 @@
 /*
 notepad - Simple text editor with tabs
-Copyright (C) 2018  256Michael
+Copyright (C) 2018-2019  256Michael
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -17,11 +17,12 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 #include <QSharedMemory>
 
-#include "mainwindow.hpp"
+// #include "mainwindow.hpp"
 #include "notepadapp.hpp"
 
 int main (int argc, char *argv[])
 {
-        NotepadApp app(argc, argv);
-        return app.exec();
+//     qRegisterMetaTypeStreamOperators<NotepadTab>("NotepadTab");
+    NotepadApp app(argc, argv);
+    return app.exec();
 }

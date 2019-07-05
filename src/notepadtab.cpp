@@ -1,6 +1,6 @@
 /*
 notepad - Simple text editor with tabs
-Copyright (C) 2018  256Michael
+Copyright (C) 2018-2019  256Michael
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -15,24 +15,35 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
-#include "textedit.hpp"
 
-Textedit::Textedit(QWidget *parent)
+#include "notepadtab.hpp"
+
+NotepadTab::NotepadTab(QWidget *parent)
   : QMainWindow::QMainWindow(parent),
   textedit(this)
 {
-    connect(&textedit, &QPlainTextEdit::textChanged, this, &Textedit::onchange);
-    connect(&textedit, &QPlainTextEdit::undoAvailable, this, &Textedit::setUndo);
-    connect(&textedit, &QPlainTextEdit::redoAvailable, this, &Textedit::setRedo);
-    connect(&textedit, &QPlainTextEdit::copyAvailable, this, &Textedit::setCopy);
-    connect(&textedit, &QPlainTextEdit::undoAvailable, this, &Textedit::undoAvailable);
-    connect(&textedit, &QPlainTextEdit::redoAvailable, this, &Textedit::redoAvailable);
-    connect(&textedit, &QPlainTextEdit::copyAvailable, this, &Textedit::copyAvailable);
-    textedit.setDocumentTitle(tr("new file"));
+    connect(&textedit, &QPlainTextEdit::textChanged, this, &NotepadTab::onchange);
+    connect(&textedit, &QPlainTextEdit::undoAvailable, this, &NotepadTab::setUndo);
+    connect(&textedit, &QPlainTextEdit::redoAvailable, this, &NotepadTab::setRedo);
+    connect(&textedit, &QPlainTextEdit::copyAvailable, this, &NotepadTab::setCopy);
+    connect(&textedit, &QPlainTextEdit::undoAvailable, this, &NotepadTab::undoAvailable);
+    connect(&textedit, &QPlainTextEdit::redoAvailable, this, &NotepadTab::redoAvailable);
+    connect(&textedit, &QPlainTextEdit::copyAvailable, this, &NotepadTab::copyAvailable);
+    title=tr("new file");
     setCentralWidget(&textedit);
     QTimer::singleShot(0, &textedit, SLOT(setFocus()));
 }
-bool Textedit::openfile(QString fileurl)
+NotepadTab::NotepadTab(const NotepadTab &notepadTab)
+  : NotepadTab::NotepadTab((QWidget*)notepadTab.parent())
+{
+    title=notepadTab.documentTitle();
+    url=notepadTab.url;
+    edited=notepadTab.edited;
+    textedit.setPlainText(notepadTab.textedit.toPlainText());
+    findText=notepadTab.findText;
+    if(notepadTab.findBar != nullptr) openFindBar();
+}
+bool NotepadTab::openfile(QString fileurl)
 {
     url = fileurl;
     QFile file(url);
@@ -41,7 +52,7 @@ bool Textedit::openfile(QString fileurl)
         QTextStream stream(&file);
         textedit.setPlainText(stream.readAll());
         file.close();
-        textedit.setDocumentTitle(url.mid(url.lastIndexOf('/')+1));
+        title=url.mid(url.lastIndexOf('/')+1);
         edited = false;
         return true;
      }
@@ -51,22 +62,22 @@ bool Textedit::openfile(QString fileurl)
          return false;
      }
 }
-QString Textedit::documentTitle()
+QString NotepadTab::documentTitle() const
 {
-    return textedit.documentTitle();
+    return title;
 }
-void Textedit::saveclick()
+void NotepadTab::saveclick()
 {
     if(url.isEmpty()) saveas();
     else save();
 }
-void Textedit::saveas()
+void NotepadTab::saveas()
 {
     QString a = tr("Save file ")+documentTitle();
     url=QFileDialog::getSaveFileName(this, a, QString(), tr("All files(*);;Text file(*.txt)"));
     save();
 }
-void Textedit::save()
+void NotepadTab::save()
 {
     QFile file(url);
     if (file.open(QIODevice::WriteOnly | QIODevice::Text))
@@ -75,38 +86,38 @@ void Textedit::save()
             stream<<textedit.toPlainText();
             file.close();
             edited = false;
-            textedit.setDocumentTitle(url.mid(url.lastIndexOf('/')+1));
+            title=url.mid(url.lastIndexOf('/')+1);
             emit tabtextchange(this,  documentTitle(), false);
     }
     else qDebug() << tr("Failed to save file ") << url;
 }
-void Textedit::printClick()
+void NotepadTab::printClick()
 {
     QPrinter printer;
     printer.setDocName(documentTitle());
     QPrintPreviewDialog printDialog(&printer);
-    connect(&printDialog, &QPrintPreviewDialog::paintRequested, this, &Textedit::paintOnPrinter);
+    connect(&printDialog, &QPrintPreviewDialog::paintRequested, this, &NotepadTab::paintOnPrinter);
     printDialog.exec();
 }
-void Textedit::openFindBar()
+void NotepadTab::openFindBar()
 {
     if (findBar == nullptr)
     {
         findBar = new FindBar();
         setStatusBar(findBar);
-        connect(findBar, &FindBar::find, this, &Textedit::find);
-        connect(findBar, &FindBar::closeClicked, this, &Textedit::closeFindBar);
+        connect(findBar, &FindBar::find, this, &NotepadTab::find);
+        connect(findBar, &FindBar::closeClicked, this, &NotepadTab::closeFindBar);
         findBar->setText(findText);
     }
     else QTimer::singleShot(0, findBar, SLOT(setFocus()));
 }
-void Textedit::closeFindBar()
+void NotepadTab::closeFindBar()
 {
     findText = findBar->text();
     find("");
     QTimer::singleShot(0, [this]{delete findBar, findBar = nullptr;});
 }
-void Textedit::find(QString string)
+void NotepadTab::find(QString string)
 {
     int pos = 0;
     QList<QTextEdit::ExtraSelection> list;
@@ -123,24 +134,24 @@ void Textedit::find(QString string)
     }
     textedit.setExtraSelections(list);
 }
-void Textedit::onchange()
+void NotepadTab::onchange()
 {
         edited = true;
         emit tabtextchange(this,  documentTitle(), true);
 }
-void Textedit::setUndo(bool available)
+void NotepadTab::setUndo(bool available)
 {
     canUndo=available;
 }
-void Textedit::setRedo(bool available)
+void NotepadTab::setRedo(bool available)
 {
     canRedo=available;
 }
-void Textedit::setCopy(bool available)
+void NotepadTab::setCopy(bool available)
 {
     canCopy=available;
 }
-void Textedit::paintOnPrinter(QPrinter *printer)
+void NotepadTab::paintOnPrinter(QPrinter *printer)
 {
     QPainter painter(printer);
     painter.setPen(Qt::black);
@@ -165,8 +176,25 @@ void Textedit::paintOnPrinter(QPrinter *printer)
         painter.drawText(printer->pageRect(QPrinter::DevicePixel), page);
     }
 }
-Textedit::~Textedit()
+NotepadTab::~NotepadTab()
 {
     emit tabtextchange(this,  documentTitle(), false);
     if (findBar != nullptr) delete findBar;
+}
+QDataStream & operator<< (QDataStream &stream, const NotepadTab &notepadTab)
+{
+    return stream << notepadTab.documentTitle() << notepadTab.Url() << notepadTab.isEdited() << notepadTab.textedit.toPlainText()<<((notepadTab.findBar!=nullptr)?true:false)<< (notepadTab.findBar != nullptr?notepadTab.findBar->text():notepadTab.findText);
+}
+QDataStream & operator>> (QDataStream &stream, NotepadTab &notepadTab)
+{
+    QString text, findText;
+    bool wasEdited,isFindBar;
+    stream >> notepadTab.title >> notepadTab.url>> wasEdited>>text>>isFindBar>>findText;
+    qDebug() << notepadTab.title << notepadTab.url<< wasEdited<<text<<isFindBar<<findText;
+    qDebug()<<notepadTab.documentTitle();
+    notepadTab.textedit.setPlainText(text);
+    notepadTab.edited=wasEdited;
+    notepadTab.findText = findText;
+    if (isFindBar) notepadTab.openFindBar();
+    return stream;
 }

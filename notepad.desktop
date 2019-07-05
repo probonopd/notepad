@@ -1,10 +1,12 @@
 [Desktop Entry]
-Exec=/home/michal/Programy/c++/qt5/notepad/notepad
+Exec=notepad
 Name=Notepad
 Name[pl_PL]=Notatnik
+Name[eo]=Notbloko
 GenericName=Text editor with tabs
 GenericName[pl_PL]=Edytor tekstu z kartami
-Icon=accessories-text-editor
-StartupNotify=true
+GenericName[eo]=Tekstredaktilo kun langetoj
+Icon=notepad
 Terminal=false
 Type=Application
+Categories=Qt;Utility;TextEditor;

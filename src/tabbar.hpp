@@ -16,28 +16,27 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 #pragma once
-#include <QMenu>
+#include <QTabBar>
+#include <QMimeData>
+#include <QDrag>
+#include <QDebug>
+#include <QMouseEvent>
 
-class EditMenu : public QMenu
+class TabBar : public QTabBar
 {
 Q_OBJECT
 public:
-    EditMenu();
-    ~EditMenu();
-    
-signals:
-    void undo();
-    void redo();
-    void cut();
-    void copy();
-    void paste();
-    void find();
-    
+    TabBar(QWidget *parent);
+    ~TabBar();
 private:
-    QAction undoAct, redoAct, cutAct, copyAct , pasteAct, findAct;
-    
-public slots:
-    void undoAvailable(bool available);
-    void redoAvailable(bool available);
-    void copyAvailable(bool available);
+    bool cardClicked = false;
+    bool tabDetached = false;
+    void mousePressEvent(QMouseEvent *event);
+    void mouseMoveEvent(QMouseEvent *event);
+    void mouseReleaseEvent(QMouseEvent *event);
+    void dragEnterEvent(QDragEnterEvent *event);
+    void dropEvent(QDropEvent *event);
+
+signals:
+    void tabDragOut();
 };

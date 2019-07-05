@@ -1,6 +1,6 @@
 /*
 notepad - Simple text editor with tabs
-Copyright (C) 2018  256Michael
+Copyright (C) 2018-2019  256Michael
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -29,24 +29,26 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #include <QMainWindow>
 #include <cmath>
 #include <QTimer>
+#include <QString>
 
 #include "findbar.hpp"
 
-class Textedit : public QMainWindow
+class NotepadTab : public QMainWindow
 {
 Q_OBJECT
 public:
-	Textedit(QWidget *parent);
-	~Textedit();
+	NotepadTab(QWidget *parent=nullptr);
+    NotepadTab(const NotepadTab &textedit);
+	~NotepadTab();
     bool openfile(QString fileurl);
-    QString documentTitle();
+    QString documentTitle() const;
     void saveclick();
     void saveas();
     void printClick();
     void openFindBar();
     void find(QString string);
-    bool isEdited() {return edited;};
-    QString Url() {return url;};
+    bool isEdited() const {return edited;};
+    QString Url() const {return url;};
     QPushButton *button = nullptr;
     bool isUndoAvailable(){return canUndo;};
     bool isRedoAvailable(){return canRedo;};
@@ -56,8 +58,11 @@ public:
     void paste() {textedit.paste();};
     void copy() {textedit.copy();};
     void cut() {textedit.cut();};
+    friend QDataStream & operator<< (QDataStream &stream, const NotepadTab &notepadTab);
+    friend QDataStream & operator>> (QDataStream &stream, NotepadTab &notepadTab);
 private:
     QPlainTextEdit textedit;
+    QString title;
     FindBar *findBar = nullptr;
     QString findText;
     QString url;
@@ -74,10 +79,12 @@ private slots:
     void setCopy(bool available);
     void paintOnPrinter(QPrinter *printer);
 signals:
-    void tabtextchange(Textedit *textedit,  QString newtext,  bool edited);
+    void tabtextchange(NotepadTab *textedit,  QString newtext,  bool edited);
     void undoAvailable(bool value);
     void redoAvailable(bool value);
     void copyAvailable(bool value);
 };
+
+// Q_DECLARE_METATYPE(NotepadTab)
 
 #endif // TEXTEDIT_HPP

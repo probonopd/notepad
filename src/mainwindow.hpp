@@ -1,6 +1,6 @@
 /*
 notepad - Simple text editor with tabs
-Copyright (C) 2018  256Michael
+Copyright (C) 2018-2019  256Michael
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -36,6 +36,7 @@ public:
     MainWindow(bool useMenu, bool toolBarEnabled,  QFont *font);
 	~MainWindow();
 	void openFiles(QStringList files);
+    void openTab(NotepadTab *tab);
 
 public slots:
     void menu(bool useMenuBar = true);
@@ -44,13 +45,13 @@ private slots:
     void closeEvent(QCloseEvent *event);
     
 private:
-	FileMenu *fileMenu = nullptr;
-	EditMenu *editMenu;
-	SetsMenu *setsMenu;
-	HelpMenu *helpMenu;
+	FileMenu fileMenu;
+	EditMenu editMenu;
+	SetsMenu setsMenu;
+	HelpMenu helpMenu;
 	QMenuBar *menubar=nullptr;
-	TabWidget *tabwidget;
-	QToolBar *mainToolBar;
+	TabWidget tabwidget;
+	QToolBar mainToolBar;
 	void setToolBar(bool useToolBar);
 
 signals:
@@ -62,6 +63,7 @@ signals:
     void aboutQt();
     void toolBarChange(bool newValue);
     void fontChanged(QFont *newFont);
+    void tabDetached(NotepadTab *tab);
 };
 
 

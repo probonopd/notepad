@@ -1,6 +1,6 @@
 /*
 notepad - Simple text editor with tabs
-Copyright (C) 2018  256Michael
+Copyright (C) 2018-2019  256Michael
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -19,6 +19,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #include <QStatusBar>
 #include <QLineEdit>
 #include <QPushButton>
+#include <QTimer>
 
 class FindBar : public QStatusBar
 {
@@ -27,12 +28,12 @@ Q_OBJECT
 public:
     FindBar();
     ~FindBar();
-    QString text() {return textLine->text();};
-    void setText(QString text) {textLine->setText(text);};
+    QString text() {return textLine.text();};
+    void setText(QString text) {textLine.setText(text);};
 
 private:
-    QLineEdit *textLine;
-    QPushButton *closeButton;
+    QLineEdit textLine;
+    QPushButton closeButton;
     
 signals:
     void find(QString text);

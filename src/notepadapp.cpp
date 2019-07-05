@@ -1,6 +1,6 @@
 /*
 notepad - Simple text editor with tabs
-Copyright (C) 2018  256Michael
+Copyright (C) 2018-2019  256Michael
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -16,21 +16,28 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 #include"notepadapp.hpp"
+#include <QStandardPaths>
 
 NotepadApp::NotepadApp(int& argc, char**& argv)
   : QApplication::QApplication(argc, argv)
 {
+    QDesktopServices::setUrlHandler("help", this, "showHelp");
+    setApplicationName("Notepad");
+    setDesktopFileName("/usr/share/applications/notepad.desktop");
     QTranslator *qtTranslator = new QTranslator();
     qtTranslator->load("qt_" + QLocale::system().name(),
             QLibraryInfo::location(QLibraryInfo::TranslationsPath));
     installTranslator(qtTranslator);
 
     QTranslator *notepadTranslator = new QTranslator();
+    #ifdef DEBUG
     notepadTranslator->load(applicationDirPath()+"/translations/notepad_" + QLocale::system().name());
+    #else
+    notepadTranslator->load(QStandardPaths::locate(QStandardPaths::AppDataLocation, "translations",QStandardPaths::LocateDirectory) +"/notepad_"+ QLocale::system().name());
+    #endif
     installTranslator(notepadTranslator);
-    setApplicationName(tr("Notepad"));
     setApplicationDisplayName(tr("Notepad"));
-    setApplicationVersion("1.2.1");
+    setApplicationVersion("1.3");
     setWindowIcon(QIcon::fromTheme("accessories-text-editor"));
     QCommandLineParser parser;
     parser.setApplicationDescription(tr("Text editor with tabs"));
@@ -46,8 +53,11 @@ NotepadApp::NotepadApp(int& argc, char**& argv)
         QFileInfo file(args.at(i));
         if (file.exists()) files->append(file.canonicalFilePath());
     }
+    #ifdef DEBUG
     QFile file(applicationDirPath()+"/config");
-    
+    #else
+    QFile file(QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation)+"/config");
+    #endif
 	if (file.open(QIODevice::ReadOnly | QIODevice::Text))
     {
         QTextStream stream(&file);
@@ -73,7 +83,12 @@ NotepadApp::NotepadApp(int& argc, char**& argv)
 
 NotepadApp::~NotepadApp()
 {
+    #ifdef DEBUG
     QFile file(applicationDirPath()+"/config");
+    #else
+    #warning Not debug release
+    QFile file(QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation)+"/config");
+    #endif
     if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
         QTextStream stream(&file);
         if(font!=nullptr) stream << font->toString();
@@ -94,8 +109,7 @@ NotepadApp::~NotepadApp()
 }
 void NotepadApp::about()
 {
-    QMessageBox::about(activeWindow(), tr("About notepad"),
-            tr("Notepad-Text editor with tabs"));
+   QMessageBox::about(activeWindow(),tr("About Notepad"), tr("<h3>Notepad-text editor with tabs</h3><h4>Version: ") + applicationVersion() + tr("</h4>&copy; 2018-2019  256Michael<br><a href=\"help:licence\">Licence:GPLv3</a><br><a href=\"https://github.com/256Michael/notepad\">Source code on Github</a>"));
 }
 MainWindow* NotepadApp::newWindowInstance()
 {
@@ -107,6 +121,7 @@ MainWindow* NotepadApp::newWindowInstance()
     connect(newWindow, &MainWindow::about, this, &NotepadApp::about);
     connect(newWindow, &MainWindow::aboutQt, this, &NotepadApp::aboutQt);
     connect(newWindow, &MainWindow::toolBarChange, this, &NotepadApp::changeToolBar);
+    connect(newWindow, &MainWindow::tabDetached, [=](NotepadTab *tab){newWindowInstance()->openTab(tab);});
     connect(this, &NotepadApp::menuChanged, newWindow, &MainWindow::menu);
     connect(this, &NotepadApp::fontChanged, newWindow, &MainWindow::fontChanged);
     connect(this, &NotepadApp::toolBarChanged, newWindow, &MainWindow::changeToolBarVisibility);
@@ -130,5 +145,13 @@ void NotepadApp::changeFont()
     *font = QFontDialog::getFont(&ok, *font, activeWindow());
     if (ok) {
         emit fontChanged(font);
+    }
+}
+void NotepadApp::showHelp(const QUrl &url)
+{
+    if(url.fileName()=="licence")
+    {
+        LicenceViewer licence(activeWindow());
+        licence.exec();
     }
 }

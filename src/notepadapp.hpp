@@ -1,6 +1,6 @@
 /*
 notepad - Simple text editor with tabs
-Copyright (C) 2018  256Michael
+Copyright (C) 2018-2019  256Michael
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -26,9 +26,11 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #include <QTextStream>
 #include <QFontDialog>
 #include <QFileInfo>
-#include <QLibraryInfo>
+#include <QLibraryInfo> 
+#include <QDesktopServices>
 
 #include "mainwindow.hpp"
+#include "licenceviewer.hpp"
 
 class NotepadApp : public QApplication
 {
@@ -43,6 +45,7 @@ public slots:
     void changeMenu(bool newValue);
     void changeToolBar(bool newValue);
     void changeFont();
+    void showHelp(const QUrl &url);
 
 private:
     bool menu = true;
