@@ -2,8 +2,10 @@
 Exec=notepad
 Name=Notepad
 Name[pl_PL]=Notatnik
+Name[eo]=Notbloko
 GenericName=Text editor with tabs
 GenericName[pl_PL]=Edytor tekstu z kartami
+GenericName[eo]=Tekstredaktilo kun langetoj
 Icon=notepad
 Terminal=false
 Type=Application
